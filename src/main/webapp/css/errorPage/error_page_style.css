@@ -1,0 +1,69 @@
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #56baed;
+}
+
+
+
+.mainbox {
+    background-color: #56baed;
+    margin: auto;
+    height: 600px;
+    width: 600px;
+    position: relative;
+}
+
+
+.err {
+    color: #ffffff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 15rem;
+    position: absolute;
+    left: 20%;
+    top: 8%;
+}
+
+
+.lost {
+
+    position: absolute;
+    font-size: 8.5rem;
+    border: 22px solid #ffffff;
+    left: 43%;
+    top: 16%;
+
+    border-radius: 90%;
+    width: 15%;
+}
+
+.err2 {
+    color: #ffffff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 15rem;
+    position: absolute;
+    left: 67%;
+    top: 8%;
+}
+
+.msg {
+    text-align: center;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    display: inline-block;
+    margin: 40px 8px 10px 8px;
+    color: #000000;
+    position: absolute;
+    left: 16%;
+    top: 45%;
+    width: 75%;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    text-decoration: underline;
+}

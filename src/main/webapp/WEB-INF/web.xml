@@ -8,6 +8,11 @@
     <welcome-file>/WEB-INF/view/mainPage/main_page.jsp</welcome-file>
   </welcome-file-list>
 
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/view/errorPage/error_page.html</location>
+  </error-page>
+
   <servlet>
     <servlet-name>login_page</servlet-name>
     <jsp-file>/WEB-INF/view/loginPage/login_page.html</jsp-file>
