@@ -1,6 +1,8 @@
 <head>
     <title>Login page</title>
-    <link rel="stylesheet" href="/css/loginPage/login_page_style.css" type="text/css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/loginPage/login_page_style.css"
+          type="text/css">
 </head>
 
 <body>

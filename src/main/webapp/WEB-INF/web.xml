@@ -32,7 +32,7 @@
   <!--Main page servlet-->
   <servlet>
     <servlet-name>login_page</servlet-name>
-    <jsp-file>/WEB-INF/view/loginPage/login_page.html</jsp-file>
+    <jsp-file>/WEB-INF/view/loginPage/login_page.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>login_page</servlet-name>
