@@ -1,0 +1,14 @@
+body {
+    background-image: url("../../img/aboutUsPage/about_us_background_3840x2160.jpg");
+    background-size: 100% 100%;
+}
+
+a {
+    text-decoration: none;
+    font-size: 28px;
+    color: white;
+}
+
+a:hover {
+    text-decoration: underline;
+}

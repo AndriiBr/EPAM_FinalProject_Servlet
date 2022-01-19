@@ -4,11 +4,10 @@ body {
 }
 
 
-
 .mainbox {
     background-color: #56baed;
     margin: auto;
-    height: 600px;
+    height: 400px;
     width: 600px;
     position: relative;
 }
@@ -25,16 +24,16 @@ body {
 
 
 .lost {
-
-    position: absolute;
     font-size: 8.5rem;
+    position: absolute;
     border: 22px solid #ffffff;
     left: 43%;
-    top: 16%;
+    top: 20%;
 
     border-radius: 90%;
     width: 15%;
 }
+
 
 .err2 {
     color: #ffffff;
@@ -44,6 +43,7 @@ body {
     left: 67%;
     top: 8%;
 }
+
 
 .msg {
     text-align: center;
@@ -55,9 +55,10 @@ body {
     color: #000000;
     position: absolute;
     left: 16%;
-    top: 45%;
+    top: 60%;
     width: 75%;
 }
+
 
 a {
     text-decoration: none;
