@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller;
+package ua.epam.final_project.servlet.login;
 
 import ua.epam.final_project.database.DBManager;
 import ua.epam.final_project.util.User;
@@ -14,12 +14,12 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 
 @WebServlet(urlPatterns = "/login")
-public class LoginUserInTheSystem extends HttpServlet {
+public class LoginInServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("WEB-INF/view/loginPage/login_page.jsp").forward(req, resp);
-        System.out.println("DoGET from LoginUserInTheSystem Servlet: " + LocalTime.now());
+        System.out.println("DoGET from LogIn Servlet: " + LocalTime.now());
     }
 
     @Override
@@ -39,12 +39,12 @@ public class LoginUserInTheSystem extends HttpServlet {
         }
 
         if (user != null) {
-            session.setAttribute("username", login);
+            session.setAttribute("login", login);
             session.setAttribute("role", user.getRole());
             req.getRequestDispatcher("/WEB-INF/view/loginPage/LoggedIn.jsp").forward(req, resp);
         } else {
               req.getRequestDispatcher("/WEB-INF/view/loginPage/wrongLP.jsp").forward(req, resp);
         }
-        System.out.println("DoPOST from LoginUserInTheSystem Servlet: " + LocalTime.now());
+        System.out.println("DoPOST from LogIn Servlet: " + LocalTime.now());
     }
 }

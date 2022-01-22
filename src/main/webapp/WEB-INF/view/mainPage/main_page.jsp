@@ -11,11 +11,10 @@
 
 <a href="http://localhost:8080/about">Про нас</a><br/>
 <a href="http://localhost:8080/edition">Видання</a><br/>
-<%--<a href="http://localhost:8080/cabinet">Особистий кабінет</a><br/>--%>
-<%--<a href="http://localhost:8080/login">Вхід</a><br/>--%>
 
-<% if (session.getAttribute("username") != null) { %>
+<% if (session.getAttribute("login") != null) { %>
 <a href="http://localhost:8080/cabinet">Особистий кабінет</a><br/>
+<a href="http://localhost:8080/logout">Вихід</a><br/>
 <% } else { %>
 <a href="http://localhost:8080/login">Вхід</a><br/>
 <% } %>

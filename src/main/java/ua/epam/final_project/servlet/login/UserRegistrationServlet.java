@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller;
+package ua.epam.final_project.servlet.login;
 
 import ua.epam.final_project.database.DBManager;
 import ua.epam.final_project.util.User;
@@ -14,7 +14,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/new_account")
-public class UserRegistration extends HttpServlet {
+public class UserRegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
