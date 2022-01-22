@@ -3,7 +3,7 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/loginPage/login_page_style.css"
+          href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
 </head>
 <body>
@@ -12,7 +12,7 @@
         <!-- Tabs Titles -->
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="../../../img/loginPage/login_screen_user_logo.png" id="icon" alt="User Icon"/>
+            <img src="../../../img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
         </div>
 
         <!-- Login Form -->

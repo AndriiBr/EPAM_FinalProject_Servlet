@@ -1,5 +1,7 @@
 package ua.epam.final_project.servlet.login;
 
+import static ua.epam.final_project.util.JSPPathConstant.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +21,7 @@ public class LogOutServlet extends HttpServlet {
         session.removeAttribute("login");
         session.removeAttribute("role");
 
-        req.getRequestDispatcher("WEB-INF/view/mainPage/main_page.jsp").forward(req, resp);
+        req.getRequestDispatcher(MAIN_PAGE).forward(req, resp);
 
         System.out.println("DoGET from LogOut Servlet: " + LocalTime.now());
     }

@@ -3,6 +3,8 @@ package ua.epam.final_project.servlet.login;
 import ua.epam.final_project.database.DBManager;
 import ua.epam.final_project.util.User;
 
+import static ua.epam.final_project.util.JSPPathConstant.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,13 +15,14 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.List;
 
+
 @WebServlet(urlPatterns = "/new_account")
 public class UserRegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        req.getRequestDispatcher("/WEB-INF/view/loginPage/user_registration_form.jsp").forward(req, resp);
+        req.getRequestDispatcher(USER_REGISTRATION_PAGE).forward(req, resp);
         System.out.println("DoGET from UserRegistration Servlet: " + LocalTime.now());
     }
 
@@ -34,7 +37,6 @@ public class UserRegistrationServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         String password = req.getParameter("password");
         String passwordConfirm = req.getParameter("password_confirm");
@@ -54,9 +56,9 @@ public class UserRegistrationServlet extends HttpServlet {
         }
 
         if (newUserAdded) {
-            req.getRequestDispatcher("/WEB-INF/view/loginPage/success.jsp").forward(req, resp);
+            req.getRequestDispatcher(REGISTRATION_SUCCESS_PAGE).forward(req, resp);
         } else {
-            req.getRequestDispatcher("/WEB-INF/view/loginPage/failure.jsp").forward(req, resp);
+            req.getRequestDispatcher(REGISTRATION_FAILURE_PAGE).forward(req, resp);
         }
 
         System.out.println("DoPOST from UserRegistration Servlet: " + LocalTime.now());

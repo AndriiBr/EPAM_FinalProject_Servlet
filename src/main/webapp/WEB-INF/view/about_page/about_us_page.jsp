@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>About us</title>
-    <link href="${pageContext.request.contextPath}/css/aboutUsPage/about_us_page_style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/about_page/about_us_page_style.css" rel="stylesheet">
 </head>
 <body>
 <a class="underlineHover" href="/">HOME</a>

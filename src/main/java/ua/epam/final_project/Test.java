@@ -1,6 +1,8 @@
 package ua.epam.final_project;
 
 import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.database.SQLConstant;
+import ua.epam.final_project.util.JSPPathConstant;
 import ua.epam.final_project.util.User;
 
 import java.sql.SQLException;

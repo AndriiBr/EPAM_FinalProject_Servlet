@@ -1,6 +1,6 @@
 package ua.epam.final_project.database;
 
-public final class SQLConstants {
+public final class SQLConstant {
 
     public static final String SQL_FIND_ALL_USERS = "SELECT * FROM user";
     public static final String SQL_FIND_USER_BY_LOGIN_PASSWORD = "SELECT * FROM user WHERE (login=?) AND (password=?)";
@@ -13,7 +13,6 @@ public final class SQLConstants {
     public static final String SQL_UPDATE_TEAMS_WHERE_NAME = "UPDATE teams SET name = ? WHERE id = ?";
     public static final String SQL_DELETE_TEAM_WHERE_ID = "DELETE FROM teams WHERE id = ?";
 
-    private SQLConstants() {
+    private SQLConstant() {
     }
-
 }

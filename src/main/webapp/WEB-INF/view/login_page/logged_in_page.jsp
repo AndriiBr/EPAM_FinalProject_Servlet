@@ -5,24 +5,24 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/loginPage/login_page_style.css"
+          href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
 </head>
 <body>
 
 <%
-    String name = request.getParameter("username");
-    request.setAttribute("user", name);
+    String name = (String) session.getAttribute("login");
+    request.setAttribute("userLogin", name);
 %>
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
 
         <div class="fadeIn first">
-            <img src="../../../img/loginPage/login_screen_user_logo.png" id="icon" alt="User Icon"/>
+            <img src="../../../img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
         </div>
 
-        <h3>You are successfully logged in as ${user}</h3>
+        <h3>You are successfully logged in as ${userLogin}</h3>
 
         <div id="formFooter">
             <a class="underlineHover" href="http://localhost:8080/">Go back to main page</a>
