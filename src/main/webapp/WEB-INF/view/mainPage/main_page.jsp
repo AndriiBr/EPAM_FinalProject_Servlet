@@ -6,11 +6,18 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mainPage/main_page_style.css" type="text/css">
 </head>
 <body>
-<h1>Головна сторінка</h1>
+
+<h1>Головна сторінка</h1><br/>
 
 <a href="http://localhost:8080/about">Про нас</a><br/>
 <a href="http://localhost:8080/edition">Видання</a><br/>
+<%--<a href="http://localhost:8080/cabinet">Особистий кабінет</a><br/>--%>
+<%--<a href="http://localhost:8080/login">Вхід</a><br/>--%>
+
+<% if (session.getAttribute("username") != null) { %>
 <a href="http://localhost:8080/cabinet">Особистий кабінет</a><br/>
+<% } else { %>
 <a href="http://localhost:8080/login">Вхід</a><br/>
+<% } %>
 
 </body>

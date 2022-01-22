@@ -6,8 +6,9 @@ public class User {
     private String login;
     private String password;
     private String email;
-    private String name;
+    private String name = "no name";
     private String role;
+
 
     public int getId() {
         return id;

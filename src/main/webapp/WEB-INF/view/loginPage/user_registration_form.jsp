@@ -22,29 +22,27 @@
             <br/>
             <br/>
 
-
             <!-- Username -->
-            <label class="fadeIn second" for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="" class="fadeIn second">
+<%--            <label class="fadeIn second" for="username">Username</label>--%>
+            <input type="text" id="username" name="username" placeholder="Username" class="fadeIn second">
             <%--<p class="help-block">Username can contain any letters or numbers, without spaces</p>--%>
 
             <!-- E-mail -->
             <br/>
-            <label class="fadeIn third" for="email">E-mail</label><br/>
-            <input type="text" id="email" name="email" placeholder="" class="fadeIn third">
+<%--            <label class="fadeIn third" for="email">E-mail</label><br/>--%>
+            <input type="text" id="email" name="email" placeholder="Email" class="fadeIn third">
             <%--<p class="help-block">Please provide your E-mail</p>--%>
             <br/>
             <br/>
 
-
             <!-- Password-->
-            <label class="fadeIn fourth" for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="" class="fadeIn fourth">
+<%--            <label class="fadeIn fourth" for="password">Password</label>--%>
+            <input type="password" id="password" name="password" placeholder="Password" class="fadeIn fourth">
             <%--<p class="help-block">Password should be at least 4 characters</p>--%>
 
-            <!-- Password -->
-            <label class="fadeIn fifth" for="password_confirm">Password (Confirm)</label>
-            <input type="password" id="password_confirm" name="password_confirm" placeholder=""
+            <!-- Password-confirm -->
+<%--            <label class="fadeIn fifth" for="password_confirm">Password (Confirm)</label>--%>
+            <input type="password" id="password_confirm" name="password_confirm" placeholder="Confirm Password"
                    class="fadeIn fifth">
             <%--<p class="help-block">Please confirm password</p>--%>
 

@@ -2,21 +2,27 @@ package ua.epam.final_project.database;
 
 import ua.epam.final_project.util.User;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static ua.epam.final_project.database.SQLConstants.*;
 
 public class DBManager {
     private static final Logger logger = Logger.getAnonymousLogger();
     private static final String URL;
+    private static DBManager dbManager;
 
     static {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String resourceName = "database_url.properties";
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Properties properties = new Properties();
@@ -25,31 +31,13 @@ public class DBManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        Properties properties = new Properties();
-//        try {
-//            properties.load(new FileInputStream("database_url.properties"));
-//        } catch (IOException e) {
-//            logger.log(Level.SEVERE, e.toString());
-//        }
         URL = properties.getProperty("connection.url");
     }
 
-    private static final String SQL_FIND_ALL_USERS = "SELECT * FROM user";
-    private static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
-    private static final String SQL_INSERT_USER = "INSERT INTO users VALUES (DEFAULT, ?)";
-    private static final String SQL_INSERT_USERS_TEAMS = "INSERT INTO users_teams VALUES (?, ?)";
-    private static final String SQL_USERS_TEAMS_PAIR_CHECK = "SELECT COUNT(*) FROM users_teams WHERE user_id = ? AND team_id = ?";
-    private static final String SQL_SELECT_ID_FROM_USERS_TEAM = "SELECT team_id FROM users_teams WHERE user_id = ?";
-    private static final String SQL_SELECT_NAME_FROM_TEAMS_WHERE_ID = "SELECT name FROM teams WHERE id = ?";
-    private static final String SQL_UPDATE_TEAMS_WHERE_NAME = "UPDATE teams SET name = ? WHERE id = ?";
-    private static final String SQL_DELETE_TEAM_WHERE_ID = "DELETE FROM teams WHERE id = ?";
+    /** Hided private constructor */
+    private DBManager() {}
 
-    private static DBManager dbManager;
-
-    private DBManager() {
-    }
-
+    /** Get instance of Database Manager */
     public static synchronized DBManager getInstance() {
         if (dbManager == null) {
             dbManager = new DBManager();
@@ -57,7 +45,7 @@ public class DBManager {
         return dbManager;
     }
 
-    // getting list of all users with attributes
+    /** Get list of all users with their attributes */
     public List<User> findAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
 
@@ -74,6 +62,48 @@ public class DBManager {
         return users;
     }
 
+    /** Insert new user into database */
+    public boolean insertUser(User user) throws SQLException {
+        try (Connection con = getConnection()) {
+            if (getUser(user.getLogin(), user.getPassword()) != null) {
+                return false;
+            }
+
+            try (PreparedStatement statement = con.prepareStatement(SQL_INSERT_USER)) {
+                statement.setString(1, user.getLogin());
+                statement.setString(2, user.getPassword());
+                statement.setString(3, user.getEmail());
+                statement.setString(4, user.getName());
+                statement.setString(5, user.getRole());
+                statement.executeUpdate();
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    /** Get single user from database */
+    public User getUser(String login, String password) throws SQLException {
+        try (Connection con = getConnection();
+             PreparedStatement statement = con.prepareStatement(SQL_FIND_USER_BY_LOGIN_PASSWORD)) {
+            statement.setString(1, login);
+            statement.setString(2, password);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return extractUser(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return null;
+    }
+
+
+    /** UTILITY METHOD
+     * create User entity according to data from database */
     private User extractUser(ResultSet rs) throws SQLException {
         User user = new User();
         try {
@@ -89,8 +119,9 @@ public class DBManager {
         return user;
     }
 
+    /** UTILITY METHOD
+     * return connection to database */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL);
     }
-
 }

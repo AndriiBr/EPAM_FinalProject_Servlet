@@ -15,6 +15,16 @@
     <url-pattern>/</url-pattern>
   </filter-mapping>
 
+  <!--Authentication filter-->
+<!--  <filter>-->
+<!--    <filter-name>AuthenticationFilter</filter-name>-->
+<!--    <filter-class>ua.epam.final_project.servlet.filter.AuthenticationFilter</filter-class>-->
+<!--  </filter>-->
+<!--  <filter-mapping>-->
+<!--    <filter-name>AuthenticationFilter</filter-name>-->
+<!--    <url-pattern>/</url-pattern>-->
+<!--  </filter-mapping>-->
+
 
   <!-- *WELCOME PAGE* -->
   <welcome-file-list>
@@ -25,19 +35,19 @@
   <!-- *ERROR PAGE* -->
   <error-page>
     <error-code>404</error-code>
-    <location>/WEB-INF/view/errorPage/error_page.html</location>
+    <location>/WEB-INF/view/errorPage/error_page_404.html</location>
   </error-page>
 
   <!-- *SERVLETS* -->
-  <!--Main page servlet-->
-  <servlet>
-    <servlet-name>login_page</servlet-name>
-    <jsp-file>/WEB-INF/view/loginPage/login_page.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>login_page</servlet-name>
-    <url-pattern>/login</url-pattern>
-  </servlet-mapping>
+  <!--Login page servlet-->
+<!--  <servlet>-->
+<!--    <servlet-name>login_page</servlet-name>-->
+<!--    <jsp-file>/WEB-INF/view/loginPage/login_page.jsp</jsp-file>-->
+<!--  </servlet>-->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>login_page</servlet-name>-->
+<!--    <url-pattern>/login</url-pattern>-->
+<!--  </servlet-mapping>-->
 
   <!--About us-->
   <servlet>
