@@ -33,7 +33,7 @@
   <!--About us-->
   <servlet>
     <servlet-name>about_us</servlet-name>
-    <jsp-file>/WEB-INF/view/about_page/about_page.jsp</jsp-file>
+    <jsp-file>/WEB-INF/view/about_page/about_us_page.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>about_us</servlet-name>
