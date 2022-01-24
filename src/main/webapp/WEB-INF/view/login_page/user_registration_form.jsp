@@ -2,8 +2,9 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
 </head>
 <body>

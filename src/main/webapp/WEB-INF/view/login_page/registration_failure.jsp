@@ -4,15 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
           type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
+          type="text/css">
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 </head>
 <body>
 
 <%
     String name = request.getParameter("username");
     request.setAttribute("user", name);
+    String email = request.getParameter("email");
+    request.setAttribute("email", email);
+    String errorFlag = (String) request.getAttribute("errorFlag");
 %>
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -20,7 +25,23 @@
             <img src="../../../img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
         </div>
 
-        <h3>User ${user} were not created</h3>
+        <% switch (errorFlag) {
+            case "1": %>
+        Password does not match.<br>
+        Please try again.
+        <%
+                break;
+            case "2":
+        %>
+        Username<br/>
+        ${user}<br/>
+        is already exist
+        <% break;
+            case "3": %>
+        Email address<br/>
+        ${email}<br/>
+        is already exist
+        <%}%>
 
         <div id="formFooter">
             <a class="underlineHover" href="http://localhost:8080/new_account">Go back to registration form</a>

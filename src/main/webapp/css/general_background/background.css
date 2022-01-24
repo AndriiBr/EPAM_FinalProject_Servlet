@@ -1,0 +1,12 @@
+body {
+    background-image: url("../../img/general_background/background_3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    overflow: hidden;
+
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+}

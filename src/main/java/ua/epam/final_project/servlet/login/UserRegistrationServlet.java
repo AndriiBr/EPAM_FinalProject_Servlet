@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalTime;
@@ -30,7 +31,13 @@ public class UserRegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DBManager dbManager = DBManager.getInstance();
         List<User> userList = null;
-        boolean newUserAdded = false;
+
+        //Error flag to catch different errors in the user input data:
+        //         * 0 - everything correct
+        //         * 1 - password does not match
+        //         * 2 - login is already exist
+        //         * 3 - email is already exist
+        String errorFlag = "0";
 
         try {
             userList = dbManager.findAllUsers();
@@ -38,25 +45,45 @@ public class UserRegistrationServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        User user = null;
+
+        String login = req.getParameter("username");
+        String email = req.getParameter("email");
         String password = req.getParameter("password");
         String passwordConfirm = req.getParameter("password_confirm");
 
-        if (userList != null && password.equals(passwordConfirm)) {
-            User user = new User();
-            user.setLogin(req.getParameter("username"));
-            user.setEmail(req.getParameter("email"));
-            user.setPassword(req.getParameter("password"));
-            user.setRole("2");
+        if (!password.equals(passwordConfirm)) {
+            errorFlag = "1";
+        } else if (userList != null && userList.stream().anyMatch(x -> x.getLogin().equals(login))) {
+            errorFlag = "2";
+        } else if (userList != null && userList.stream().anyMatch(x -> x.getEmail().equals(email))) {
+            errorFlag = "3";
+        }
 
+        req.setAttribute("errorFlag", errorFlag);
+
+        //Create new user entity if all input data is correct.
+        //And if user and email are not exist in database.
+        if (errorFlag.equals("0")) {
+            user = new User();
+            user.setLogin(login);
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setRole("2");
+        }
+
+        //Put new user into DB
+        if (user != null) {
             try {
-                newUserAdded = dbManager.insertUser(user);
+                dbManager.insertUser(user);
+                //Automatically log-in after successful registration
+                final HttpSession session = req.getSession();
+                session.setAttribute("login", user.getLogin());
+                session.setAttribute("role", user.getRole());
+                req.getRequestDispatcher(REGISTRATION_SUCCESS_PAGE).forward(req, resp);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
-
-        if (newUserAdded) {
-            req.getRequestDispatcher(REGISTRATION_SUCCESS_PAGE).forward(req, resp);
         } else {
             req.getRequestDispatcher(REGISTRATION_FAILURE_PAGE).forward(req, resp);
         }

@@ -25,7 +25,7 @@
   <!-- *ERROR PAGE* -->
   <error-page>
     <error-code>404</error-code>
-    <location>/WEB-INF/view/error_page/error_404_page.html</location>
+    <location>/WEB-INF/view/error_page/error_404_page.jsp</location>
   </error-page>
 
 

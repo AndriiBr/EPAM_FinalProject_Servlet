@@ -4,7 +4,7 @@ public final class JSPPathConstant {
 
     public static final String ABOUT_PAGE = "/WEB-INF/view/about_page/about_page.jsp";
 
-    public static final String ERROR_404_PAGE = "/WEB-INF/view/error_page/error_404_page.html";
+    public static final String ERROR_404_PAGE = "/WEB-INF/view/error_page/error_404_page.jsp";
 
     public static final String USER_REGISTRATION_PAGE = "/WEB-INF/view/login_page/user_registration_form.jsp";
     public static final String REGISTRATION_SUCCESS_PAGE = "/WEB-INF/view/login_page/registration_success.jsp";
