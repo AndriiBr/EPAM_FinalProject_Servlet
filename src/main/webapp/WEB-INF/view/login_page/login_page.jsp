@@ -5,6 +5,8 @@
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
+    <%--    Font CDN Link for Icons--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <body>
@@ -18,11 +20,30 @@
         </div>
 
         <!-- Login Form -->
-        <form class="log-in" method="POST">
-            <label for="login"></label>
-            <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-            <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
-            <input type="submit" class="fadeIn fourth" value="Log In">
+        <form class="log-in" action="http://localhost:8080/login" method="post">
+            <div class="field login">
+                <div class="input-area">
+                    <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
+                    <div class="fadeIn second">
+                        <em class="icon fas fa-user"></em>
+                    </div>
+                    <em class="error icon-error fas fa-exclamation-circle"></em>
+                </div>
+                <div class="error error-text">Login can`t be blank</div>
+            </div>
+
+            <div class="field password">
+                <div class="input-area">
+                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+                    <div class="fadeIn third">
+                        <em class="icon fas fa-lock"></em>
+                    </div>
+                    <em class="error icon-error fas fa-exclamation-circle"></em>
+                </div>
+                <div class="error error-text">Password can`t be blank</div>
+            </div>
+
+            <input type="submit" class="fadeIn fourth" value="Log In" >
         </form>
 
         <!-- Remind Password -->
@@ -32,7 +53,8 @@
             <br/>
             <a class="underlineHover" href="http://localhost:8080/forgot">Forgot Password?</a>
         </div>
-
     </div>
 </div>
+
+<script src="${pageContext.request.contextPath}/js/login_page/login_page-input_validator.js"></script>
 </body>

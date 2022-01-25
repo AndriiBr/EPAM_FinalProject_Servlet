@@ -5,14 +5,12 @@ a {
     font-weight: 400;
 }
 
-
 .registration-header {
     color: #92badd;
     display:inline-block;
     text-decoration: none;
     font-weight: 400;
 }
-
 
 h2 {
     text-align: center;
@@ -25,7 +23,6 @@ h2 {
 }
 
 /* STRUCTURE */
-
 .wrapper {
     display: flex;
     align-items: center;
@@ -40,11 +37,10 @@ h2 {
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
     background: #fff;
-    padding: 30px;
     width: 90%;
     max-width: 450px;
     position: relative;
-    padding: 0px;
+    padding: 0;
     -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     text-align: center;
@@ -60,7 +56,6 @@ h2 {
 }
 
 /* TABS */
-
 h2.inactive {
     color: #cccccc;
 }
@@ -71,7 +66,6 @@ h2.active {
 }
 
 /* FORM TYPOGRAPHY*/
-
 input[type=button], input[type=submit], input[type=reset]  {
     background-color: #56baed;
     border: none;
@@ -108,7 +102,6 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
 
 input[type=text] {
     background-color: #f6f6f6;
-    border: none;
     color: #0d0d0d;
     padding: 15px 32px;
     text-align: center;
@@ -117,7 +110,7 @@ input[type=text] {
     font-size: 16px;
     margin: 5px;
     width: 65%;
-    border: 2px solid #f6f6f6;
+    border: 1px solid #f6f6f6;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
@@ -136,10 +129,8 @@ input[type=text]::placeholder {
     color: #cccccc;
 }
 
-
 input[type=password] {
     background-color: #f6f6f6;
-    border: none;
     color: #0d0d0d;
     padding: 15px 32px;
     text-align: center;
@@ -148,7 +139,7 @@ input[type=password] {
     font-size: 16px;
     margin: 5px;
     width: 65%;
-    border: 2px solid #f6f6f6;
+    border: 1px solid #f6f6f6;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
@@ -168,7 +159,6 @@ input[type=password]::placeholder {
 }
 
 /* ANIMATIONS */
-
 /* Simple CSS3 Fade-in-down Animation */
 .fadeInDown {
     -webkit-animation-name: fadeInDown;
@@ -289,4 +279,63 @@ input[type=password]::placeholder {
 
 #icon {
     width:35%;
+}
+
+form .field{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+form .field.shake{
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100%{
+       margin-left: 0;
+    }
+    20%, 80%{
+        margin-left: -6px;
+    }
+    40%, 60%{
+        margin-left: 6px;
+    }
+}
+
+form .field .input-area{
+    position: relative;
+}
+
+form .field.error input{
+    border-color: #dc3545;
+}
+
+form .field em{
+    position: absolute;
+    top: 50%;
+    font-size: 16px;
+    transform: translateY(-50%);
+}
+
+form .field .icon{
+    left: 55px;
+    color: #bfbfbf;
+}
+
+form .field .icon-error{
+    right: 55px;
+    color: #dc3545;
+}
+
+form .field .error-text{
+    margin-top: 5px;
+    color: #dc3545;
+}
+
+form .field .error{
+    display: none;
+}
+
+form .field.error .error{
+    display: block;
 }
