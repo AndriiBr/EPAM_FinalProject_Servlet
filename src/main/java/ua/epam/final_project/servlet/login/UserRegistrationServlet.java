@@ -31,6 +31,7 @@ public class UserRegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DBManager dbManager = DBManager.getInstance();
         List<User> userList = null;
+        User user = null;
 
         //Error flag to catch different errors in the user input data:
         //         * 0 - everything correct
@@ -44,8 +45,6 @@ public class UserRegistrationServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        User user = null;
 
         String login = req.getParameter("username");
         String email = req.getParameter("email");
@@ -77,18 +76,23 @@ public class UserRegistrationServlet extends HttpServlet {
             try {
                 dbManager.insertUser(user);
                 //Automatically log-in after successful registration
-                final HttpSession session = req.getSession();
-                session.setAttribute("login", user.getLogin());
-                session.setAttribute("role", user.getRole());
+                logInUser(user, req);
+                //forward to success page
                 req.getRequestDispatcher(REGISTRATION_SUCCESS_PAGE).forward(req, resp);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
+            //forward to failure page
             req.getRequestDispatcher(REGISTRATION_FAILURE_PAGE).forward(req, resp);
         }
 
         System.out.println("DoPOST from UserRegistration Servlet: " + LocalTime.now());
+    }
 
+    private void logInUser (User user, HttpServletRequest req) {
+        final HttpSession session = req.getSession();
+        session.setAttribute("login", user.getLogin());
+        session.setAttribute("role", user.getRole());
     }
 }

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
     <title>Login page</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
@@ -17,7 +18,8 @@
         </div>
 
         <!-- Login Form -->
-        <form class="log-in" action='' method="POST">
+        <form class="log-in" method="POST">
+            <label for="login"></label>
             <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
             <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
             <input type="submit" class="fadeIn fourth" value="Log In">

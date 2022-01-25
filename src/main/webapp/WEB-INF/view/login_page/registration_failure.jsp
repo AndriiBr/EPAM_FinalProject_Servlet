@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -8,13 +9,13 @@
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 </head>
 <body>
 
 <%
     String name = request.getParameter("username");
-    request.setAttribute("user", name);
+    request.setAttribute("userName", name);
     String email = request.getParameter("email");
     request.setAttribute("email", email);
     String errorFlag = (String) request.getAttribute("errorFlag");
@@ -34,7 +35,7 @@
             case "2":
         %>
         Username<br/>
-        ${user}<br/>
+        ${userName}<br/>
         is already exist
         <% break;
             case "3": %>

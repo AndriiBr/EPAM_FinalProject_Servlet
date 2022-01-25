@@ -40,5 +40,13 @@
     <url-pattern>/about</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>cabinet</servlet-name>
+    <jsp-file>/WEB-INF/view/cabinet_page/cabinet.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>cabinet</servlet-name>
+    <url-pattern>/cabinet</url-pattern>
+  </servlet-mapping>
 
 </web-app>
