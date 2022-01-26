@@ -81,5 +81,7 @@
         </div>
     </div>
 </div>
+
+<script src="${pageContext.request.contextPath}/js/login_page/functions/validation_function_module.js"></script>
 <script src="${pageContext.request.contextPath}/js/login_page/user_registration_form_validator.js"></script>
 </body>
