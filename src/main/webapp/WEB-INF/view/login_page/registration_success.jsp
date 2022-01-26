@@ -13,7 +13,7 @@
 <body>
 
 <%
-    String name = request.getParameter("username");
+    String name = request.getParameter("login");
     request.setAttribute("user", name);
 %>
 

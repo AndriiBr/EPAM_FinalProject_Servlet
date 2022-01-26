@@ -14,7 +14,7 @@
 <body>
 
 <%
-    String name = request.getParameter("username");
+    String name = request.getParameter("login");
     request.setAttribute("userName", name);
     String email = request.getParameter("email");
     request.setAttribute("email", email);
@@ -36,12 +36,12 @@
         %>
         Username<br/>
         ${userName}<br/>
-        is already exist
+        already exist
         <% break;
             case "3": %>
         Email address<br/>
         ${email}<br/>
-        is already exist
+        already exist
         <%}%>
 
         <div id="formFooter">

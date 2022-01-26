@@ -46,7 +46,7 @@ public class UserRegistrationServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        String login = req.getParameter("username");
+        String login = req.getParameter("login");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String passwordConfirm = req.getParameter("password_confirm");

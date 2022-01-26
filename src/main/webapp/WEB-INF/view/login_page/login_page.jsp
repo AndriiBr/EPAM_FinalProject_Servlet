@@ -20,10 +20,11 @@
         </div>
 
         <!-- Login Form -->
-        <form class="log-in" action="http://localhost:8080/login" method="post">
+        <form class="log-in" method="post">
+            <!-- Login -->
             <div class="field login">
                 <div class="input-area">
-                    <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
+                    <input type="text" id="login" class="fadeIn second" name="login" placeholder="Username">
                     <div class="fadeIn second">
                         <em class="icon fas fa-user"></em>
                     </div>
@@ -32,9 +33,10 @@
                 <div class="error error-text">Login can`t be blank</div>
             </div>
 
+            <!-- Password -->
             <div class="field password">
                 <div class="input-area">
-                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
                     <div class="fadeIn third">
                         <em class="icon fas fa-lock"></em>
                     </div>
@@ -55,6 +57,5 @@
         </div>
     </div>
 </div>
-
 <script src="${pageContext.request.contextPath}/js/login_page/login_page-input_validator.js"></script>
 </body>
