@@ -15,7 +15,7 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="../../../img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
+            <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
             <legend class="registration-header">Let's create your new account</legend>
             <br/>
         </div>

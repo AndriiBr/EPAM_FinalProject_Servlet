@@ -16,7 +16,9 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="../../../img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
+            <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon"
+                 alt="User Icon"/>
+            <img src="http://localhost:8080/images/test.jpg" id="icon2" alt="User Icon"/>
         </div>
 
         <!-- Login Form -->
@@ -45,7 +47,7 @@
                 <div class="error error-text">Password can`t be blank</div>
             </div>
 
-            <input type="submit" class="fadeIn fourth" value="Log In" >
+            <input type="submit" class="fadeIn fourth" value="Log In">
         </form>
 
         <!-- Remind Password -->

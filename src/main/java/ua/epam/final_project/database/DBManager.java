@@ -2,8 +2,7 @@ package ua.epam.final_project.database;
 
 import ua.epam.final_project.util.User;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +109,42 @@ public class DBManager {
             throw new SQLException(e);
         }
         return null;
+    }
+
+    /**
+     * Insert new position into table "edition"
+     */
+    public void insertNewEdition(String title, String imagePath, String price) {
+        String newImagePath = "";
+
+        String imageFolderName = "image_folder.properties";
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        Properties prop = new Properties();
+
+        try (InputStream resourceStream = loader.getResourceAsStream(imageFolderName)) {
+            prop.load(resourceStream);
+
+            if (imagePath.equals("no image")) {
+                newImagePath = prop.getProperty("default_no_image-folder");
+            } else {
+                newImagePath = prop.getProperty("image_folder") + imagePath;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection con = getConnection();
+             PreparedStatement statement = con.prepareStatement(SQL_INSERT_EDITION)) {
+//            con.setAutoCommit(false);
+
+            statement.setString(1, title);
+            //insert path to image into DB
+            statement.setString(2, newImagePath);
+            statement.setString(3, String.valueOf(price));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

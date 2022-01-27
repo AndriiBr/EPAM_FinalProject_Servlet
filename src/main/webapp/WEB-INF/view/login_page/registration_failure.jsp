@@ -23,7 +23,7 @@
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <div class="fadeIn first">
-            <img src="../../../img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
+            <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
         </div>
 
         <% switch (errorFlag) {

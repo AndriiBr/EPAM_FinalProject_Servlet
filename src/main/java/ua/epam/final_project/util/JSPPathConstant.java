@@ -16,6 +16,8 @@ public final class JSPPathConstant {
 
     public static final String MAIN_PAGE = "/WEB-INF/view/main_page/main_page.jsp";
 
+    public static final String CABINET_PAGE = "/WEB-INF/view/cabinet_page/cabinet.jsp";
+    public static final String ADD_NEW_EDITION_PAGE = "/WEB-INF/view/cabinet_page/admin/add_new_edition_form.jsp";
 
     private JSPPathConstant() {
     }
