@@ -71,10 +71,10 @@ public class DBManager {
     /**
      * Insert new user into database
      */
-    public boolean insertUser(User user) throws SQLException {
+    public void insertUser(User user) throws SQLException {
         try (Connection con = getConnection()) {
             if (getUser(user.getLogin(), user.getPassword()) != null) {
-                return false;
+                return;
             }
 
             try (PreparedStatement statement = con.prepareStatement(SQL_INSERT_USER)) {
@@ -84,7 +84,6 @@ public class DBManager {
                 statement.setString(4, user.getName());
                 statement.setString(5, user.getRole());
                 statement.executeUpdate();
-                return true;
             }
         } catch (SQLException e) {
             throw new SQLException(e);
@@ -160,6 +159,7 @@ public class DBManager {
             user.setPassword(rs.getString("password"));
             user.setEmail(rs.getString("email"));
             user.setName(rs.getString("name"));
+            user.setBalance(Integer.parseInt(rs.getString("balance")));
             user.setRole(rs.getString("user_role_id"));
         } catch (SQLException e) {
             throw new SQLException(e);

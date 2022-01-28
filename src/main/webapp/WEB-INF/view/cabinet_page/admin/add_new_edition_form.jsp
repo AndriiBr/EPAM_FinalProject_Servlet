@@ -5,9 +5,9 @@
 </head>
 <body>
 <form method="post" action="${pageContext.request.contextPath}/add_new_edition" enctype="multipart/form-data">
-    <input type="text" name="edition-title" placeholder="Edition title">
-    <input type="file" name="file-name">
-    <input type="text" name="price" placeholder="Price">
+    <input type="text" name="edition-title" placeholder="Edition title"><br/>
+    <input type="file" name="file-name"><br/>
+    <input type="text" name="price" placeholder="Price"><br/>
     <button>Send</button>
 </form>
 

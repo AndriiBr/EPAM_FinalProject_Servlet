@@ -7,6 +7,7 @@ public class User {
     private String password;
     private String email;
     private String name = "no name";
+    private int balance;
     private String role;
 
 
@@ -48,6 +49,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     public String getRole() {

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import static ua.epam.final_project.util.JSPPathConstant.ADD_NEW_EDITION_PAGE;
 
 @WebServlet(urlPatterns = "/add_new_edition")
-@MultipartConfig(location = "E:/Programming/Projects/EPAM_FinalProject_Servlet/src/main/webapp/img/edition_titles")
+@MultipartConfig(location = "E:/Programming/EPAM_JAVA_Autumn_Final_project/external_storage/static/edition_titles")
 public class AddNewEditionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
