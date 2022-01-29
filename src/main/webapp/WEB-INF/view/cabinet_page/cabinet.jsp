@@ -1,5 +1,6 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="en">
 <head>
     <title>Cabinet</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
@@ -14,9 +15,11 @@
     request.setAttribute("role", role);
 %>
 
+
 <% if (role.equals("1")) {%>
 <h1>Кабінет адміністратора: ${username}</h1>
-<a href="http://localhost:8080/add_new_edition">Додати видання</a><br/>
+<a href="http://localhost:8080/user_settings">Налаштування</a><br/>
+<a href="http://localhost:8080/edition_list">Список видань</a><br/>
 <%} else if (role.equals("2")) {%>
 <h1>Кабінет користувача: ${username}</h1>
 

@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+          type="text/css">
 </head>
 <body>
 <form method="post" action="${pageContext.request.contextPath}/add_new_edition" enctype="multipart/form-data">

@@ -21,7 +21,8 @@ public class LoginInServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher(LOGIN_PAGE).forward(req, resp);
-        System.out.println("DoGET from LogIn Servlet: " + LocalTime.now());
+
+        System.out.println("LogInServlet - DoGET method: " + LocalTime.now());
     }
 
     @Override
@@ -47,6 +48,6 @@ public class LoginInServlet extends HttpServlet {
         } else {
             req.getRequestDispatcher(WRONG_LOG_PASS_PAGE).forward(req, resp);
         }
-        System.out.println("DoPOST from LogIn Servlet: " + LocalTime.now());
+        System.out.println("LogInServlet - DoPOST method: " + LocalTime.now());
     }
 }

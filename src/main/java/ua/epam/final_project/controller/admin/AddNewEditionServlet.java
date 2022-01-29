@@ -5,10 +5,7 @@ import ua.epam.final_project.database.DBManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,15 +14,24 @@ import java.time.LocalTime;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static ua.epam.final_project.util.JSPPathConstant.ADD_NEW_EDITION_PAGE;
+import static ua.epam.final_project.util.JSPPathConstant.*;
 
 @WebServlet(urlPatterns = "/add_new_edition")
 @MultipartConfig(location = "E:/Programming/EPAM_JAVA_Autumn_Final_project/external_storage/static/edition_titles")
 public class AddNewEditionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(ADD_NEW_EDITION_PAGE).forward(req, resp);
-        System.out.println("DoGET from AddNewEditionServlet Servlet: " + LocalTime.now());
+        final HttpSession session = req.getSession();
+
+        String currentRole = (String)session.getAttribute("role");
+
+        if (currentRole.equals("1")) {
+            req.getRequestDispatcher(ADD_NEW_EDITION_PAGE).forward(req, resp);
+        } else {
+            resp.sendRedirect(ERROR_404_PAGE);
+        }
+
+        System.out.println("AddNewEditionServlet - DoGET method: " + LocalTime.now());
     }
 
     @Override
@@ -61,6 +67,6 @@ public class AddNewEditionServlet extends HttpServlet {
         dbManager.insertNewEdition(editionTitle, imageUUID, price);
 
         resp.sendRedirect("/");
-        System.out.println("DoPOST from AddNewEditionServlet Servlet: " + LocalTime.now());
+        System.out.println("AddNewEditionServlet - DoPOST method: " + LocalTime.now());
     }
 }

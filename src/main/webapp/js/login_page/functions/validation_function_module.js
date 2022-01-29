@@ -5,7 +5,7 @@ const LOGIN_PATTERN = /^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\d._-]{4,19}$/;
 //Minimum 1 uppercase and 1 lowercase letter
 //Minimum 1 digit
 const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
-const EMAIL_PATTERN = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+const EMAIL_PATTERN = /^[^ ]+@[^ ]+\.[a-z]{2,4}$/;
 
 
 function checkLogin() {

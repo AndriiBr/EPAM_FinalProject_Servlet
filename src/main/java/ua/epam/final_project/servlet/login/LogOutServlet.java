@@ -23,6 +23,6 @@ public class LogOutServlet extends HttpServlet {
 
         req.getRequestDispatcher(MAIN_PAGE).forward(req, resp);
 
-        System.out.println("DoGET from LogOut Servlet: " + LocalTime.now());
+        System.out.println("LogOutServlet - DoGET method: " + LocalTime.now());
     }
 }

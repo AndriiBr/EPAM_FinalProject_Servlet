@@ -22,9 +22,9 @@ public class UserRegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         req.getRequestDispatcher(USER_REGISTRATION_PAGE).forward(req, resp);
-        System.out.println("DoGET from UserRegistration Servlet: " + LocalTime.now());
+
+        System.out.println("UserRegistrationServlet - DoGET method: " + LocalTime.now());
     }
 
     @Override
@@ -68,6 +68,7 @@ public class UserRegistrationServlet extends HttpServlet {
             user.setLogin(login);
             user.setEmail(email);
             user.setPassword(password);
+            user.setBalance(0);
             user.setRole("2");
         }
 
@@ -87,7 +88,7 @@ public class UserRegistrationServlet extends HttpServlet {
             req.getRequestDispatcher(REGISTRATION_FAILURE_PAGE).forward(req, resp);
         }
 
-        System.out.println("DoPOST from UserRegistration Servlet: " + LocalTime.now());
+        System.out.println("UserRegistrationServlet - DoGET method: " + LocalTime.now());
     }
 
     private void logInUser (User user, HttpServletRequest req) {

@@ -1,6 +1,7 @@
 package ua.epam.final_project.database;
 
 import ua.epam.final_project.util.User;
+import ua.epam.final_project.util.edition.Edition;
 
 import java.io.*;
 import java.sql.*;
@@ -66,6 +67,25 @@ public class DBManager {
             throw new SQLException(e);
         }
         return users;
+    }
+
+    /**
+     * Get list of all editions with their attributes
+     */
+    public List<Edition> findAllEditions() throws SQLException {
+        List<Edition> editions = new ArrayList<>();
+
+        try (Connection con = getConnection()) {
+            try (Statement st = con.createStatement();
+                 ResultSet rs = st.executeQuery(SQL_FIND_ALL_EDITIONS)) {
+                while (rs.next()) {
+                    editions.add(extractEdition(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return editions;
     }
 
     /**
@@ -165,6 +185,23 @@ public class DBManager {
             throw new SQLException(e);
         }
         return user;
+    }
+
+    /**
+     * UTILITY METHOD
+     * create Edition entity according to data from database
+     */
+    private Edition extractEdition(ResultSet rs) throws SQLException {
+        Edition edition = new Edition();
+        try {
+            edition.setId(rs.getInt("id"));
+            edition.setTitle(rs.getString("title"));
+            edition.setImagePath(rs.getString("title_image"));
+            edition.setPrice(rs.getInt("price"));
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return edition;
     }
 
     /**
