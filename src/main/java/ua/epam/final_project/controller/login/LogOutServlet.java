@@ -1,7 +1,5 @@
 package ua.epam.final_project.controller.login;
 
-import static ua.epam.final_project.util.JSPPathConstant.*;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,9 +21,8 @@ public class LogOutServlet extends HttpServlet {
             session.removeAttribute("login");
             session.removeAttribute("role");
 
-            req.getRequestDispatcher(MAIN_PAGE).forward(req, resp);
-        } else {
-            req.getRequestDispatcher(ERROR_404_PAGE).forward(req, resp);
+            //Redirection according to PRG Pattern
+            resp.sendRedirect("/");
         }
 
         System.out.println("LogOutServlet - DoGET method: " + LocalTime.now());

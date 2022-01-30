@@ -78,19 +78,20 @@ public class UserRegistrationServlet extends HttpServlet {
                 dbManager.insertUser(user);
                 //Automatically log-in after successful registration
                 logInUser(user, req);
-                //forward to success page
-                req.getRequestDispatcher(REGISTRATION_SUCCESS_PAGE).forward(req, resp);
+                //Redirection according to PRG Pattern
+                resp.sendRedirect("/successful_registration");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
-            //forward to failure page
-            req.getRequestDispatcher(REGISTRATION_FAILURE_PAGE).forward(req, resp);
+            //Redirection according to PRG Pattern
+            resp.sendRedirect("/unsuccessful_registration");
         }
 
         System.out.println("UserRegistrationServlet - DoGET method: " + LocalTime.now());
     }
 
+    //Autologin after registration
     private void logInUser (User user, HttpServletRequest req) {
         final HttpSession session = req.getSession();
         session.setAttribute("login", user.getLogin());

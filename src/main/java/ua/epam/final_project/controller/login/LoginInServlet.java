@@ -3,8 +3,6 @@ package ua.epam.final_project.controller.login;
 import ua.epam.final_project.database.DBManager;
 import ua.epam.final_project.util.user.User;
 
-import static ua.epam.final_project.util.JSPPathConstant.*;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalTime;
+
+import static ua.epam.final_project.util.JSPPathConstant.*;
 
 @WebServlet(urlPatterns = "/login")
 public class LoginInServlet extends HttpServlet {
@@ -44,9 +44,11 @@ public class LoginInServlet extends HttpServlet {
         if (user != null) {
             session.setAttribute("login", login);
             session.setAttribute("role", user.getRole());
-            req.getRequestDispatcher(LOGGED_IN_PAGE).forward(req, resp);
+            //Redirection according to PRG Pattern
+            resp.sendRedirect("/successful_login");
         } else {
-            req.getRequestDispatcher(WRONG_LOG_PASS_PAGE).forward(req, resp);
+            //Redirection according to PRG Pattern
+            resp.sendRedirect("/unsuccessful_login");
         }
         System.out.println("LogInServlet - DoPOST method: " + LocalTime.now());
     }
