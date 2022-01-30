@@ -1,7 +1,7 @@
-package ua.epam.final_project.servlet.login;
+package ua.epam.final_project.controller.login;
 
 import ua.epam.final_project.database.DBManager;
-import ua.epam.final_project.util.User;
+import ua.epam.final_project.util.user.User;
 
 import static ua.epam.final_project.util.JSPPathConstant.*;
 

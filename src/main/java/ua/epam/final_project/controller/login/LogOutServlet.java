@@ -1,4 +1,4 @@
-package ua.epam.final_project.servlet.login;
+package ua.epam.final_project.controller.login;
 
 import static ua.epam.final_project.util.JSPPathConstant.*;
 
@@ -16,12 +16,17 @@ public class LogOutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         final HttpSession session = req.getSession();
-        session.removeAttribute("login");
-        session.removeAttribute("role");
+        final String currentRole = (String)session.getAttribute("role");
 
-        req.getRequestDispatcher(MAIN_PAGE).forward(req, resp);
+        if (currentRole != null) {
+            session.removeAttribute("login");
+            session.removeAttribute("role");
+
+            req.getRequestDispatcher(MAIN_PAGE).forward(req, resp);
+        } else {
+            req.getRequestDispatcher(ERROR_404_PAGE).forward(req, resp);
+        }
 
         System.out.println("LogOutServlet - DoGET method: " + LocalTime.now());
     }

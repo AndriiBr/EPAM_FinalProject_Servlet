@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -64,9 +65,13 @@ public class AddNewEditionServlet extends HttpServlet {
         }
 
         DBManager dbManager = DBManager.getInstance();
-        dbManager.insertNewEdition(editionTitle, imageUUID, price);
+        try {
+            dbManager.insertNewEdition(editionTitle, imageUUID, price);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        resp.sendRedirect("/");
+        resp.sendRedirect("/cabinet/edition_list");
         System.out.println("AddNewEditionServlet - DoPOST method: " + LocalTime.now());
     }
 }

@@ -1,4 +1,4 @@
-package ua.epam.final_project.util;
+package ua.epam.final_project.util.user;
 
 public class User {
 

@@ -1,6 +1,6 @@
 package ua.epam.final_project.database;
 
-import ua.epam.final_project.util.User;
+import ua.epam.final_project.util.user.User;
 import ua.epam.final_project.util.edition.Edition;
 
 import java.io.*;
@@ -19,7 +19,7 @@ public class DBManager {
 
     static {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -70,22 +70,42 @@ public class DBManager {
     }
 
     /**
-     * Get list of all editions with their attributes
+     * Get single user from database by Login/Password
      */
-    public List<Edition> findAllEditions() throws SQLException {
-        List<Edition> editions = new ArrayList<>();
+    public User getUser(String login, String password) throws SQLException {
+        try (Connection con = getConnection();
+             PreparedStatement statement = con.prepareStatement(SQL_FIND_USER_BY_LOGIN_PASSWORD)) {
+            statement.setString(1, login);
+            statement.setString(2, password);
 
-        try (Connection con = getConnection()) {
-            try (Statement st = con.createStatement();
-                 ResultSet rs = st.executeQuery(SQL_FIND_ALL_EDITIONS)) {
-                while (rs.next()) {
-                    editions.add(extractEdition(rs));
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return extractUser(rs);
                 }
             }
         } catch (SQLException e) {
             throw new SQLException(e);
         }
-        return editions;
+        return null;
+    }
+
+    /**
+     * Get single user from database by Login
+     */
+    public User getUserByLogin(String login) throws SQLException {
+        try (Connection con = getConnection();
+             PreparedStatement statement = con.prepareStatement(SQL_FIND_USER_BY_LOGIN)) {
+            statement.setString(1, login);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return extractUser(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return null;
     }
 
     /**
@@ -111,17 +131,35 @@ public class DBManager {
     }
 
     /**
-     * Get single user from database
+     * Get list of all editions with their attributes
      */
-    public User getUser(String login, String password) throws SQLException {
+    public List<Edition> findAllEditions() throws SQLException {
+        List<Edition> editions = new ArrayList<>();
+
+        try (Connection con = getConnection()) {
+            try (Statement st = con.createStatement();
+                 ResultSet rs = st.executeQuery(SQL_FIND_ALL_EDITIONS)) {
+                while (rs.next()) {
+                    editions.add(extractEdition(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return editions;
+    }
+
+    /**
+     * Get single edition from database by Title
+     */
+    public Edition getEditionByTitle(String title) throws SQLException {
         try (Connection con = getConnection();
-             PreparedStatement statement = con.prepareStatement(SQL_FIND_USER_BY_LOGIN_PASSWORD)) {
-            statement.setString(1, login);
-            statement.setString(2, password);
+             PreparedStatement statement = con.prepareStatement(SQL_FIND_EDITION_BY_TITLE)) {
+            statement.setString(1, title);
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
-                    return extractUser(rs);
+                    return extractEdition(rs);
                 }
             }
         } catch (SQLException e) {
@@ -130,10 +168,11 @@ public class DBManager {
         return null;
     }
 
+
     /**
      * Insert new position into table "edition"
      */
-    public void insertNewEdition(String title, String imagePath, String price) {
+    public void insertNewEdition(String title, String imagePath, String price) throws SQLException {
         String newImagePath = "";
 
         String imageFolderName = "image_folder.properties";
@@ -144,9 +183,9 @@ public class DBManager {
             prop.load(resourceStream);
 
             if (imagePath.equals("no image")) {
-                newImagePath = prop.getProperty("default_no_image-folder");
+                newImagePath = imagePath;
             } else {
-                newImagePath = prop.getProperty("image_folder") + imagePath;
+                newImagePath = prop.getProperty("title_image_folder") + imagePath;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -162,8 +201,21 @@ public class DBManager {
             statement.setString(3, String.valueOf(price));
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException(e);
         }
+    }
+
+    public void deleteEditionByTitle(String title) throws SQLException {
+        try (Connection con = getConnection();
+             PreparedStatement statement = con.prepareStatement(SQL_DELETE_EDITION_BY_TITLE)) {
+
+            statement.setString(1, title);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+
     }
 
 

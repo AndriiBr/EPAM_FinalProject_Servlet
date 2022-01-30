@@ -6,20 +6,22 @@
     <title>Edition list</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
           type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/cabinet_page/admin/edition_list_page_style.css"
+          type="text/css">
 </head>
 <body>
 
 <c:set var="editions" value="${requestScope.editionList}"/>
 
-
-<h1>Список видань</h1>
 <a href="http://localhost:8080/add_new_edition">Додати видання</a><br/>
 
 <table border="1">
+    <caption>Список видань</caption>
     <tr>
-        <td>Назва</td>
-        <td>Картинка</td>
-        <td>Ціна</td>
+        <th id="title">Назва</th>
+        <th id="title_image">Обкладинка</th>
+        <th id="price">Ціна</th>
+        <th id="delete_edition">Видалити</th>
     </tr>
     <c:forEach items="${editions}" var="edition">
         <c:set var="title" value="${edition.title}"/>
@@ -28,15 +30,46 @@
 
         <tr>
             <td>${title}</td>
-            <td><img src="${title_image}" width="150" height="200" alt="${title}"></td>
+            <td>
+                <c:choose>
+                    <c:when test="${title_image == 'no image'}">
+                        <img src="${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg" width="150" height="200" alt="empty_placeholder">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="${title_image}" width="150" height="200" alt="${title}">
+                    </c:otherwise>
+                </c:choose>
+            </td>
             <td>${price}</td>
-        </tr>
+            <td>
+                <button onclick="document.getElementById('${title}').style.display='block'">Delete edition</button>
 
+                <div id="${title}" class="modal">
+                    <span onclick="document.getElementById('${title}').style.display='none'" class="close" title="Close Modal">×</span>
+                    <form class="modal-content" action="${pageContext.request.contextPath}/cabinet/delete_edition" method="post">
+                        <div class="container">
+                            <h1>${title}</h1>
+                            <c:choose>
+                                <c:when test="${title_image == 'no image'}">
+                                    <img src="${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg" width="150" height="200" alt="empty_placeholder">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="${title_image}" width="150" height="200" alt="${title}">
+                                </c:otherwise>
+                            </c:choose>
+
+                            <p>Delete this edition?</p>
+
+                            <div class="clearfix">
+                                <button type="button" onclick="document.getElementById('${title}').style.display='none'" class="cancel">Cancel</button>
+                                <button type="submit" name="edition_title" value="${title}" class="delete-btn">Delete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </td>
+        </tr>
     </c:forEach>
 </table>
-
-
-
-
 </body>
 </html>

@@ -1,7 +1,7 @@
 package ua.epam.final_project.controller.admin;
 
 import ua.epam.final_project.database.DBManager;
-import ua.epam.final_project.util.edition.Edition;
+import ua.epam.final_project.util.user.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,33 +16,33 @@ import java.util.List;
 
 import static ua.epam.final_project.util.JSPPathConstant.*;
 
-@WebServlet(urlPatterns = "/cabinet/edition_list")
-public class EditionListServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/cabinet/user_list")
+public class UserListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final HttpSession session = req.getSession();
-        String currentRole = (String)session.getAttribute("role");
+        final String currentRole = (String)session.getAttribute("role");
 
-        List<Edition> editionList;
+        List<User> userList;
 
         //access rights check.
         //only admin can access this page
-        //other users will see a 404 error
+        //other users will see a 404 error page
         if (currentRole.equals("1")) {
             DBManager dbManager = DBManager.getInstance();
             try {
-                editionList = dbManager.findAllEditions();
-                req.setAttribute("editionList", editionList);
+                userList = dbManager.findAllUsers();
+                req.setAttribute("userList", userList);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            req.getRequestDispatcher(EDITION_LIST_PAGE).forward(req, resp);
+            req.getRequestDispatcher(USER_LIST_PAGE).forward(req, resp);
         } else {
             req.getRequestDispatcher(ERROR_404_PAGE).forward(req, resp);
         }
 
-        System.out.println("EditionListServlet - doGET method: " + LocalTime.now());
+        System.out.println("UsersListServlet - doGET method: " + LocalTime.now());
     }
 }
