@@ -16,8 +16,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static ua.epam.final_project.util.JSPPathConstant.*;
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = "/add_new_edition")
+@WebServlet(urlPatterns = ADD_NEW_EDITION_URL)
 @MultipartConfig(location = "E:/Programming/EPAM_JAVA_Autumn_Final_project/external_storage/static/edition_titles")
 public class AddNewEditionServlet extends HttpServlet {
     @Override
@@ -71,7 +72,7 @@ public class AddNewEditionServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        resp.sendRedirect("/cabinet/edition_list");
+        resp.sendRedirect(EDITION_LIST_URL);
         System.out.println("AddNewEditionServlet - DoPOST method: " + LocalTime.now());
     }
 }

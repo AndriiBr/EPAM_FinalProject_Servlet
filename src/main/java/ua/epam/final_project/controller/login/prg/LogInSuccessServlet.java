@@ -7,13 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static ua.epam.final_project.util.JSPPathConstant.REGISTRATION_SUCCESS_PAGE;
+import static ua.epam.final_project.util.JSPPathConstant.LOGIN_SUCCESS_PAGE;
+import static ua.epam.final_project.util.UrlLayoutConstants.LOGIN_SUCCESS_URL;
 
-@WebServlet(urlPatterns = "/successful_registration")
-public class SuccessfulRegistrationServlet extends HttpServlet {
+@WebServlet(urlPatterns = LOGIN_SUCCESS_URL)
+public class LogInSuccessServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(REGISTRATION_SUCCESS_PAGE).forward(req, resp);
+        req.getRequestDispatcher(LOGIN_SUCCESS_PAGE).forward(req, resp);
     }
 }

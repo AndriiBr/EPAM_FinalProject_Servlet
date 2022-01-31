@@ -5,9 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ApacheDeleteImage {
+public class DeleteImageFromExternalDirectory {
 
-    private ApacheDeleteImage(){}
+    private DeleteImageFromExternalDirectory(){}
 
     public static void delete(String folderPath, String fileName) {
         Path path = Paths

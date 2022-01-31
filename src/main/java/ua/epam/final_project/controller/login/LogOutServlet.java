@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalTime;
 
-@WebServlet(urlPatterns = "/logout")
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
+
+@WebServlet(urlPatterns = LOGOUT_URL)
 public class LogOutServlet extends HttpServlet {
 
     @Override
@@ -22,7 +24,7 @@ public class LogOutServlet extends HttpServlet {
             session.removeAttribute("role");
 
             //Redirection according to PRG Pattern
-            resp.sendRedirect("/");
+            resp.sendRedirect(MAIN_URL);
         }
 
         System.out.println("LogOutServlet - DoGET method: " + LocalTime.now());

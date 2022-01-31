@@ -15,8 +15,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static ua.epam.final_project.util.JSPPathConstant.*;
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = "/cabinet/edition_list")
+@WebServlet(urlPatterns = EDITION_LIST_URL)
 public class EditionListServlet extends HttpServlet {
 
     @Override

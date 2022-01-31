@@ -13,8 +13,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import static ua.epam.final_project.util.JSPPathConstant.*;
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = "/cabinet/user_settings")
+@WebServlet(urlPatterns = USER_SETTINGS_URL)
 public class EditUserSettingsServlet extends HttpServlet {
 
     @Override

@@ -13,7 +13,7 @@
 
 <c:set var="editions" value="${requestScope.editionList}"/>
 
-<a href="http://localhost:8080/add_new_edition">Додати видання</a><br/>
+<a href="${pageContext.request.contextPath}/cabinet/edition_list/add_new_edition">Додати видання</a><br/>
 
 <table border="1">
     <caption>Список видань</caption>
@@ -31,14 +31,8 @@
         <tr>
             <td>${title}</td>
             <td>
-                <c:choose>
-                    <c:when test="${title_image == 'no image'}">
-                        <img src="${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg" width="150" height="200" alt="empty_placeholder">
-                    </c:when>
-                    <c:otherwise>
-                        <img src="${title_image}" width="150" height="200" alt="${title}">
-                    </c:otherwise>
-                </c:choose>
+                <img src="${title_image}" alt="${title}" width="150" height="200"
+                     onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
             </td>
             <td>${price}</td>
             <td>
@@ -46,17 +40,11 @@
 
                 <div id="${title}" class="modal">
                     <span onclick="document.getElementById('${title}').style.display='none'" class="close" title="Close Modal">×</span>
-                    <form class="modal-content" action="${pageContext.request.contextPath}/cabinet/delete_edition" method="post">
+                    <form class="modal-content" action="${pageContext.request.contextPath}/cabinet/edition_list/delete_edition" method="post">
                         <div class="container">
                             <h1>${title}</h1>
-                            <c:choose>
-                                <c:when test="${title_image == 'no image'}">
-                                    <img src="${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg" width="150" height="200" alt="empty_placeholder">
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="${title_image}" width="150" height="200" alt="${title}">
-                                </c:otherwise>
-                            </c:choose>
+                            <img src="${title_image}" alt="${title}" width="150" height="200"
+                                 onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 
                             <p>Delete this edition?</p>
 

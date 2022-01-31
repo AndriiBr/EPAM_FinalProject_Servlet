@@ -1,10 +1,9 @@
 package ua.epam.final_project.controller.admin;
 
 import ua.epam.final_project.database.DBManager;
-import ua.epam.final_project.util.ApacheDeleteImage;
+import ua.epam.final_project.util.DeleteImageFromExternalDirectory;
 import ua.epam.final_project.util.edition.Edition;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +14,13 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.Properties;
 
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = "/cabinet/delete_edition")
+@WebServlet(urlPatterns = DELETE_EDITION_URL)
 public class DeleteEditionServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String editionTitle = req.getParameter("edition_title");
         DBManager dbManager = DBManager.getInstance();
 
@@ -40,14 +40,14 @@ public class DeleteEditionServlet extends HttpServlet {
             //delete edition title image from external folder
             try {
                 dbManager.deleteEditionByTitle(editionTitle);
-                ApacheDeleteImage.delete(getExternalFolderPath(), fileName);
+                DeleteImageFromExternalDirectory.delete(getExternalFolderPath(), fileName);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
         }
 
-        resp.sendRedirect("/cabinet/edition_list");
+        resp.sendRedirect(EDITION_LIST_URL);
 
         System.out.println("DeleteEditionServlet - doPOST method: " + LocalTime.now());
     }

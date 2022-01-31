@@ -3,8 +3,6 @@ package ua.epam.final_project.controller.login;
 import ua.epam.final_project.database.DBManager;
 import ua.epam.final_project.util.user.User;
 
-import static ua.epam.final_project.util.JSPPathConstant.*;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,8 +14,10 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.List;
 
+import static ua.epam.final_project.util.JSPPathConstant.*;
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = "/new_account")
+@WebServlet(urlPatterns = USER_REGISTRATION_URL)
 public class UserRegistrationServlet extends HttpServlet {
 
     @Override
@@ -33,9 +33,11 @@ public class UserRegistrationServlet extends HttpServlet {
         List<User> userList = null;
         User user = null;
 
+        final HttpSession session = req.getSession();
+
         //Error flag to catch different errors in the user input data:
         //         * 0 - everything correct
-        //         * 1 - password does not match
+        //         * 1 - (deprecated) password does not match - replaced by JS Validator
         //         * 2 - login is already exist
         //         * 3 - email is already exist
         String errorFlag = "0";
@@ -49,17 +51,16 @@ public class UserRegistrationServlet extends HttpServlet {
         String login = req.getParameter("login");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String passwordConfirm = req.getParameter("password_confirm");
 
-        if (!password.equals(passwordConfirm)) {
-            errorFlag = "1";
-        } else if (userList != null && userList.stream().anyMatch(x -> x.getLogin().equals(login))) {
+        if (userList != null && userList.stream().anyMatch(x -> x.getLogin().equals(login))) {
             errorFlag = "2";
+            session.setAttribute("formLogin", login);
         } else if (userList != null && userList.stream().anyMatch(x -> x.getEmail().equals(email))) {
             errorFlag = "3";
+            session.setAttribute("formEmail", email);
         }
 
-        req.setAttribute("errorFlag", errorFlag);
+        session.setAttribute("errorFlag", errorFlag);
 
         //Create new user entity if all input data is correct.
         //And if user and email are not exist in database.
@@ -79,13 +80,13 @@ public class UserRegistrationServlet extends HttpServlet {
                 //Automatically log-in after successful registration
                 logInUser(user, req);
                 //Redirection according to PRG Pattern
-                resp.sendRedirect("/successful_registration");
+                resp.sendRedirect(REGISTRATION_SUCCESS_URL);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
             //Redirection according to PRG Pattern
-            resp.sendRedirect("/unsuccessful_registration");
+            resp.sendRedirect(REGISTRATION_FAILURE_URL);
         }
 
         System.out.println("UserRegistrationServlet - DoGET method: " + LocalTime.now());

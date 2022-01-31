@@ -14,11 +14,17 @@
 <body>
 
 <%
-    String name = request.getParameter("login");
-    request.setAttribute("userName", name);
-    String email = request.getParameter("email");
-    request.setAttribute("email", email);
-    String errorFlag = (String) request.getAttribute("errorFlag");
+//    String name = request.getParameter("login");
+//    request.setAttribute("userName", name);
+//    String email = request.getParameter("email");
+//    request.setAttribute("email", email);
+
+    String login = (String) session.getAttribute("formLogin");
+
+    String email = (String) session.getAttribute("formEmail");
+
+    String errorFlag = (String) session.getAttribute("errorFlag");
+
 %>
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -35,12 +41,12 @@
             case "2":
         %>
         Username<br/>
-        ${userName}<br/>
+        <%= login%><br/>
         already exist
         <% break;
             case "3": %>
         Email address<br/>
-        ${email}<br/>
+        <%= email%><br/>
         already exist
         <%}%>
 

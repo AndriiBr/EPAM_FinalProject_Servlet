@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static ua.epam.final_project.util.JSPPathConstant.*;
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = "/unsuccessful_login")
-public class UnsuccessfulLoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = REGISTRATION_FAILURE_URL)
+public class RegistrationFailureServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(WRONG_LOG_PASS_PAGE).forward(req, resp);
+        req.getRequestDispatcher(REGISTRATION_FAILURE_PAGE).forward(req, resp);
     }
 }

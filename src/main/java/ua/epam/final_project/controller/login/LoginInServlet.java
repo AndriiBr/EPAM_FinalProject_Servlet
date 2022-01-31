@@ -14,8 +14,9 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 
 import static ua.epam.final_project.util.JSPPathConstant.*;
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = "/login")
+@WebServlet(urlPatterns = LOGIN_URL)
 public class LoginInServlet extends HttpServlet {
 
     @Override
@@ -45,10 +46,10 @@ public class LoginInServlet extends HttpServlet {
             session.setAttribute("login", login);
             session.setAttribute("role", user.getRole());
             //Redirection according to PRG Pattern
-            resp.sendRedirect("/successful_login");
+            resp.sendRedirect(LOGIN_SUCCESS_URL);
         } else {
             //Redirection according to PRG Pattern
-            resp.sendRedirect("/unsuccessful_login");
+            resp.sendRedirect(LOGIN_FAILURE_URL);
         }
         System.out.println("LogInServlet - DoPOST method: " + LocalTime.now());
     }
