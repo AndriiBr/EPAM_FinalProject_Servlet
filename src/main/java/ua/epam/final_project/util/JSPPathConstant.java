@@ -22,5 +22,7 @@ public final class JSPPathConstant {
     public static final String EDITION_LIST_PAGE = "/WEB-INF/view/cabinet_page/admin/edition_list_page.jsp";
     public static final String ADD_NEW_EDITION_PAGE = "/WEB-INF/view/cabinet_page/admin/add_new_edition_form.jsp";
     public static final String USER_LIST_PAGE = "/WEB-INF/view/cabinet_page/admin/user_list_page.jsp";
-    public static final String WALLET_PAGE = "/WEB-INF/view/cabinet_page/wallet_page.jsp";
+    public static final String WALLET_PAGE = "/WEB-INF/view/cabinet_page/wallet/wallet_page.jsp";
+    public static final String FILL_UP_WALLET_PAGE = "/WEB-INF/view/cabinet_page/wallet/fill_up_wallet_page.jsp";
+
 }

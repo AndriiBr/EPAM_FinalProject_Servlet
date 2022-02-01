@@ -5,7 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/frame_structure_style.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/fade_in_animation.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
@@ -14,18 +18,11 @@
 <body>
 
 <%
-//    String name = request.getParameter("login");
-//    request.setAttribute("userName", name);
-//    String email = request.getParameter("email");
-//    request.setAttribute("email", email);
-
     String login = (String) session.getAttribute("formLogin");
-
     String email = (String) session.getAttribute("formEmail");
-
     String errorFlag = (String) session.getAttribute("errorFlag");
-
 %>
+
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <div class="fadeIn first">

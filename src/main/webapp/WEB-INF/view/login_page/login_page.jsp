@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <head>
     <title>Login page</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/frame_structure_style.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/fade_in_animation.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/input_form_style.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/error_markers_style.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
+
     <%--    Font CDN Link for Icons--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>

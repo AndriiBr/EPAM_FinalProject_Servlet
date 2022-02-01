@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller;
+package ua.epam.final_project.controller.wallet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,19 +11,20 @@ import java.time.LocalTime;
 import static ua.epam.final_project.util.JSPPathConstant.*;
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = WALLET_URL)
-public class WalletServlet extends HttpServlet {
+@WebServlet(urlPatterns = FILL_UP_WALLET_URL)
+public class FillUpWalletServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(WALLET_PAGE).forward(req, resp);
 
-        System.out.println("WalletServlet - doGet method: " + LocalTime.now());
+        req.getRequestDispatcher(FILL_UP_WALLET_PAGE).forward(req, resp);
+
+        System.out.println("FillUpWalletServlet - doGet method: " + LocalTime.now());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("WalletServlet - doPOST method: " + LocalTime.now());
+        System.out.println("FillUpWalletServlet - doPOST method: " + LocalTime.now());
     }
 }

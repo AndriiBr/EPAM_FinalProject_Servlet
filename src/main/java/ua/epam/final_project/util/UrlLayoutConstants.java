@@ -17,6 +17,7 @@ public final class UrlLayoutConstants {
     public static final String USER_LIST_URL = "/cabinet/user_list";
     public static final String SUBSCRIPTION_LIST_URL = "/cabinet/subscriptions";
     public static final String WALLET_URL = "/cabinet/wallet";
+    public static final String FILL_UP_WALLET_URL = "/cabinet/wallet/fill_up";
 
     public static final String LOGIN_URL = "/login";
     public static final String LOGIN_SUCCESS_URL = "/login/successful_login";

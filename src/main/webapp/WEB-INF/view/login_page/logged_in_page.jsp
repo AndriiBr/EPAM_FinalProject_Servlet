@@ -5,7 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/frame_structure_style.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/fade_in_animation.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
