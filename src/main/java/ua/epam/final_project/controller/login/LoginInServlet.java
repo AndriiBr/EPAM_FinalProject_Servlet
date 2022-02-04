@@ -1,6 +1,11 @@
 package ua.epam.final_project.controller.login;
 
-import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.MySQLDaoFactory;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.util.user.User;
 
 import javax.servlet.ServletException;
@@ -27,8 +32,7 @@ public class LoginInServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final String login = req.getParameter("login");
         final String password = req.getParameter("password");
 
@@ -37,8 +41,9 @@ public class LoginInServlet extends HttpServlet {
         User user = null;
 
         try {
-            user = DBManager.getInstance().getUser(login, password);
-        } catch (SQLException e) {
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            user = daoFactory.getUserDao().findUserByLoginPassword(login, password);
+        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
 

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <title>Edition list</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/cabinet_page/admin/edition_list_page_style.css"
           type="text/css">

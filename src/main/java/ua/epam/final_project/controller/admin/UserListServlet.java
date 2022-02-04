@@ -1,6 +1,11 @@
 package ua.epam.final_project.controller.admin;
 
-import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.MySQLDaoFactory;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.util.user.User;
 
 import javax.servlet.ServletException;
@@ -21,7 +26,7 @@ import static ua.epam.final_project.util.UrlLayoutConstants.*;
 public class UserListServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         final HttpSession session = req.getSession();
         final String currentRole = (String)session.getAttribute("role");
 
@@ -31,11 +36,11 @@ public class UserListServlet extends HttpServlet {
         //only admin can access this page
         //other users will see a 404 error page
         if (currentRole.equals("1")) {
-            DBManager dbManager = DBManager.getInstance();
             try {
-                userList = dbManager.findAllUsers();
+                DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+                userList = daoFactory.getUserDao().findAllUsers();
                 req.setAttribute("userList", userList);
-            } catch (SQLException e) {
+            } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
                 e.printStackTrace();
             }
 

@@ -17,15 +17,15 @@ body{
 }
 
 .balance-bar{
-    background-color: #f6f6f6;
+    background-color: #c6f7c8;
     color: #0d0d0d;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 28px;
-    margin: 5px;
-    width: 35%;
+    margin: 5px 5px 25px 5px;
+    width: 65%;
     border: 1px solid #f6f6f6;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
@@ -34,4 +34,20 @@ body{
     transition: all 0.5s ease-in-out;
     -webkit-border-radius: 5px 5px 5px 5px;
     border-radius: 5px 5px 5px 5px;
+}
+
+input[type=text] {
+    width: 79%;
+}
+
+form .field .icon{
+    left: 55px;
+    top: 62%;
+    color: #bfbfbf;
+}
+
+form .field .icon-error{
+    right: 55px;
+    top: 62%;
+    color: #dc3545;
 }

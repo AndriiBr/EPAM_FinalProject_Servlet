@@ -4,7 +4,7 @@
 <!doctype html>
 <head>
     <title>Main page</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main_page/main_page_style.css" type="text/css">
 </head>

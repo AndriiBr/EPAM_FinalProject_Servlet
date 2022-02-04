@@ -1,6 +1,11 @@
 package ua.epam.final_project.controller.login;
 
-import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.MySQLDaoFactory;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.util.user.User;
 
 import javax.servlet.ServletException;
@@ -28,10 +33,16 @@ public class UserRegistrationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBManager dbManager = DBManager.getInstance();
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         List<User> userList = null;
         User user = null;
+        DaoFactory daoFactory = null;
+
+        try {
+            daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+        } catch (DataBaseNotSupportedException | DataBaseConnectionException e) {
+            e.printStackTrace();
+        }
 
         final HttpSession session = req.getSession();
 
@@ -43,7 +54,7 @@ public class UserRegistrationServlet extends HttpServlet {
         String errorFlag = "0";
 
         try {
-            userList = dbManager.findAllUsers();
+            userList = daoFactory.getUserDao().findAllUsers();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,7 +87,7 @@ public class UserRegistrationServlet extends HttpServlet {
         //Put new user into DB
         if (user != null) {
             try {
-                dbManager.insertUser(user);
+                daoFactory.getUserDao().insertUser(user);
                 //Automatically log-in after successful registration
                 logInUser(user, req);
                 //Redirection according to PRG Pattern
@@ -88,6 +99,7 @@ public class UserRegistrationServlet extends HttpServlet {
             //Redirection according to PRG Pattern
             resp.sendRedirect(REGISTRATION_FAILURE_URL);
         }
+
 
         System.out.println("UserRegistrationServlet - DoGET method: " + LocalTime.now());
     }

@@ -17,8 +17,7 @@
 <body>
 
 <%
-    String name = request.getParameter("login");
-    request.setAttribute("user", name);
+    String login = (String) session.getAttribute("login");
 %>
 
 <div class="wrapper fadeInDown">
@@ -28,7 +27,7 @@
             <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
         </div>
 
-        <h3>Account for ${user} was successfully created</h3>
+        <h3>Account for <%= login%> was successfully created</h3>
 
         <div id="formFooter">
             <a class="underlineHover" href="http://localhost:8080/">Go back to main page</a>

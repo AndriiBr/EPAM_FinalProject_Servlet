@@ -1,6 +1,10 @@
 package ua.epam.final_project.controller.admin;
 
-import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.MySQLDaoFactory;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -65,10 +69,10 @@ public class AddNewEditionServlet extends HttpServlet {
             }
         }
 
-        DBManager dbManager = DBManager.getInstance();
         try {
-            dbManager.insertNewEdition(editionTitle, imageUUID, price);
-        } catch (SQLException e) {
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            daoFactory.getEditionDao().insertNewEdition(editionTitle, imageUUID, price);
+        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
 

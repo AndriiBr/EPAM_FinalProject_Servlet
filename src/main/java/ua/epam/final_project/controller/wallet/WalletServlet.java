@@ -1,6 +1,11 @@
 package ua.epam.final_project.controller.wallet;
 
-import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.MySQLDaoFactory;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.util.user.User;
 
 import javax.servlet.ServletException;
@@ -25,11 +30,11 @@ public class WalletServlet extends HttpServlet {
         final String login = (String) session.getAttribute("login");
 
         User user = null;
-        DBManager dbManager = DBManager.getInstance();
 
         try {
-            user = dbManager.getUserByLogin(login);
-        } catch (SQLException e) {
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            user = daoFactory.getUserDao().findUserByLogin(login);
+        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
 
@@ -44,8 +49,7 @@ public class WalletServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        req.getRequestDispatcher(FILL_UP_WALLET_PAGE).forward(req, resp);
+        resp.sendRedirect(FILL_UP_WALLET_URL);
 
         System.out.println("WalletServlet - doPOST method: " + LocalTime.now());
     }

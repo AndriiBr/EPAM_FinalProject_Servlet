@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <title>Cabinet</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
           type="text/css">
 </head>
 <body>

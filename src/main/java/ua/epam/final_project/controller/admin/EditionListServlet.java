@@ -1,6 +1,9 @@
 package ua.epam.final_project.controller.admin;
 
-import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.edition.Edition;
 
 import javax.servlet.ServletException;
@@ -31,11 +34,11 @@ public class EditionListServlet extends HttpServlet {
         //only admin can access this page
         //other users will see a 404 error
         if (currentRole.equals("1")) {
-            DBManager dbManager = DBManager.getInstance();
             try {
-                editionList = dbManager.findAllEditions();
+                DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+                editionList = daoFactory.getEditionDao().findAllEditions();
                 req.setAttribute("editionList", editionList);
-            } catch (SQLException e) {
+            } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
                 e.printStackTrace();
             }
 

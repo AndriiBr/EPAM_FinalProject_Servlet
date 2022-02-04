@@ -34,6 +34,7 @@
             <!-- Login -->
             <div class="field login">
                 <div class="input-area">
+
                     <input type="text" id="login" class="fadeIn second" name="login" placeholder="Username">
                     <div class="fadeIn second">
                         <em class="icon fas fa-user"></em>

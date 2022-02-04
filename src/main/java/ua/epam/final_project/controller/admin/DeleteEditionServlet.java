@@ -1,6 +1,10 @@
 package ua.epam.final_project.controller.admin;
 
-import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.MySQLDaoFactory;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.DeleteImageFromExternalDirectory;
 import ua.epam.final_project.util.edition.Edition;
 
@@ -22,12 +26,19 @@ public class DeleteEditionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String editionTitle = req.getParameter("edition_title");
-        DBManager dbManager = DBManager.getInstance();
+
+        DaoFactory daoFactory = null;
+
+        try {
+            daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+        } catch (DataBaseNotSupportedException | DataBaseConnectionException e) {
+            e.printStackTrace();
+        }
 
         Edition edition = null;
 
         try {
-            edition = dbManager.getEditionByTitle(editionTitle);
+            edition = daoFactory.getEditionDao().getEditionByTitle(editionTitle);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -39,7 +50,7 @@ public class DeleteEditionServlet extends HttpServlet {
             //delete edition from DB
             //delete edition title image from external folder
             try {
-                dbManager.deleteEditionByTitle(editionTitle);
+                daoFactory.getEditionDao().deleteEditionByTitle(editionTitle);
                 DeleteImageFromExternalDirectory.delete(getExternalFolderPath(), fileName);
             } catch (SQLException e) {
                 e.printStackTrace();

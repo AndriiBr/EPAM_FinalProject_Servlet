@@ -1,6 +1,11 @@
 package ua.epam.final_project.controller;
 
-import ua.epam.final_project.database.DBManager;
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.MySQLDaoFactory;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.util.user.User;
 
 import javax.servlet.ServletException;
@@ -20,17 +25,16 @@ public class EditUserSettingsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBManager dbManager = DBManager.getInstance();
         final HttpSession session = req.getSession();
         final String login = (String) session.getAttribute("login");
 
         final User user;
 
         try {
-            user = dbManager.getUserByLogin(login);
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            user = daoFactory.getUserDao().findUserByLogin(login);
 
-
-        } catch (SQLException e) {
+        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
 

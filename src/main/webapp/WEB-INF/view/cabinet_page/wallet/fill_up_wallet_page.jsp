@@ -6,12 +6,15 @@
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/frame_structure_style.css"
           type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/fade_in_animation.css"
-          type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/input_form_style.css"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/error_markers_style.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/cabinet_page/wallet_page/wallet_page_style.css"
           type="text/css">
+
+    <%--    Font CDN Link for Icons--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 
@@ -40,22 +43,23 @@
                 <label id="balance">Поточний баланс: </label><br/>
                 <div class="fadeIn fourth">
                     <div class="balance-bar">
-                        <%= balance%> UAH-H
+                        <%= balance%> UAH
                     </div>
                 </div>
             </div>
         </div>
 
         <form method="post">
-            <div class="field password">
+            <div class="field money">
                 <div class="input-area">
+                    <label for="money">Поповнення поточного балансу</label><br/>
                     <input type="text" id="money" class="fadeIn third" name="money" placeholder="Enter amount">
                     <div class="fadeIn third">
-                        <em class="icon fas fa-lock"></em>
+                        <em class="icon fas fa-money-bill"></em>
                     </div>
                     <em class="error icon-error fas fa-exclamation-circle"></em>
                 </div>
-                <div class="error error-text">Password can`t be blank</div>
+                <div class="error error-text">Field can`t be blank</div>
             </div>
 
             <input type="submit" class="fadeIn fifth" value="Поповнити"/>
@@ -68,6 +72,8 @@
     </div>
 </div>
 
+<script src="${pageContext.request.contextPath}/js/wallet_page/functions/money_value_function_module.js"></script>
+<script src="${pageContext.request.contextPath}/js/wallet_page/fill_up_wallet_validator.js"></script>
 
 </body>
 </html>

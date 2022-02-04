@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>About us</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_background/background.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
           type="text/css">
     <link href="${pageContext.request.contextPath}/css/about_page/about_us_page_style.css" rel="stylesheet">
 </head>

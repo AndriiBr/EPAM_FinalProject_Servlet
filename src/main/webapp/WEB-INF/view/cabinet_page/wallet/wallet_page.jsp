@@ -20,7 +20,6 @@
     int balance = (Integer) session.getAttribute("balance");
 %>
 
-
 <div class="wrapper fadeInDown">
     <div id="formContent">
 
@@ -48,8 +47,7 @@
         </div>
 
         <form method="post">
-
-            <input type="submit" class="fadeIn fifth" value="Поповнити"/>
+            <input type="submit" class="fadeIn fifth" value="Поповнити баланс"/>
         </form>
 
 
