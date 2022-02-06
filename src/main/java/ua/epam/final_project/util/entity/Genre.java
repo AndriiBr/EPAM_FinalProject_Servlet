@@ -1,8 +1,8 @@
-package ua.epam.final_project.util.genre;
+package ua.epam.final_project.util.entity;
 
 import java.util.Map;
 
-public class GenreList {
+public class Genre {
     Map<Integer, String> genres;
 
     public Map<Integer, String> getGenreList() {

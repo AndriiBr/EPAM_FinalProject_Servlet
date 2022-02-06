@@ -1,4 +1,4 @@
-package ua.epam.final_project.util.user;
+package ua.epam.final_project.util.entity;
 
 public class User {
 
@@ -7,6 +7,7 @@ public class User {
     private String password;
     private String email;
     private String name = "no name";
+    private String userImage = "no image";
     private int balance;
     private String role;
 
@@ -49,6 +50,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 
     public int getBalance() {

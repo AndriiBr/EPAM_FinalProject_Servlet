@@ -32,19 +32,17 @@ public class SQLConnectionPool implements IConnectionPool {
         return new SQLConnectionPool(url, user, password, pool);
     }
 
-
     @Override
-    public Connection getConnection() throws SQLException {
+    public synchronized Connection getConnection() throws SQLException {
         if (connectionPool.isEmpty()) {
             connectionPool.add(createConnection(url, user, password));
         }
 
-        Connection connection = connectionPool.remove(connectionPool.size()-1);
-        return connection;
+        return connectionPool.remove(connectionPool.size()-1);
     }
 
     @Override
-    public boolean releaseConnection(Connection connection) {
+    public synchronized boolean releaseConnection(Connection connection) {
         connectionPool.add(connection);
         return connectionsInUse.remove(connection);
     }

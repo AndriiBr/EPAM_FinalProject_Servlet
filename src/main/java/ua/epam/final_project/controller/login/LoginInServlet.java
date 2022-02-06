@@ -2,11 +2,9 @@ package ua.epam.final_project.controller.login;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.dao.MySQLDaoFactory;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
-import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.util.user.User;
+import ua.epam.final_project.util.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +19,7 @@ import java.time.LocalTime;
 import static ua.epam.final_project.util.JSPPathConstant.*;
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = LOGIN_URL)
+@WebServlet(name = "login", urlPatterns = LOGIN_URL)
 public class LoginInServlet extends HttpServlet {
 
     @Override

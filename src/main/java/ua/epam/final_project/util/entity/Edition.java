@@ -1,10 +1,13 @@
-package ua.epam.final_project.util.edition;
+package ua.epam.final_project.util.entity;
+
+import java.util.List;
 
 public class Edition {
 
     private int id;
     private String title;
     private String imagePath;
+    private List<String> genres;
     private int price;
 
     public int getId() {
@@ -37,5 +40,13 @@ public class Edition {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 }

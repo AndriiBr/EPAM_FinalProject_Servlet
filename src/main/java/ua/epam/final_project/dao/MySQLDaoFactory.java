@@ -1,8 +1,6 @@
 package ua.epam.final_project.dao;
 
-import ua.epam.final_project.dao.realisation.EditionDao;
-import ua.epam.final_project.dao.realisation.SQLConnectionPool;
-import ua.epam.final_project.dao.realisation.UserDao;
+import ua.epam.final_project.dao.realisation.*;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 
 import java.io.*;
@@ -55,6 +53,16 @@ public class MySQLDaoFactory extends DaoFactory {
 
     public IEditionDao getEditionDao() {
         return new EditionDao(connectionPool);
+    }
+
+    @Override
+    public IGenreDao getGenreDao() {
+        return new GenreDao(connectionPool);
+    }
+
+    @Override
+    public IEditionGenreDao getEditionGenreDao() {
+        return new EditionGenreDao(connectionPool);
     }
 
     @Override

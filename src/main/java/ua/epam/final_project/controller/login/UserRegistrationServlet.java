@@ -2,11 +2,9 @@ package ua.epam.final_project.controller.login;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.dao.MySQLDaoFactory;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
-import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.util.user.User;
+import ua.epam.final_project.util.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +20,7 @@ import java.util.List;
 import static ua.epam.final_project.util.JSPPathConstant.*;
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = USER_REGISTRATION_URL)
+@WebServlet(name = "user_registration", urlPatterns = USER_REGISTRATION_URL)
 public class UserRegistrationServlet extends HttpServlet {
 
     @Override

@@ -2,7 +2,7 @@ package ua.epam.final_project.dao.realisation;
 
 import ua.epam.final_project.dao.IConnectionPool;
 import ua.epam.final_project.dao.IUserDao;
-import ua.epam.final_project.util.user.User;
+import ua.epam.final_project.util.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,6 +16,30 @@ public class UserDao implements IUserDao {
 
     public UserDao(IConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
+    }
+
+    @Override
+    public Integer getNumberOfUsers() throws SQLException {
+        int numberOfUsers = 0;
+        Connection con = null;
+        Statement statement =null;
+
+        try {
+            con = connectionPool.getConnection();
+            statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_USERS);
+
+            if (rs.next()) {
+                numberOfUsers = rs.getInt("rowcount");
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException();
+        } finally {
+            closeAllResources(con);
+            closeAllResources(statement);
+        }
+        return numberOfUsers;
     }
 
     /**
@@ -41,6 +65,33 @@ public class UserDao implements IUserDao {
             closeAllResources(statement);
         }
         return users;
+    }
+
+
+    @Override
+    public List<User> findAllUsersFromTo(int recordsPerPage, int page) throws SQLException {
+        List<User> list = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement statement = null;
+
+        try {
+            con = connectionPool.getConnection();
+            statement = con.prepareStatement(SQL_FIND_USERS_FROM_TO);
+            statement.setInt(1, recordsPerPage);
+            statement.setInt(2, (page - 1) * recordsPerPage);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                list.add(extractUser(rs));
+            }
+        } catch (SQLException e) {
+            throw new SQLException();
+        } finally {
+            closeAllResources(con);
+            closeAllResources(statement);
+        }
+        return list;
     }
 
     /**
@@ -152,6 +203,29 @@ public class UserDao implements IUserDao {
         return true;
     }
 
+    /**
+     * Delete user
+     */
+    @Override
+    public boolean deleteUserByLogin(String login) throws SQLException {
+        Connection con = null;
+        PreparedStatement statement = null;
+
+        try {
+            con = connectionPool.getConnection();
+            statement = con.prepareStatement(SQL_DELETE_USER_BY_LOGIN);
+            statement.setString(1, login);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        } finally {
+            closeAllResources(con);
+            closeAllResources(statement);
+        }
+
+        return true;
+    }
+
 
     /**
      * UTILITY METHOD
@@ -173,23 +247,33 @@ public class UserDao implements IUserDao {
         return user;
     }
 
+    /**
+     * UTILITY METHOD
+     * Release connection
+     */
     private void closeAllResources(Connection connection) {
         if (connection != null) {
             connectionPool.releaseConnection(connection);
         }
     }
 
+    /**
+     * UTILITY METHOD
+     * close statement
+     */
     private void closeAllResources(Statement statement) throws SQLException {
         if (statement != null) {
             statement.close();
         }
     }
 
+    /**
+     * UTILITY METHOD
+     * close prepared statement
+     */
     private void closeAllResources(PreparedStatement preparedStatement) throws SQLException {
         if (preparedStatement != null) {
             preparedStatement.close();
         }
     }
-
-
 }

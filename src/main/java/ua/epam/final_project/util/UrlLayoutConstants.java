@@ -15,6 +15,8 @@ public final class UrlLayoutConstants {
     public static final String DELETE_EDITION_URL = "/cabinet/edition_list/delete_edition";
 
     public static final String USER_LIST_URL = "/cabinet/user_list";
+    public static final String DELETE_USER_URL = "/cabinet/user_list/delete_user";
+
     public static final String SUBSCRIPTION_LIST_URL = "/cabinet/subscriptions";
     public static final String WALLET_URL = "/cabinet/wallet";
     public static final String FILL_UP_WALLET_URL = "/cabinet/wallet/fill_up";

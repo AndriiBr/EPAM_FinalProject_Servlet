@@ -1,14 +1,19 @@
 package ua.epam.final_project.dao.realisation;
 
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IConnectionPool;
 import ua.epam.final_project.dao.IEditionDao;
-import ua.epam.final_project.util.edition.Edition;
+import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.util.entity.Edition;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import static ua.epam.final_project.dao.SQLConstant.*;
@@ -18,6 +23,30 @@ public class EditionDao implements IEditionDao {
 
     public EditionDao(IConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
+    }
+
+    @Override
+    public Integer getNumberOfEditions() throws SQLException {
+        int numberOfEditions = 0;
+        Connection con = null;
+        Statement statement = null;
+
+        try {
+            con = connectionPool.getConnection();
+            statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_EDITIONS);
+
+            if (rs.next()) {
+                numberOfEditions = rs.getInt("rowcount");
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException();
+        } finally {
+            closeAllResources(con);
+            closeAllResources(statement);
+        }
+        return numberOfEditions;
     }
 
     @Override
@@ -38,14 +67,36 @@ public class EditionDao implements IEditionDao {
         } catch (SQLException e) {
             throw new SQLException(e);
         } finally {
-            if (con != null) {
-                connectionPool.releaseConnection(con);
-            }
-            if (statement != null) {
-                statement.close();
-            }
+            closeAllResources(con);
+            closeAllResources(statement);
         }
         return editions;
+    }
+
+    @Override
+    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page) throws SQLException {
+        List<Edition> list = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement statement = null;
+
+        try {
+            con = connectionPool.getConnection();
+            statement = con.prepareStatement(SQL_FIND_EDITIONS_FROM_TO);
+            statement.setInt(1, recordsPerPage);
+            statement.setInt(2, (page - 1) * recordsPerPage);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                list.add(extractEdition(rs));
+            }
+        } catch (SQLException e) {
+            throw new SQLException();
+        } finally {
+            closeAllResources(con);
+            closeAllResources(statement);
+        }
+        return list;
     }
 
     @Override
@@ -66,12 +117,8 @@ public class EditionDao implements IEditionDao {
         } catch (SQLException e) {
             throw new SQLException(e);
         } finally {
-            if (con != null) {
-                connectionPool.releaseConnection(con);
-            }
-            if (statement != null) {
-                statement.close();
-            }
+            closeAllResources(con);
+            closeAllResources(statement);
         }
         return null;
     }
@@ -110,12 +157,8 @@ public class EditionDao implements IEditionDao {
         } catch (SQLException e) {
             throw new SQLException(e);
         } finally {
-            if (con != null) {
-                connectionPool.releaseConnection(con);
-            }
-            if (statement != null) {
-                statement.close();
-            }
+            closeAllResources(con);
+            closeAllResources(statement);
         }
         return true;
     }
@@ -133,12 +176,8 @@ public class EditionDao implements IEditionDao {
         } catch (SQLException e) {
             throw new SQLException(e);
         } finally {
-            if (con != null) {
-                connectionPool.releaseConnection(con);
-            }
-            if (statement != null) {
-                statement.close();
-            }
+            closeAllResources(con);
+            closeAllResources(statement);
         }
         return true;
     }
@@ -153,10 +192,50 @@ public class EditionDao implements IEditionDao {
             edition.setId(rs.getInt("id"));
             edition.setTitle(rs.getString("title"));
             edition.setImagePath(rs.getString("title_image"));
+
+            List<String> result = new ArrayList<>();
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            List<Integer> genreId = daoFactory.getEditionGenreDao().getGenresToEditionById(edition.getId());
+            Map<Integer, String> genres = daoFactory.getGenreDao().findAllGenres();
+            for (Integer value: genreId) {
+                result.add(genres.get(value));
+            }
+
+            edition.setGenres(result);
             edition.setPrice(rs.getInt("price"));
-        } catch (SQLException e) {
+        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
             throw new SQLException(e);
         }
         return edition;
+    }
+
+    /**
+     * UTILITY METHOD
+     * Release connection
+     */
+    private void closeAllResources(Connection connection) {
+        if (connection != null) {
+            connectionPool.releaseConnection(connection);
+        }
+    }
+
+    /**
+     * UTILITY METHOD
+     * close statement
+     */
+    private void closeAllResources(Statement statement) throws SQLException {
+        if (statement != null) {
+            statement.close();
+        }
+    }
+
+    /**
+     * UTILITY METHOD
+     * close prepared statement
+     */
+    private void closeAllResources(PreparedStatement preparedStatement) throws SQLException {
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
     }
 }

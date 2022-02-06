@@ -19,7 +19,7 @@ button:hover {
 }
 
 /* Float cancel and delete buttons and add an equal width */
-.cancel, .delete-btn {
+.cancel, .delete-btn, .buy-btn {
     float: left;
     width: 50%;
 }
@@ -33,6 +33,10 @@ button:hover {
 /* Add a color to the delete button */
 .delete-btn {
     background-color: #f44336;
+}
+
+.buy-btn {
+    background-color: #04AA6D;
 }
 
 /* Add padding and center-align text to the container */

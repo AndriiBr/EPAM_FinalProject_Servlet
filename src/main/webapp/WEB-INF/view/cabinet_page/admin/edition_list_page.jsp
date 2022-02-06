@@ -20,6 +20,7 @@
     <tr>
         <th id="title">Назва</th>
         <th id="title_image">Обкладинка</th>
+        <th id="genres">Жанр</th>
         <th id="price">Ціна</th>
         <th id="delete_edition">Видалити</th>
     </tr>
@@ -33,6 +34,11 @@
             <td>
                 <img src="${title_image}" alt="${title}" width="150" height="200"
                      onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
+            </td>
+            <td>
+                <c:forEach items="${edition.genres}" var="genre">
+                    ${genre}<br/>
+                </c:forEach>
             </td>
             <td>${price}</td>
             <td>

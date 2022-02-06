@@ -4,7 +4,7 @@ import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
-import ua.epam.final_project.util.edition.Edition;
+import ua.epam.final_project.util.entity.Edition;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

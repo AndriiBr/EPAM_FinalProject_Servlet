@@ -2,11 +2,10 @@ package ua.epam.final_project.controller.admin;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.dao.MySQLDaoFactory;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.DeleteImageFromExternalDirectory;
-import ua.epam.final_project.util.edition.Edition;
+import ua.epam.final_project.util.entity.Edition;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +37,7 @@ public class DeleteEditionServlet extends HttpServlet {
         Edition edition = null;
 
         try {
+            assert daoFactory != null;
             edition = daoFactory.getEditionDao().getEditionByTitle(editionTitle);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,7 +55,6 @@ public class DeleteEditionServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
 
         resp.sendRedirect(EDITION_LIST_URL);
