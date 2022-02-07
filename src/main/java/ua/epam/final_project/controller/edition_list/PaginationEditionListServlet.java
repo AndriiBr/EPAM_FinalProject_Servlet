@@ -29,13 +29,15 @@ public class PaginationEditionListServlet extends HttpServlet {
         if(req.getParameter("page") != null) {
             page = Integer.parseInt(req.getParameter("page"));
         }
-        DaoFactory daoFactory = null;
+
         try {
-            daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
             assert daoFactory != null;
+            daoFactory.beginTransaction();
             list = daoFactory.getEditionDao().findAllEditionsFromTo(5,page);
             noOfRecords = daoFactory.getEditionDao().getNumberOfEditions();
-        } catch (DataBaseNotSupportedException | DataBaseConnectionException | SQLException e) {
+            daoFactory.commitTransaction();
+        } catch (DataBaseNotSupportedException | SQLException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
 

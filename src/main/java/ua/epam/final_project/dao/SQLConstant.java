@@ -11,7 +11,7 @@ public final class SQLConstant {
     public static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM user WHERE (login=?)";
     public static final String SQL_UPDATE_USER_BALANCE = "UPDATE user SET balance = ? where id = ?";
     public static final String SQL_INSERT_USER =
-            "INSERT INTO user (login, password, email, name, user_role_id) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO user (login, password, email, name, user_image, user_role_id) VALUES (?, ?, ?, ?, ?, ?)";
     public static final String SQL_DELETE_USER_BY_LOGIN = "DELETE FROM user WHERE login = ?";
 
     public static final String SQL_GET_NUMBER_OF_EDITIONS = "SELECT COUNT(*) AS rowcount FROM edition";

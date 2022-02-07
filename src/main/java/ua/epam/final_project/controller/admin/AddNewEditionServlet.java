@@ -72,7 +72,7 @@ public class AddNewEditionServlet extends HttpServlet {
         try {
             DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
             daoFactory.getEditionDao().insertNewEdition(editionTitle, imageUUID, price);
-        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
+        } catch (SQLException | DataBaseNotSupportedException e) {
             e.printStackTrace();
         }
 

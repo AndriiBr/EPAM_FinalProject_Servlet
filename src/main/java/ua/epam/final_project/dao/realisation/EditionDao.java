@@ -2,9 +2,7 @@ package ua.epam.final_project.dao.realisation;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.dao.IConnectionPool;
 import ua.epam.final_project.dao.IEditionDao;
-import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.Edition;
 
@@ -19,32 +17,24 @@ import java.util.Properties;
 import static ua.epam.final_project.dao.SQLConstant.*;
 
 public class EditionDao implements IEditionDao {
-    private final IConnectionPool connectionPool;
+    private final Connection connection;
 
-    public EditionDao(IConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+    public EditionDao(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
     public Integer getNumberOfEditions() throws SQLException {
         int numberOfEditions = 0;
-        Connection con = null;
-        Statement statement = null;
 
-        try {
-            con = connectionPool.getConnection();
-            statement = con.createStatement();
+        try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_EDITIONS);
 
             if (rs.next()) {
                 numberOfEditions = rs.getInt("rowcount");
             }
-
         } catch (SQLException e) {
             throw new SQLException();
-        } finally {
-            closeAllResources(con);
-            closeAllResources(statement);
         }
         return numberOfEditions;
     }
@@ -52,23 +42,14 @@ public class EditionDao implements IEditionDao {
     @Override
     public List<Edition> findAllEditions() throws SQLException {
         List<Edition> editions = new ArrayList<>();
-        Connection con = null;
-        Statement statement = null;
 
-        try {
-            con = connectionPool.getConnection();
-
-            statement = con.createStatement();
+        try (Statement statement = connection.createStatement();) {
             ResultSet rs = statement.executeQuery(SQL_FIND_ALL_EDITIONS);
             while (rs.next()) {
                 editions.add(extractEdition(rs));
             }
-
         } catch (SQLException e) {
             throw new SQLException(e);
-        } finally {
-            closeAllResources(con);
-            closeAllResources(statement);
         }
         return editions;
     }
@@ -76,15 +57,10 @@ public class EditionDao implements IEditionDao {
     @Override
     public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page) throws SQLException {
         List<Edition> list = new ArrayList<>();
-        Connection con = null;
-        PreparedStatement statement = null;
 
-        try {
-            con = connectionPool.getConnection();
-            statement = con.prepareStatement(SQL_FIND_EDITIONS_FROM_TO);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITIONS_FROM_TO);) {
             statement.setInt(1, recordsPerPage);
             statement.setInt(2, (page - 1) * recordsPerPage);
-
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
@@ -92,21 +68,14 @@ public class EditionDao implements IEditionDao {
             }
         } catch (SQLException e) {
             throw new SQLException();
-        } finally {
-            closeAllResources(con);
-            closeAllResources(statement);
         }
         return list;
     }
 
     @Override
     public Edition getEditionByTitle(String title) throws SQLException {
-        Connection con = null;
-        PreparedStatement statement = null;
 
-        try {
-            con = connectionPool.getConnection();
-            statement = con.prepareStatement(SQL_FIND_EDITION_BY_TITLE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITION_BY_TITLE);) {
             statement.setString(1, title);
 
             try (ResultSet rs = statement.executeQuery()) {
@@ -116,15 +85,15 @@ public class EditionDao implements IEditionDao {
             }
         } catch (SQLException e) {
             throw new SQLException(e);
-        } finally {
-            closeAllResources(con);
-            closeAllResources(statement);
         }
         return null;
     }
 
+
     @Override
     public boolean insertNewEdition(String title, String imagePath, String price) throws SQLException {
+        //ToDo
+        // Change image assigment when no image available
         String newImagePath = "";
 
         String imageFolderName = "image_folder.properties";
@@ -143,12 +112,8 @@ public class EditionDao implements IEditionDao {
             e.printStackTrace();
         }
 
-        Connection con = null;
-        PreparedStatement statement = null;
-
-        try {
-            con = connectionPool.getConnection();
-            statement = con.prepareStatement(SQL_INSERT_EDITION);
+        //Add new edition into DB
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_EDITION)) {
             statement.setString(1, title);
             //insert path to image into DB
             statement.setString(2, newImagePath);
@@ -156,28 +121,17 @@ public class EditionDao implements IEditionDao {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException(e);
-        } finally {
-            closeAllResources(con);
-            closeAllResources(statement);
         }
         return true;
     }
 
     @Override
     public boolean deleteEditionByTitle(String title) throws SQLException {
-        Connection con = null;
-        PreparedStatement statement = null;
-        try {
-            con = connectionPool.getConnection();
-            statement = con.prepareStatement(SQL_DELETE_EDITION_BY_TITLE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_EDITION_BY_TITLE)) {
             statement.setString(1, title);
             statement.executeUpdate();
-
         } catch (SQLException e) {
             throw new SQLException(e);
-        } finally {
-            closeAllResources(con);
-            closeAllResources(statement);
         }
         return true;
     }
@@ -203,39 +157,9 @@ public class EditionDao implements IEditionDao {
 
             edition.setGenres(result);
             edition.setPrice(rs.getInt("price"));
-        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
+        } catch (SQLException | DataBaseNotSupportedException e) {
             throw new SQLException(e);
         }
         return edition;
-    }
-
-    /**
-     * UTILITY METHOD
-     * Release connection
-     */
-    private void closeAllResources(Connection connection) {
-        if (connection != null) {
-            connectionPool.releaseConnection(connection);
-        }
-    }
-
-    /**
-     * UTILITY METHOD
-     * close statement
-     */
-    private void closeAllResources(Statement statement) throws SQLException {
-        if (statement != null) {
-            statement.close();
-        }
-    }
-
-    /**
-     * UTILITY METHOD
-     * close prepared statement
-     */
-    private void closeAllResources(PreparedStatement preparedStatement) throws SQLException {
-        if (preparedStatement != null) {
-            preparedStatement.close();
-        }
     }
 }

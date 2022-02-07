@@ -38,7 +38,7 @@ public class UserRegistrationServlet extends HttpServlet {
 
         try {
             daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-        } catch (DataBaseNotSupportedException | DataBaseConnectionException e) {
+        } catch (DataBaseNotSupportedException e) {
             e.printStackTrace();
         }
 

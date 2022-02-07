@@ -2,67 +2,114 @@ package ua.epam.final_project.dao.realisation;
 
 import ua.epam.final_project.dao.IConnectionPool;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class SQLConnectionPool implements IConnectionPool {
-    private final String url;
-    private final String user;
-    private final String password;
+    private static final String URL;
+    private static final String USER;
+    private static final String PASSWORD;
+    private static final String DRIVER;
+    private static IConnectionPool connectionPool;
 
-    private final List<Connection> connectionPool;
+    private final List<Connection> connectionsAvailable;
     private final List<Connection> connectionsInUse = new ArrayList<>();
-    private static final int CONNECTION_POOL_SIZE = 5;
+    private static final int CONNECTION_POOL_SIZE = 10;
 
-    private SQLConnectionPool(String url, String user, String password, List<Connection> pool) {
-        this.url = url;
-        this.user = user;
-        this.password = password;
-        this.connectionPool = pool;
+    static {
+        String resourceName = "database_url.properties";
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+
+        try (InputStream resourceStream = loader.getResourceAsStream(resourceName)) {
+            properties.load(resourceStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        URL = properties.getProperty("jdbc.url");
+        USER = properties.getProperty("jdbc.user");
+        PASSWORD = properties.getProperty("jdbc.password");
+        DRIVER = properties.getProperty("jdbc.driver");
+
+        try {
+            Class.forName(DRIVER);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static SQLConnectionPool create(String url, String user, String password) throws SQLException {
+    /**
+     * Hidden private constructor
+     */
+    private SQLConnectionPool(List<Connection> pool) {
+        connectionsAvailable = pool;
+        System.out.println("<<<< SQLConnectionPool was created >>>>");
+    }
+
+    /**
+     *
+     * @return connectionPool instance
+     */
+    public static synchronized IConnectionPool getInstance() {
+        if (connectionPool == null) {
+            connectionPool = create(URL, USER, PASSWORD);
+        }
+        return connectionPool;
+    }
+
+    public static SQLConnectionPool create(String url, String user, String password) {
         List<Connection> pool = new ArrayList<>(CONNECTION_POOL_SIZE);
         for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
             pool.add(createConnection(url, user, password));
         }
-        return new SQLConnectionPool(url, user, password, pool);
+        return new SQLConnectionPool(pool);
     }
 
     @Override
-    public synchronized Connection getConnection() throws SQLException {
-        if (connectionPool.isEmpty()) {
-            connectionPool.add(createConnection(url, user, password));
+    public synchronized Connection getConnection() {
+        if (connectionsAvailable.isEmpty()) {
+            connectionsAvailable.add(createConnection(URL, USER, PASSWORD));
         }
 
-        return connectionPool.remove(connectionPool.size()-1);
+        return connectionsAvailable.remove(connectionsAvailable.size() - 1);
     }
 
     @Override
     public synchronized boolean releaseConnection(Connection connection) {
-        connectionPool.add(connection);
+        connectionsAvailable.add(connection);
         return connectionsInUse.remove(connection);
     }
 
     @Override
     public String getUrl() {
-        return this.url;
+        return URL;
     }
 
     @Override
     public String getUser() {
-        return this.user;
+        return USER;
     }
 
     @Override
     public String getPassword() {
-        return this.password;
+        return PASSWORD;
     }
 
-    private static Connection createConnection(String url, String user, String password) throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+    private static Connection createConnection(String url, String user, String password) {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return connection;
     }
 }

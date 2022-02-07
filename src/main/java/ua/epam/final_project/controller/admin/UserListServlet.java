@@ -38,7 +38,7 @@ public class UserListServlet extends HttpServlet {
                 DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
                 userList = daoFactory.getUserDao().findAllUsers();
                 req.setAttribute("userList", userList);
-            } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
+            } catch (SQLException | DataBaseNotSupportedException e) {
                 e.printStackTrace();
             }
 

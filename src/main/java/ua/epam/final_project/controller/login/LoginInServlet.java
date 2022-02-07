@@ -41,7 +41,7 @@ public class LoginInServlet extends HttpServlet {
         try {
             DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
             user = daoFactory.getUserDao().findUserByLoginPassword(login, password);
-        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
+        } catch (SQLException | DataBaseNotSupportedException e) {
             e.printStackTrace();
         }
 

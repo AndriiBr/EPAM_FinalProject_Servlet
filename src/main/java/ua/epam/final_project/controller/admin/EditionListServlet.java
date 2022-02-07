@@ -38,7 +38,7 @@ public class EditionListServlet extends HttpServlet {
                 DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
                 editionList = daoFactory.getEditionDao().findAllEditions();
                 req.setAttribute("editionList", editionList);
-            } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
+            } catch (SQLException | DataBaseNotSupportedException e) {
                 e.printStackTrace();
             }
 

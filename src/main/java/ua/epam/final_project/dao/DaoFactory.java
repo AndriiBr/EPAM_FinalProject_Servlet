@@ -31,18 +31,6 @@ public abstract class DaoFactory {
     public abstract IEditionGenreDao getEditionGenreDao();
 
     /**
-     * Opens connection to Data Source
-     * @throws DataBaseConnectionException if unable to open connection
-     */
-    public abstract void openConnection() throws DataBaseConnectionException;
-
-    /**
-     * Closes connection to Data Source
-     * @throws DataBaseConnectionException if unable to close connection
-     */
-    public abstract void closeConnection() throws DataBaseConnectionException;
-
-    /**
      * Opens DB data transaction
      * @throws DataBaseConnectionException if unable to open data transaction
      */
@@ -60,12 +48,10 @@ public abstract class DaoFactory {
      */
     public abstract void rollbackTransaction() throws DataBaseConnectionException;
 
-    public static DaoFactory getDaoFactory(DataBaseSelector dataBase) throws
-            DataBaseNotSupportedException,
-            DataBaseConnectionException {
+    public static DaoFactory getDaoFactory(DataBaseSelector dataBase) throws DataBaseNotSupportedException {
         switch (dataBase) {
             case MY_SQL:
-                return MySQLDaoFactory.getInstance();
+                return new MySQLDaoFactory();
             case ORACLE:
                 throw new DataBaseNotSupportedException(dataBase.toString());
             default:
