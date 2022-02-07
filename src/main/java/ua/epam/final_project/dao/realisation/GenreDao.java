@@ -34,7 +34,7 @@ public class GenreDao implements IGenreDao {
     public Map<Integer, String> findAllGenres() throws SQLException {
         Map<Integer, String > genres = new HashMap<>();
 
-        try (Statement statement = connection.createStatement();) {
+        try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(SQL_FIND_ALL_GENRES);
             while (rs.next()) {
                 genres.put(rs.getInt("id"), rs.getString("name"));
@@ -43,5 +43,20 @@ public class GenreDao implements IGenreDao {
             throw new SQLException(e);
         }
         return genres;
+    }
+
+    @Override
+    public int findGenreIdByName(String genre) throws SQLException {
+        int genreId = 0;
+        
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_GENRE_WHERE)) {
+            statement.setString(1, genre);
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                genreId = rs.getInt("id");
+            }
+        }
+        return genreId;
     }
 }

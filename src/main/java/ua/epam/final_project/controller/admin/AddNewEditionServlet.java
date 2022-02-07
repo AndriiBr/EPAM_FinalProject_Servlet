@@ -2,7 +2,6 @@ package ua.epam.final_project.controller.admin;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.dao.MySQLDaoFactory;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 
@@ -71,12 +70,14 @@ public class AddNewEditionServlet extends HttpServlet {
 
         try {
             DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            daoFactory.beginTransaction();
             daoFactory.getEditionDao().insertNewEdition(editionTitle, imageUUID, price);
-        } catch (SQLException | DataBaseNotSupportedException e) {
+            daoFactory.commitTransaction();
+        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
 
-        resp.sendRedirect(EDITION_LIST_URL);
+        resp.sendRedirect(MAIN_EDITION_LIST_URL);
         System.out.println("AddNewEditionServlet - DoPOST method: " + LocalTime.now());
     }
 }

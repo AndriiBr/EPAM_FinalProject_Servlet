@@ -13,6 +13,8 @@ public interface IEditionDao {
 
     List<Edition> findAllEditionsFromTo(int recordsPerPage, int page) throws SQLException;
 
+    List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String orderBy) throws SQLException;
+
     Edition getEditionByTitle(String title) throws SQLException;
 
     boolean insertNewEdition(String title, String imagePath, String price) throws SQLException;

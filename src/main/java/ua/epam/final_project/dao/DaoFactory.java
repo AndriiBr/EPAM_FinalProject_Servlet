@@ -25,12 +25,6 @@ public abstract class DaoFactory {
     public abstract IGenreDao getGenreDao();
 
     /**
-     * Creates Edition-Genre DAO
-     * @return Edition-Genre Genre DAO
-     */
-    public abstract IEditionGenreDao getEditionGenreDao();
-
-    /**
      * Opens DB data transaction
      * @throws DataBaseConnectionException if unable to open data transaction
      */

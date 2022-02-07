@@ -17,15 +17,16 @@ public final class SQLConstant {
     public static final String SQL_GET_NUMBER_OF_EDITIONS = "SELECT COUNT(*) AS rowcount FROM edition";
     public static final String SQL_FIND_ALL_EDITIONS = "SELECT * FROM edition";
     public static final String SQL_FIND_EDITIONS_FROM_TO = "SELECT * FROM edition LIMIT ? OFFSET ?";
+    public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO = "SELECT * FROM edition ORDER BY ? LIMIT ? OFFSET ?";
+    public static final String SQL_FIND_EDITIONS_FROM_TO_WHERE = "SELECT * FROM edition ORDER BY ? LIMIT ? OFFSET ?";
+
     public static final String SQL_FIND_EDITION_BY_TITLE = "SELECT * FROM edition WHERE (title=?)";
     public static final String SQL_INSERT_EDITION = "INSERT INTO edition (title, title_image, price) VALUES (?, ?, ?)";
     public static final String SQL_DELETE_EDITION_BY_TITLE = "DELETE FROM edition WHERE (title=?)";
 
     public static final String SQL_GET_NUMBER_OF_GENRES = "SELECT COUNT(*) AS rowcount FROM genre";
     public static final String SQL_FIND_ALL_GENRES = "SELECT * FROM genre";
+    public static final String SQL_FIND_GENRE_WHERE = "SELECT * FROM genre WHERE name = ?";
 
-    public static final String SQL_FIND_ALL_EDITION_GENRES = "SELECT * FROM edition_genre";
-    public static final String SQL_FIND_ALL_EDITION_GENRES_BY_EDITION_ID =
-            "SELECT * FROM edition_genre WHERE edition_id = ?";
 
 }

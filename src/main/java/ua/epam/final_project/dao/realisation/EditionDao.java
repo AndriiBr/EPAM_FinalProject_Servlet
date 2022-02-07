@@ -73,6 +73,31 @@ public class EditionDao implements IEditionDao {
     }
 
     @Override
+    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String orderBy) throws SQLException {
+        List<Edition> list = new ArrayList<>();
+        String order = orderBy;
+
+        if (order.equals("")) {
+            order = "id";
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITIONS_ORDER_BY_FROM_TO)) {
+            statement.setString(1, order);
+            statement.setInt(2, recordsPerPage);
+            statement.setInt(3, (page - 1) * recordsPerPage);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                list.add(extractEdition(rs));
+            }
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+
+        return list;
+    }
+
+    @Override
     public Edition getEditionByTitle(String title) throws SQLException {
 
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITION_BY_TITLE);) {
@@ -146,18 +171,9 @@ public class EditionDao implements IEditionDao {
             edition.setId(rs.getInt("id"));
             edition.setTitle(rs.getString("title"));
             edition.setImagePath(rs.getString("title_image"));
-
-            List<String> result = new ArrayList<>();
-            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-            List<Integer> genreId = daoFactory.getEditionGenreDao().getGenresToEditionById(edition.getId());
-            Map<Integer, String> genres = daoFactory.getGenreDao().findAllGenres();
-            for (Integer value: genreId) {
-                result.add(genres.get(value));
-            }
-
-            edition.setGenres(result);
+            edition.setGenreId(rs.getInt("genre_id"));
             edition.setPrice(rs.getInt("price"));
-        } catch (SQLException | DataBaseNotSupportedException e) {
+        } catch (SQLException e) {
             throw new SQLException(e);
         }
         return edition;

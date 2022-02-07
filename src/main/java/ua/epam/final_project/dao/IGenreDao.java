@@ -10,4 +10,6 @@ public interface IGenreDao {
     Integer getNumberOfGenres() throws SQLException;
 
     Map<Integer, String> findAllGenres() throws SQLException;
+
+    int findGenreIdByName(String name) throws SQLException;
 }

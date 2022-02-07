@@ -17,7 +17,7 @@
 <% if (role.equals("1")) {%>
 <h1>Кабінет адміністратора: <%= login%></h1>
 <a href="http://localhost:8080/cabinet/user_settings">Налаштування</a><br/>
-<a href="http://localhost:8080/cabinet/edition_list">Список видань</a><br/>
+<a href="http://localhost:8080/edition_list">Список видань</a><br/>
 <a href="http://localhost:8080/cabinet/user_list">Список користувачів</a><br/>
 <a href="http://localhost:8080/cabinet/wallet">Гаманець</a><br/>
 <%} else if (role.equals("2")) {%>

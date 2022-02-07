@@ -10,9 +10,10 @@ public final class UrlLayoutConstants {
 
     public static final String CABINET_URL = "/cabinet";
     public static final String USER_SETTINGS_URL = "/cabinet/user_settings";
-    public static final String EDITION_LIST_URL = "/cabinet/edition_list";
-    public static final String ADD_NEW_EDITION_URL = "/cabinet/edition_list/add_new_edition";
-    public static final String DELETE_EDITION_URL = "/cabinet/edition_list/delete_edition";
+    public static final String MAIN_EDITION_LIST_URL = "/edition_list";
+    public static final String ADD_NEW_EDITION_URL = "/edition_list/add_new_edition";
+    public static final String DELETE_EDITION_URL = "/edition_list/delete_edition";
+    public static final String BUY_EDITION_URL = "/edition_list/buy_edition";
 
     public static final String USER_LIST_URL = "/cabinet/user_list";
     public static final String DELETE_USER_URL = "/cabinet/user_list/delete_user";

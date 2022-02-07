@@ -15,7 +15,7 @@
 <br/>
 
 <a href="http://localhost:8080/about">Про нас</a><br/>
-<a href="http://localhost:8080/main_edition_list">Видання</a><br/>
+<a href="http://localhost:8080/edition_list">Видання</a><br/>
 
 <% if (session.getAttribute("login") != null) { %>
 <% request.setAttribute("login", session.getAttribute("login"));%>

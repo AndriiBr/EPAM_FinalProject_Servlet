@@ -1,13 +1,11 @@
 package ua.epam.final_project.util.entity;
 
-import java.util.List;
-
 public class Edition {
 
     private int id;
     private String title;
     private String imagePath;
-    private List<String> genres;
+    private int genreId;
     private int price;
 
     public int getId() {
@@ -42,11 +40,11 @@ public class Edition {
         this.price = price;
     }
 
-    public List<String> getGenres() {
-        return genres;
+    public int getGenreId() {
+        return genreId;
     }
 
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
+    public void setGenreId(int genreId) {
+        this.genreId = genreId;
     }
 }

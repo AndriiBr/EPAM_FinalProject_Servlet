@@ -6,6 +6,7 @@ import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.DeleteImageFromExternalDirectory;
 import ua.epam.final_project.util.entity.Edition;
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,8 +17,6 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.Properties;
-
-import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
 @WebServlet(urlPatterns = DELETE_EDITION_URL)
 public class DeleteEditionServlet extends HttpServlet {
@@ -50,14 +49,16 @@ public class DeleteEditionServlet extends HttpServlet {
             //delete edition from DB
             //delete edition title image from external folder
             try {
+                daoFactory.beginTransaction();
                 daoFactory.getEditionDao().deleteEditionByTitle(editionTitle);
+                daoFactory.commitTransaction();
                 DeleteImageFromExternalDirectory.delete(getExternalFolderPath(), fileName);
-            } catch (SQLException e) {
+            } catch (SQLException | DataBaseConnectionException e) {
                 e.printStackTrace();
             }
         }
 
-        resp.sendRedirect(EDITION_LIST_URL);
+        resp.sendRedirect(MAIN_EDITION_LIST_URL);
 
         System.out.println("DeleteEditionServlet - doPOST method: " + LocalTime.now());
     }

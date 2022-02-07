@@ -62,8 +62,4 @@ public class MySQLDaoFactory extends DaoFactory {
         return new GenreDao(this.connection);
     }
 
-    @Override
-    public IEditionGenreDao getEditionGenreDao() {
-        return new EditionGenreDao(this.connection);
-    }
 }
