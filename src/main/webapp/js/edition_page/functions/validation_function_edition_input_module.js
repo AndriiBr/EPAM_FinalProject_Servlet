@@ -35,12 +35,8 @@ function checkPrice() {
 
 function checkGenre() {
     //if price is empty
-    if (genreInput.value === "" || genreInput.value === "Choose a genre") {
+    if (genreInput.value === "Choose a genre") {
         genreField.classList.add("error");
-        let errorText = genreField.querySelector(".error-text");
-        (genreInput.value === "" || genreInput.value === "Choose a genre")
-            ? errorText.innerText = "Please select a valid genre"
-            : errorText.innerText = "Please select a genre";
     } else {
         genreField.classList.remove("error");
     }

@@ -1,9 +1,6 @@
 package ua.epam.final_project.dao.realisation;
 
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IEditionDao;
-import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.Edition;
 
 import java.io.IOException;
@@ -11,7 +8,6 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import static ua.epam.final_project.dao.SQLConstant.*;
@@ -116,34 +112,13 @@ public class EditionDao implements IEditionDao {
 
 
     @Override
-    public boolean insertNewEdition(String title, String imagePath, int genreId, String price) throws SQLException {
-        //ToDo
-        // Change image assigment when no image available
-        String newImagePath = "";
-
-        String imageFolderName = "image_folder.properties";
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Properties prop = new Properties();
-
-        try (InputStream resourceStream = loader.getResourceAsStream(imageFolderName)) {
-            prop.load(resourceStream);
-
-            if (imagePath.equals("no image")) {
-                newImagePath = imagePath;
-            } else {
-                newImagePath = prop.getProperty("title_image_folder") + imagePath;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Add new edition into DB
+    public boolean insertNewEdition(Edition edition) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_EDITION)) {
-            statement.setString(1, title);
+            statement.setString(1, edition.getTitle());
             //insert path to image into DB
-            statement.setString(2, newImagePath);
-            statement.setInt(3, genreId);
-            statement.setString(4, String.valueOf(price));
+            statement.setString(2, edition.getImagePath());
+            statement.setInt(3, edition.getGenreId());
+            statement.setInt(4, edition.getPrice());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException(e);

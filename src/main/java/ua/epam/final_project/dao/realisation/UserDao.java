@@ -118,8 +118,6 @@ public class UserDao implements IUserDao {
      * Insert new user into database
      */
     public boolean insertUser(User user) throws SQLException {
-
-
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER)) {
             if (findUserByLogin(user.getLogin()) != null) {
                 return false;

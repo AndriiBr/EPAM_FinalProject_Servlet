@@ -20,7 +20,7 @@ priceInput.onkeyup = () => {
 }
 
 //If user entered any character in password field this event will be triggered
-genreInput.onkeyup = () => {
+genreInput.onchange = () => {
     checkGenre();
 }
 
@@ -46,7 +46,7 @@ form.onsubmit = (e) => {
     }
 
     //If genre is empty
-    if (genreInput.value === "" || genreInput.value === "Choose a genre") {
+    if (genreInput.value === "Choose a genre") {
         genreField.classList.add("shake", "error");
     } else {
         //Function to validate genre

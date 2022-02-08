@@ -12,6 +12,9 @@ public final class UrlLayoutConstants {
     public static final String USER_SETTINGS_URL = "/cabinet/user_settings";
     public static final String MAIN_EDITION_LIST_URL = "/edition_list";
     public static final String ADD_NEW_EDITION_URL = "/edition_list/add_new_edition";
+    public static final String ADD_NEW_EDITION_FAILURE_URL = "/edition_list/add_new_edition/failure";
+    public static final String ADD_NEW_EDITION_SUCCESS_URL = "/edition_list/add_new_edition/success";
+
     public static final String DELETE_EDITION_URL = "/edition_list/delete_edition";
     public static final String BUY_EDITION_URL = "/edition_list/buy_edition";
 
@@ -31,6 +34,5 @@ public final class UrlLayoutConstants {
     public static final String REGISTRATION_FAILURE_URL = "/new_account/unsuccessful_registration";
 
     public static final String LOGOUT_URL = "/logout";
-
 
 }

@@ -4,6 +4,7 @@ import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.util.entity.Edition;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -31,7 +32,7 @@ public class AddNewEditionServlet extends HttpServlet {
 
         if (currentRole.equals("1")) {
             List<String> genres = null;
-            Map<Integer, String> genreMap = null;
+            Map<Integer, String> genreMap;
             try {
                 DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
                 daoFactory.beginTransaction();
@@ -52,23 +53,36 @@ public class AddNewEditionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        final HttpSession session = req.getSession();
+        DaoFactory daoFactory;
+
         String editionTitle = "";
         String imageUUID = "";
         String price = "";
         int genreId = 0;
+        Edition edition = null;
+
         Map<Integer, String> genreMap = null;
 
+        //Error flag to catch different errors in the user input data:
+        //         * 0 - everything correct
+        //         * 1 - title is already exist
+        String newEditionErrorFlag = "0";
+        List<Edition> editionList = null;
+
         try {
-            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
             daoFactory.beginTransaction();
             genreMap = daoFactory.getGenreDao().findAllGenres();
+            editionList = daoFactory.getEditionDao().findAllEditions();
             daoFactory.commitTransaction();
         } catch (DataBaseNotSupportedException | SQLException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
 
+        //Read input data from the html-form
         for (Part part : req.getParts()) {
-            if (part.getName().equals("edition-title")) {
+            if (part.getName().equals("title")) {
                 InputStream inputStream = part.getInputStream();
                 InputStreamReader isr = new InputStreamReader(inputStream);
                 editionTitle = new BufferedReader(isr)
@@ -97,16 +111,38 @@ public class AddNewEditionServlet extends HttpServlet {
             }
         }
 
-        try {
-            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-            daoFactory.beginTransaction();
-            daoFactory.getEditionDao().insertNewEdition(editionTitle, imageUUID, genreId, price);
-            daoFactory.commitTransaction();
-        } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
-            e.printStackTrace();
+        //Validate input data before insert new edition in DB.
+        String finalEditionTitle = editionTitle;
+        if (editionList != null && editionList.stream().anyMatch(x -> x.getTitle().equals(finalEditionTitle))) {
+            newEditionErrorFlag = "1";
+            session.setAttribute("editionTitle", finalEditionTitle);
+        }
+        session.setAttribute("editionErrorFlag", newEditionErrorFlag);
+
+
+        if (newEditionErrorFlag.equals("0")) {
+            edition = new Edition();
+            edition.setTitle(editionTitle);
+            edition.setImagePath(getAbsoluteImagePath(imageUUID));
+            edition.setGenreId(genreId);
+            edition.setPrice(Integer.parseInt(price));
+            session.setAttribute("newEdition", edition);
         }
 
-        resp.sendRedirect(MAIN_EDITION_LIST_URL);
+        if (edition != null) {
+            try {
+                daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+                daoFactory.beginTransaction();
+                daoFactory.getEditionDao().insertNewEdition(edition);
+                daoFactory.commitTransaction();
+                resp.sendRedirect(ADD_NEW_EDITION_SUCCESS_URL);
+            } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
+                e.printStackTrace();
+            }
+        } else {
+            resp.sendRedirect(ADD_NEW_EDITION_FAILURE_URL);
+        }
+
         System.out.println("AddNewEditionServlet - DoPOST method: " + LocalTime.now());
     }
 
@@ -117,5 +153,26 @@ public class AddNewEditionServlet extends HttpServlet {
             }
         }
         return null;
+    }
+
+    private String getAbsoluteImagePath(String imagePath) {
+        String newImagePath = "";
+
+        String imageFolderName = "image_folder.properties";
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        Properties prop = new Properties();
+
+        try (InputStream resourceStream = loader.getResourceAsStream(imageFolderName)) {
+            prop.load(resourceStream);
+
+            if (imagePath.equals("no image")) {
+                newImagePath = imagePath;
+            } else {
+                newImagePath = prop.getProperty("title_image_folder") + imagePath;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return newImagePath;
     }
 }
