@@ -1,4 +1,3 @@
-<%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -7,7 +6,7 @@
     <title>Main edition list</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
           type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/cabinet_page/admin/edition_list_page_style.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/edition_page/edition_list_page_style.css"
           type="text/css">
 </head>
 <body>
@@ -62,7 +61,8 @@
                 <c:out value="${requestScope.genreMap.get(key)}"/>
             </td>
             <td>${edition.price}</td>
-                <%--Buy button--%>
+            <%--Buy button.
+            Available only for registered users and admin--%>
             <% if (role.equals("1") || role.equals("2")) {%>
             <td>
                 <button onclick="document.getElementById('${edition.title}').style.display='block'">Buy</button>
@@ -92,6 +92,9 @@
                 </div>
             </td>
             <%}%>
+
+            <%--Delete button
+            Available only for admin--%>
             <% if (role.equals("1")) {%>
             <td>
                 <button onclick="document.getElementById('${edition.title}2').style.display='block'">Delete edition
@@ -127,13 +130,12 @@
     </c:forEach>
 </table>
 
-<%--For displaying Previous link except for the 1st page --%>
+<%--For displaying Previous link except 1st page --%>
 <c:if test="${requestScope.currentPage != 1}">
     <td><a href="http://localhost:8080/edition_list?page=${requestScope.currentPage - 1}">Previous</a></td>
 </c:if>
 
-<%--For displaying Page numbers.
-The when condition does not display a link for the current page--%>
+<%--For displaying Page numbers--%>
 <table border="1" cellpadding="5" cellspacing="5">
     <tr>
         <c:forEach begin="1" end="${requestScope.noOfPages}" var="i">

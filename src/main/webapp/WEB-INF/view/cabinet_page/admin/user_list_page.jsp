@@ -6,7 +6,7 @@
     <title>Users list</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
           type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/cabinet_page/admin/edition_list_page_style.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/edition_page/edition_list_page_style.css"
           type="text/css">
 </head>
 <body>

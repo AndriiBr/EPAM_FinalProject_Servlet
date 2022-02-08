@@ -116,7 +116,7 @@ public class EditionDao implements IEditionDao {
 
 
     @Override
-    public boolean insertNewEdition(String title, String imagePath, String price) throws SQLException {
+    public boolean insertNewEdition(String title, String imagePath, int genreId, String price) throws SQLException {
         //ToDo
         // Change image assigment when no image available
         String newImagePath = "";
@@ -142,7 +142,8 @@ public class EditionDao implements IEditionDao {
             statement.setString(1, title);
             //insert path to image into DB
             statement.setString(2, newImagePath);
-            statement.setString(3, String.valueOf(price));
+            statement.setInt(3, genreId);
+            statement.setString(4, String.valueOf(price));
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException(e);

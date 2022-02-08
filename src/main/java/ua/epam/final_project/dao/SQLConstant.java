@@ -21,7 +21,8 @@ public final class SQLConstant {
     public static final String SQL_FIND_EDITIONS_FROM_TO_WHERE = "SELECT * FROM edition ORDER BY ? LIMIT ? OFFSET ?";
 
     public static final String SQL_FIND_EDITION_BY_TITLE = "SELECT * FROM edition WHERE (title=?)";
-    public static final String SQL_INSERT_EDITION = "INSERT INTO edition (title, title_image, price) VALUES (?, ?, ?)";
+    public static final String SQL_INSERT_EDITION =
+            "INSERT INTO edition (title, title_image, genre_id, price) VALUES (?, ?, ?, ?)";
     public static final String SQL_DELETE_EDITION_BY_TITLE = "DELETE FROM edition WHERE (title=?)";
 
     public static final String SQL_GET_NUMBER_OF_GENRES = "SELECT COUNT(*) AS rowcount FROM genre";

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
 
-    <%--    Font CDN Link for Icons--%>
+    <%-- Font CDN Link for Icons--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>

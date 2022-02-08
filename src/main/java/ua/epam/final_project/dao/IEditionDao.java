@@ -17,7 +17,7 @@ public interface IEditionDao {
 
     Edition getEditionByTitle(String title) throws SQLException;
 
-    boolean insertNewEdition(String title, String imagePath, String price) throws SQLException;
+    boolean insertNewEdition(String title, String imagePath, int genreId, String price) throws SQLException;
 
     boolean deleteEditionByTitle(String title) throws SQLException;
 }

@@ -28,32 +28,37 @@ form .field.error input{
     border-color: #dc3545;
 }
 
+form .field.error select{
+    border-color: #dc3545;
+}
+
+/*Checked*/
 form .field em{
     position: absolute;
     top: 50%;
     font-size: 16px;
     transform: translateY(-50%);
 }
-
+/*Checked*/
 form .field .icon{
     left: 55px;
     color: #bfbfbf;
 }
-
+/*Checked*/
 form .field .icon-error{
     right: 55px;
     color: #dc3545;
 }
-
+/*Checked*/
 form .field .error-text{
     margin-top: 5px;
     color: #dc3545;
 }
-
+/*Checked*/
 form .field .error{
     display: none;
 }
-
+/*Checked*/
 form .field.error .error{
     display: block;
 }
