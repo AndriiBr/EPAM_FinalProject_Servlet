@@ -71,7 +71,7 @@
                     <span onclick="document.getElementById('${edition.title}').style.display='none'" class="close"
                           title="Close Modal">×</span>
                     <form class="modal-content"
-                          action="${pageContext.request.contextPath}/edition_list/buy_edition" method="post">
+                          action="${pageContext.request.contextPath}/edition_list/buy_edition" method="get">
                         <div class="container">
                             <h1>${edition.title}</h1>
                             <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
@@ -84,8 +84,7 @@
                                         onclick="document.getElementById('${edition.title}').style.display='none'"
                                         class="cancel">Cancel
                                 </button>
-                                <button type="submit" name="buy_edition" value="${edition.title}" class="buy-btn">Buy
-                                </button>
+                                <button type="submit" name="buy_edition" value="${edition.title}" class="buy-btn">Buy</button>
                             </div>
                         </div>
                     </form>

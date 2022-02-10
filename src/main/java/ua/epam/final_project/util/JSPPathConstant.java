@@ -22,6 +22,11 @@ public final class JSPPathConstant {
             "/WEB-INF/view/cabinet_page/admin/add_new_edition_failure_page.jsp";
     public static final String ADD_NEW_EDITION_SUCCESS_PAGE =
             "/WEB-INF/view/cabinet_page/admin/add_new_edition_success_page.jsp";
+    public static final String USER_ALREADY_HAS_THIS_EDITION_PAGE =
+            "/WEB-INF/view/edition_page/user_already_has_this_edition.jsp";
+    public static final String BUY_EDITION_PAGE = "/WEB-INF/view/edition_page/buy_edition_page.jsp";
+    public static final String BUY_EDITION_SUCCESS_PAGE = "/WEB-INF/view/edition_page/buy_edition_success_page.jsp";
+    public static final String BUY_EDITION_FAILURE_PAGE = "/WEB-INF/view/edition_page/buy_edition_failure_page.jsp";
 
     public static final String CABINET_PAGE = "/WEB-INF/view/cabinet_page/cabinet.jsp";
     public static final String USER_SETTINGS_PAGE = "/WEB-INF/view/cabinet_page/edit_user_settings_page.jsp";

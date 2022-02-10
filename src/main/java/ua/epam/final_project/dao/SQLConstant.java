@@ -29,5 +29,10 @@ public final class SQLConstant {
     public static final String SQL_FIND_ALL_GENRES = "SELECT * FROM genre";
     public static final String SQL_FIND_GENRE_WHERE = "SELECT * FROM genre WHERE name = ?";
 
+    public static final String SQL_FIND_ALL_USER_EDITION = "SELECT * FROM user_edition";
+    public static final String SQL_FIND_ALL_USER_EDITION_BY_USER_ID = "SELECT * FROM user_edition WHERE user_id = ?";
+    public static final String SQL_FIND_ALL_USER_EDITION_BY_USER_ID_EDITION_ID =
+            "SELECT * FROM user_edition WHERE user_id = ? AND edition_id = ?";
+    public static final String SQL_INSERT_USER_EDITION = "INSERT INTO user_edition (user_id, edition_id) VALUES (?, ?)";
 
 }

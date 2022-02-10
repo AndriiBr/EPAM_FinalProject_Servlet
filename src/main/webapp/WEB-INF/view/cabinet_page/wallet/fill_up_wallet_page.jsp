@@ -62,9 +62,9 @@
                 <div class="error error-text">Field can`t be blank</div>
             </div>
 
+            <!-- Submit button -->
             <input type="submit" class="fadeIn fifth" value="Поповнити"/>
         </form>
-
 
         <div id="formFooter">
             <a class="underlineHover" href="http://localhost:8080/cabinet">Back to personal cabinet</a>

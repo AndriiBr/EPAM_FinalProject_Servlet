@@ -25,6 +25,12 @@ public abstract class DaoFactory {
     public abstract IGenreDao getGenreDao();
 
     /**
+     * Creates User-Edition DAO
+     * @return User-Edition DAO
+     */
+    public abstract IUserEditionDao getUserEditionDao();
+
+    /**
      * Opens DB data transaction
      * @throws DataBaseConnectionException if unable to open data transaction
      */

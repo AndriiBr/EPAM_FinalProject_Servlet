@@ -19,9 +19,7 @@
 
 <%
     Edition edition = (Edition) session.getAttribute("newEdition");
-    String imagePath = edition.getImagePath();
-    request.setAttribute("imagePath", imagePath);
-    request.setAttribute("titleImagePath", edition.getImagePath());
+    request.setAttribute("imagePath", edition.getImagePath());
     request.setAttribute("title", edition.getTitle());
     request.setAttribute("price", edition.getPrice());
 %>

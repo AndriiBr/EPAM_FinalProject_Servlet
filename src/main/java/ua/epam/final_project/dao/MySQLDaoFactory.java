@@ -49,10 +49,12 @@ public class MySQLDaoFactory extends DaoFactory {
         }
     }
 
+    @Override
     public IUserDao getUserDao() {
         return new UserDao(this.connection);
     }
 
+    @Override
     public IEditionDao getEditionDao() {
         return new EditionDao(this.connection);
     }
@@ -60,6 +62,11 @@ public class MySQLDaoFactory extends DaoFactory {
     @Override
     public IGenreDao getGenreDao() {
         return new GenreDao(this.connection);
+    }
+
+    @Override
+    public IUserEditionDao getUserEditionDao() {
+        return new UserEditionDao(this.connection);
     }
 
 }

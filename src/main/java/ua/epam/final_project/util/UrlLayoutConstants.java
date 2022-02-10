@@ -15,8 +15,12 @@ public final class UrlLayoutConstants {
     public static final String ADD_NEW_EDITION_FAILURE_URL = "/edition_list/add_new_edition/failure";
     public static final String ADD_NEW_EDITION_SUCCESS_URL = "/edition_list/add_new_edition/success";
 
+
+
     public static final String DELETE_EDITION_URL = "/edition_list/delete_edition";
     public static final String BUY_EDITION_URL = "/edition_list/buy_edition";
+    public static final String BUY_EDITION_SUCCESS_URL = "/edition_list/buy_edition/success";
+    public static final String BUY_EDITION_FAILURE_URL = "/edition_list/buy_edition/failure";
 
     public static final String USER_LIST_URL = "/cabinet/user_list";
     public static final String DELETE_USER_URL = "/cabinet/user_list/delete_user";
