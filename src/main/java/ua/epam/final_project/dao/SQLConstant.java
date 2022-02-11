@@ -15,10 +15,16 @@ public final class SQLConstant {
     public static final String SQL_DELETE_USER_BY_LOGIN = "DELETE FROM user WHERE login = ?";
 
     public static final String SQL_GET_NUMBER_OF_EDITIONS = "SELECT COUNT(*) AS rowcount FROM edition";
+    public static final String SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS =
+            "SELECT COUNT(*) AS rowcount FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?)";
+
     public static final String SQL_FIND_ALL_EDITIONS = "SELECT * FROM edition";
     public static final String SQL_FIND_EDITIONS_FROM_TO = "SELECT * FROM edition LIMIT ? OFFSET ?";
     public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO = "SELECT * FROM edition ORDER BY ? LIMIT ? OFFSET ?";
-    public static final String SQL_FIND_EDITIONS_FROM_TO_WHERE = "SELECT * FROM edition ORDER BY ? LIMIT ? OFFSET ?";
+    public static final String SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS =
+            "SELECT * FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) ORDER BY ? LIMIT ? offset ?";
+    public static final String SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS =
+            "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) ORDER BY ? LIMIT ? offset ?";
 
     public static final String SQL_FIND_EDITION_BY_TITLE = "SELECT * FROM edition WHERE (title=?)";
     public static final String SQL_INSERT_EDITION =

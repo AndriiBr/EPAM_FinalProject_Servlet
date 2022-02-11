@@ -6,7 +6,6 @@
 <body>
 <div class="wrapper fadeInDown">
     <div id="formContent">
-        <!-- Tabs Titles -->
 
         <!-- Icon -->
         <div class="fadeIn first">

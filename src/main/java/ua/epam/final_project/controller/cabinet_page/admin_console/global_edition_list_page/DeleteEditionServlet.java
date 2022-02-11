@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller.admin;
+package ua.epam.final_project.controller.cabinet_page.admin_console.global_edition_list_page;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
@@ -58,7 +58,7 @@ public class DeleteEditionServlet extends HttpServlet {
             }
         }
 
-        resp.sendRedirect(MAIN_EDITION_LIST_URL);
+        resp.sendRedirect(ADMIN_EDITION_LIST_URL);
 
         System.out.println("DeleteEditionServlet - doPOST method: " + LocalTime.now());
     }

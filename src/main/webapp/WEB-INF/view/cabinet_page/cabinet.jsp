@@ -13,19 +13,17 @@
     String role = (String) session.getAttribute("role");
 %>
 
-
-<% if (role.equals("1")) {%>
-<h1>Кабінет адміністратора: <%= login%></h1>
-<a href="http://localhost:8080/cabinet/user_settings">Налаштування</a><br/>
-<a href="http://localhost:8080/edition_list">Список видань</a><br/>
-<a href="http://localhost:8080/cabinet/user_list">Список користувачів</a><br/>
-<a href="http://localhost:8080/cabinet/wallet">Гаманець</a><br/>
-<%} else if (role.equals("2")) {%>
-<h1>Кабінет користувача: <%= login%></h1>
+<%
+    if (role.equals("1") || role.equals("2")) {%>
+<h1>Пурсональный кабінет: <%= login%></h1>
 
 <a href="http://localhost:8080/cabinet/user_settings">Налаштування</a><br/>
 <a href="http://localhost:8080/cabinet/subscriptions">Активні підписки</a><br/>
 <a href="http://localhost:8080/cabinet/wallet">Гаманець</a><br/>
+
+<%}
+    if (role.equals("1")) {%>
+<a href="http://localhost:8080/cabinet/admin_console">Консоль адміністратора</a><br/>
 <%}%>
 
 </body>

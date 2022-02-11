@@ -8,7 +8,7 @@
   <!--Encoding filter-->
   <filter>
     <filter-name>Encoding_request_filter</filter-name>
-    <filter-class>ua.epam.final_project.servlet.filter.EncodingFilter</filter-class>
+    <filter-class>ua.epam.final_project.servlet_filter.filter.EncodingFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>Encoding_request_filter</filter-name>

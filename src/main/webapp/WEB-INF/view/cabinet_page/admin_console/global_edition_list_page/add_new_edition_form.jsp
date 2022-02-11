@@ -32,7 +32,7 @@
 
         <%--New edition form--%>
         <form class="form-horizontal" method="post"
-              action="${pageContext.request.contextPath}/edition_list/add_new_edition"
+              action="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list/add_new_edition"
               enctype="multipart/form-data">
             <!-- Title Form -->
             <%-- <div class="field login"> --%>

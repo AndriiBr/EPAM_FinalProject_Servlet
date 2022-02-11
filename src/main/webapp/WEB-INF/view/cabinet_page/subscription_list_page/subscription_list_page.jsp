@@ -18,6 +18,11 @@
     }
 %>
 
+<% if (role.equals("1")) {%>
+<a href="${pageContext.request.contextPath}/edition_list/add_new_edition">Додати видання</a><br/>
+<%}%>
+
+
 <table border="1" cellpadding="5" cellspacing="3">
     <tr>
         <th id="title">Edition Title</th>
@@ -37,6 +42,10 @@
 
         <% if (role.equals("1") || role.equals("2")) {%>
         <th id="buy">Buy</th>
+        <%}%>
+
+        <% if (role.equals("1")) {%>
+        <th id="delete">Delete</th>
         <%}%>
     </tr>
 
@@ -76,6 +85,40 @@
                                         class="cancel">Cancel
                                 </button>
                                 <button type="submit" name="buy_edition" value="${edition.title}" class="buy-btn">Buy</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </td>
+            <%}%>
+
+            <%--Delete button
+            Available only for admin--%>
+            <% if (role.equals("1")) {%>
+            <td>
+                <button onclick="document.getElementById('${edition.title}2').style.display='block'">Delete edition
+                </button>
+
+                <div id="${edition.title}2" class="modal">
+                    <span onclick="document.getElementById('${edition.title}2').style.display='none'" class="close"
+                          title="Close Modal">×</span>
+                    <form class="modal-content"
+                          action="${pageContext.request.contextPath}/edition_list/delete_edition" method="post">
+                        <div class="container">
+                            <h1>${edition.title}</h1>
+                            <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
+                                 onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
+
+                            <p>Delete this edition?</p>
+
+                            <div class="clearfix">
+                                <button type="button"
+                                        onclick="document.getElementById('${edition.title}2').style.display='none'"
+                                        class="cancel">Cancel
+                                </button>
+                                <button type="submit" name="edition_title" value="${edition.title}" class="delete-btn">
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     </form>

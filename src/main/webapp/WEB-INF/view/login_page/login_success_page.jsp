@@ -16,20 +16,22 @@
 </head>
 <body>
 
+<%
+    String name = (String) session.getAttribute("login");
+    request.setAttribute("userLogin", name);
+%>
+
 <div class="wrapper fadeInDown">
     <div id="formContent">
 
         <div class="fadeIn first">
-            <img src="../../../img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
+            <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
         </div>
 
-        <h3>Wrong login or password</h3>
+        <h3>You are successfully logged in as ${userLogin}</h3>
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/login">Try again</a>
-            <br/>
-            <br/>
-            <a class="underlineHover" href="http://localhost:8080/">Go to main page</a>
+            <a class="underlineHover" href="http://localhost:8080/">Go back to main page</a>
         </div>
     </div>
 </div>

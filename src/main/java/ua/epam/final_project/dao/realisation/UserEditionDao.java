@@ -1,11 +1,13 @@
 package ua.epam.final_project.dao.realisation;
 
 import ua.epam.final_project.dao.IUserEditionDao;
+import ua.epam.final_project.util.entity.UserEdition;
+
 import static ua.epam.final_project.dao.SQLConstant.*;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserEditionDao implements IUserEditionDao {
     private final Connection connection;
@@ -14,42 +16,43 @@ public class UserEditionDao implements IUserEditionDao {
         this.connection = connection;
     }
 
+
     @Override
-    public Map<Integer, Integer> findAllUserEdition() throws SQLException {
-        Map<Integer, Integer> userEdition = new HashMap<>();
+    public List<UserEdition> findAllUserEdition() throws SQLException {
+        List<UserEdition> userEditionList = new ArrayList<>();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(SQL_FIND_ALL_USER_EDITION);
 
             while (rs.next()) {
-                userEdition.put(rs.getInt("user_id"), rs.getInt("edition_id"));
+                userEditionList.add(extractUserEdition(rs));
             }
         } catch (SQLException e) {
             throw new SQLException();
         }
-        return userEdition;
+        return userEditionList;
     }
 
     @Override
-    public Map<Integer, Integer> findAllUserEditionByUserId(int userId) throws SQLException {
-        Map<Integer, Integer> userEdition = new HashMap<>();
+    public List<UserEdition> findAllUserEditionByUserId(int userId) throws SQLException {
+        List<UserEdition> userEditionList = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USER_EDITION_BY_USER_ID)) {
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                userEdition.put(rs.getInt("user_id"), rs.getInt("edition_id"));
+                userEditionList.add(extractUserEdition(rs));
             }
         } catch (SQLException e) {
             throw new SQLException();
         }
-        return userEdition;
+        return userEditionList;
     }
 
     @Override
-    public Map<Integer, Integer> findAllUserEditionByUserIdEditionId(int userId, int editionId) throws SQLException {
-        Map<Integer, Integer> userEdition = new HashMap<>();
+    public List<UserEdition> findAllUserEditionByUserIdEditionId(int userId, int editionId) throws SQLException {
+        List<UserEdition> userEditionList = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USER_EDITION_BY_USER_ID_EDITION_ID)) {
             statement.setInt(1, userId);
@@ -57,12 +60,12 @@ public class UserEditionDao implements IUserEditionDao {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                userEdition.put(rs.getInt("user_id"), rs.getInt("edition_id"));
+                userEditionList.add(extractUserEdition(rs));
             }
         } catch (SQLException e) {
             throw new SQLException();
         }
-        return userEdition;
+        return userEditionList;
     }
 
     @Override
@@ -75,5 +78,23 @@ public class UserEditionDao implements IUserEditionDao {
             throw new SQLException();
         }
         return true;
+    }
+
+    /**
+     * create single entity user-edition
+     * @param rs - Result set from DB
+     * @return userEdition entity
+     */
+    private UserEdition extractUserEdition(ResultSet rs) {
+        UserEdition userEdition = new UserEdition();
+        try {
+            userEdition.setUserId(rs.getInt("user_id"));
+            userEdition.setEditionId(rs.getInt("edition_id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return userEdition;
     }
 }

@@ -1,8 +1,7 @@
-package ua.epam.final_project.controller.wallet;
+package ua.epam.final_project.controller.cabinet_page.wallet;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.User;
 

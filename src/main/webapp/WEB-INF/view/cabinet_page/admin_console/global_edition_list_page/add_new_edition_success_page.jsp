@@ -37,10 +37,10 @@
         Price: ${price}
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/edition_list/add_new_edition">Add another one</a>
+            <a class="underlineHover" href="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list/add_new_edition">Add another one</a>
             <br/>
             <br/>
-            <a class="underlineHover" href="http://localhost:8080/edition_list">Go back to edition list page</a>
+            <a class="underlineHover" href="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list">Go back to edition list page</a>
         </div>
     </div>
 </div>

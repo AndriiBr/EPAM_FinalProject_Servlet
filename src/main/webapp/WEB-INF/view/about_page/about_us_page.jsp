@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 
 <head>
@@ -8,7 +9,7 @@
     <link href="${pageContext.request.contextPath}/css/about_page/about_us_page_style.css" rel="stylesheet">
 </head>
 <body>
-<a class="underlineHover" href="/">HOME</a>
+<a class="underlineHover" href="${pageContext.request.contextPath}/">HOME</a>
 
 <h1>Тут має бути якась інформація</h1>
 <h1>Здесь должна быть какая-то информация</h1>

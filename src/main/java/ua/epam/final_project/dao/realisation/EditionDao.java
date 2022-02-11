@@ -2,13 +2,11 @@ package ua.epam.final_project.dao.realisation;
 
 import ua.epam.final_project.dao.IEditionDao;
 import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.util.entity.User;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import static ua.epam.final_project.dao.SQLConstant.*;
 
@@ -22,9 +20,24 @@ public class EditionDao implements IEditionDao {
     @Override
     public Integer getNumberOfEditions() throws SQLException {
         int numberOfEditions = 0;
-
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_EDITIONS);
+
+            if (rs.next()) {
+                numberOfEditions = rs.getInt("rowcount");
+            }
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+        return numberOfEditions;
+    }
+
+    @Override
+    public Integer getNumberOfEditions(User user) throws SQLException {
+        int numberOfEditions = 0;
+        try (PreparedStatement statement = connection.prepareStatement(SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS)) {
+            statement.setInt(1, user.getId());
+            ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
                 numberOfEditions = rs.getInt("rowcount");
@@ -51,24 +64,6 @@ public class EditionDao implements IEditionDao {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page) throws SQLException {
-        List<Edition> list = new ArrayList<>();
-
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITIONS_FROM_TO);) {
-            statement.setInt(1, recordsPerPage);
-            statement.setInt(2, (page - 1) * recordsPerPage);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                list.add(extractEdition(rs));
-            }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
-        return list;
-    }
-
-    @Override
     public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String orderBy) throws SQLException {
         List<Edition> list = new ArrayList<>();
         String order = orderBy;
@@ -81,6 +76,39 @@ public class EditionDao implements IEditionDao {
             statement.setString(1, order);
             statement.setInt(2, recordsPerPage);
             statement.setInt(3, (page - 1) * recordsPerPage);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                list.add(extractEdition(rs));
+            }
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String orderBy) throws SQLException {
+        List<Edition> list = new ArrayList<>();
+        String order = orderBy;
+        String SqlPattern;
+
+        if (orderBy.equals("")) {
+            order = "id";
+        }
+        if (has) {
+            SqlPattern = SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS;
+        } else {
+            SqlPattern = SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS;
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(SqlPattern)) {
+            statement.setInt(1, user.getId());
+            statement.setString(2, order);
+            statement.setInt(3, recordsPerPage);
+            statement.setInt(4, (page - 1) * recordsPerPage);
+
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {

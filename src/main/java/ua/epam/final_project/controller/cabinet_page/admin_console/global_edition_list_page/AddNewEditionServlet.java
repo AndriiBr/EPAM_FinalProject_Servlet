@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller.admin;
+package ua.epam.final_project.controller.cabinet_page.admin_console.global_edition_list_page;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;

@@ -1,4 +1,4 @@
-package ua.epam.final_project.servlet.filter;
+package ua.epam.final_project.servlet_filter.filter;
 
 import javax.servlet.*;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller.edition_list.prg;
+package ua.epam.final_project.controller.cabinet_page.admin_console.global_edition_list_page;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -6,6 +6,7 @@ import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.Edition;
 import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.util.entity.UserEdition;
 
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 import static ua.epam.final_project.util.JSPPathConstant.*;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalTime;
-import java.util.Map;
+import java.util.List;
 
 @WebServlet(urlPatterns = BUY_EDITION_URL)
 public class BuyEditionServlet extends HttpServlet {
@@ -45,7 +46,7 @@ public class BuyEditionServlet extends HttpServlet {
         }
 
         if (daoFactory != null && user != null && edition != null) {
-            Map<Integer, Integer> userEdition;
+            List<UserEdition> userEdition;
 
             try {
                 //Check if user already has this edition
@@ -53,8 +54,6 @@ public class BuyEditionServlet extends HttpServlet {
                 userEdition = daoFactory.getUserEditionDao()
                         .findAllUserEditionByUserIdEditionId(user.getId(), edition.getId());
                 if (!userEdition.isEmpty()) {
-                    //ToDo
-                    //Not work
                     req.getRequestDispatcher(USER_ALREADY_HAS_THIS_EDITION_PAGE).forward(req, resp);
                 } else {
                     req.setAttribute("user", user);

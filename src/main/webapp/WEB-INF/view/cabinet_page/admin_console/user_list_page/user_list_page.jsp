@@ -42,7 +42,7 @@
 
             <div id="${login}" class="modal">
                 <span onclick="document.getElementById('${login}').style.display='none'" class="close" title="Close Modal">×</span>
-                <form class="modal-content" action="${pageContext.request.contextPath}/cabinet/user_list/delete_user" method="post">
+                <form class="modal-content" action="${pageContext.request.contextPath}/cabinet/admin_console/user_list/delete_user" method="post">
                     <div class="container">
                         <h1>${login}</h1>
 <%--                        <img src="${title_image}" alt="${title}" width="150" height="200"--%>

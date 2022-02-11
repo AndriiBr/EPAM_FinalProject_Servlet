@@ -1,16 +1,23 @@
 package ua.epam.final_project.util.entity;
 
-import java.util.Map;
-
 public class UserEdition {
 
-    private Map<Integer, Integer> userEdition;
+    private int userId;
+    private int editionId;
 
-    public Map<Integer, Integer> getUserEdition() {
-        return userEdition;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserEdition(Map<Integer, Integer> userEdition) {
-        this.userEdition = userEdition;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getEditionId() {
+        return editionId;
+    }
+
+    public void setEditionId(int editionId) {
+        this.editionId = editionId;
     }
 }
