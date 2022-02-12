@@ -29,12 +29,13 @@ public final class JSPPathConstant {
     public static final String ADD_NEW_EDITION_PAGE = "/WEB-INF/view/cabinet_page/admin_console/global_edition_list_page/add_new_edition_form.jsp";
     public static final String ADD_NEW_EDITION_SUCCESS_PAGE = "/WEB-INF/view/cabinet_page/admin_console/global_edition_list_page/add_new_edition_success_page.jsp";
     public static final String ADD_NEW_EDITION_FAILURE_PAGE = "/WEB-INF/view/cabinet_page/admin_console/global_edition_list_page/add_new_edition_failure_page.jsp";
+    public static final String EDIT_EDITION_PAGE = "/WEB-INF/view/cabinet_page/admin_console/global_edition_list_page/edit_edition_form.jsp";
+
     public static final String USER_LIST_PAGE = "/WEB-INF/view/cabinet_page/admin_console/user_list_page/user_list_page.jsp";
 
     public static final String USER_SUBSCRIPTION_LIST_PAGE = "/WEB-INF/view/cabinet_page/subscription_list_page/subscription_list_page.jsp";
 
     public static final String USER_SETTINGS_PAGE = "/WEB-INF/view/cabinet_page/user_settings_page/edit_user_settings_page.jsp";
-
 
     public static final String WALLET_PAGE = "/WEB-INF/view/cabinet_page/wallet/wallet_page.jsp";
     public static final String FILL_UP_WALLET_PAGE = "/WEB-INF/view/cabinet_page/wallet/fill_up_wallet_page.jsp";

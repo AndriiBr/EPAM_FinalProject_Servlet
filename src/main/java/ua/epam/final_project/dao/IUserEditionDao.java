@@ -1,5 +1,7 @@
 package ua.epam.final_project.dao;
 
+import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.util.entity.User;
 import ua.epam.final_project.util.entity.UserEdition;
 
 import java.sql.SQLException;
@@ -13,5 +15,14 @@ public interface IUserEditionDao {
 
     List<UserEdition> findAllUserEditionByUserIdEditionId(int userId, int editionId) throws SQLException;
 
-    boolean insertUserEdition(int userId, int editionId) throws SQLException;
+    boolean insertUserEdition(User user, Edition edition) throws SQLException;
+
+    /**
+     * Deletes user - edition link in DB. (Unsubscribe user from edition)
+     * @param user - user entity
+     * @param edition - edition entity
+     * @return TRUE - if operation was successful.
+     * @throws SQLException
+     */
+    boolean deleteUserEdition(User user, Edition edition) throws SQLException;
 }

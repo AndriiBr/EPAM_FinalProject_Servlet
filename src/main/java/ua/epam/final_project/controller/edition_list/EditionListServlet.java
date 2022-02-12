@@ -53,7 +53,7 @@ public class EditionListServlet extends HttpServlet {
             User user = daoFactory.getUserDao().findUserByLogin(login);
             editionList = daoFactory.getEditionDao().findAllEditionsFromTo(user, false, recordsPerPage, page, genre);
             genreMap = daoFactory.getGenreDao().findAllGenres();
-            noOfRecords = daoFactory.getEditionDao().getNumberOfEditions(user);
+            noOfRecords = daoFactory.getEditionDao().getNumberOfEditions(user, false);
 
             daoFactory.commitTransaction();
             genres = new ArrayList<>(genreMap.values());

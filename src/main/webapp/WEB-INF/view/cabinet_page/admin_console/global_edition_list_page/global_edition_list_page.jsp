@@ -40,6 +40,7 @@
         </th>
 
         <% if (role.equals("1")) {%>
+        <th id="edit">Edit</th>
         <th id="delete">Delete</th>
         <%}%>
     </tr>
@@ -56,9 +57,38 @@
                 <c:out value="${requestScope.genreMap.get(key)}"/>
             </td>
 
-                <%--Delete button
-                Available only for admin--%>
             <% if (role.equals("1")) {%>
+                <%--Edit button
+                        Available only for admin--%>
+            <td>
+                <button onclick="document.getElementById('${edition.title}').style.display='block'">Edit</button>
+
+                <div id="${edition.title}" class="modal">
+                    <span onclick="document.getElementById('${edition.title}').style.display='none'" class="close"
+                          title="Close Modal">×</span>
+                    <form class="modal-content"
+                          action="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list/update_edition" method="get">
+                        <div class="container">
+                            <h1>${edition.title}</h1>
+                            <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
+                                 onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
+
+                            <p>Edit this edition?</p>
+
+                            <div class="clearfix">
+                                <button type="button"
+                                        onclick="document.getElementById('${edition.title}').style.display='none'"
+                                        class="cancel">Cancel
+                                </button>
+                                <button type="submit" name="edit_edition_title" value="${edition.title}" class="buy-btn">Edit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </td>
+
+                <%--Delete button
+                    Available only for admin--%>
             <td>
                 <button onclick="document.getElementById('${edition.title}2').style.display='block'">Delete edition
                 </button>

@@ -22,10 +22,11 @@ public interface IEditionDao {
     /**
      * Gets the number of rows in the table "edition" without positions user already has.
      * @param user - user entity
+     * @param has - TRUE - user subscribe for / FALSE - user does not subscribe for
      * @return - number of rows
      * @throws SQLException
      */
-    Integer getNumberOfEditions(User user) throws SQLException;
+    Integer getNumberOfEditions(User user, boolean has) throws SQLException;
 
     /**
      * Creates a list of All publications retrieved from the database
@@ -59,6 +60,14 @@ public interface IEditionDao {
     Edition getEditionByTitle(String title) throws SQLException;
 
     boolean insertNewEdition(Edition edition) throws SQLException;
+
+    /**
+     * Updates edition in database
+     * @param edition - modified edition entity
+     * @return TRUE - if operation was successful.
+     * @throws SQLException
+     */
+    boolean updateEdition(Edition edition) throws SQLException;
 
     boolean deleteEditionByTitle(String title) throws SQLException;
 }

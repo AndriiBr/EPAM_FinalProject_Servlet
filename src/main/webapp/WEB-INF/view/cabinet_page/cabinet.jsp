@@ -18,7 +18,7 @@
 <h1>Пурсональный кабінет: <%= login%></h1>
 
 <a href="http://localhost:8080/cabinet/user_settings">Налаштування</a><br/>
-<a href="http://localhost:8080/cabinet/subscriptions">Активні підписки</a><br/>
+<a href="http://localhost:8080/cabinet/subscription_list">Активні підписки</a><br/>
 <a href="http://localhost:8080/cabinet/wallet">Гаманець</a><br/>
 
 <%}

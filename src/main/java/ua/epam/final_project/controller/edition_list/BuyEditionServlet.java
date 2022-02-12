@@ -93,7 +93,7 @@ public class BuyEditionServlet extends HttpServlet {
         if (daoFactory != null && user != null && edition != null) {
             try {
                 daoFactory.beginTransaction();
-                insertUserEdition = daoFactory.getUserEditionDao().insertUserEdition(user.getId(), edition.getId());
+                insertUserEdition = daoFactory.getUserEditionDao().insertUserEdition(user, edition);
                 payment = daoFactory.getUserDao().updateUserBalance(user, (edition.getPrice() * -1));
                 daoFactory.commitTransaction();
             } catch (SQLException | DataBaseConnectionException e) {

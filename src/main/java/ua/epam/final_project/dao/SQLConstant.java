@@ -17,6 +17,8 @@ public final class SQLConstant {
     public static final String SQL_GET_NUMBER_OF_EDITIONS = "SELECT COUNT(*) AS rowcount FROM edition";
     public static final String SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS =
             "SELECT COUNT(*) AS rowcount FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?)";
+    public static final String SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS =
+            "SELECT COUNT(*) AS rowcount FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?)";
 
     public static final String SQL_FIND_ALL_EDITIONS = "SELECT * FROM edition";
     public static final String SQL_FIND_EDITIONS_FROM_TO = "SELECT * FROM edition LIMIT ? OFFSET ?";
@@ -29,6 +31,8 @@ public final class SQLConstant {
     public static final String SQL_FIND_EDITION_BY_TITLE = "SELECT * FROM edition WHERE (title=?)";
     public static final String SQL_INSERT_EDITION =
             "INSERT INTO edition (title, title_image, genre_id, price) VALUES (?, ?, ?, ?)";
+    public static final String SQL_UPDATE_EDITION =
+            "UPDATE edition SET title = ?, title_image = ?, genre_id = ?, price = ? WHERE id = ?;";
     public static final String SQL_DELETE_EDITION_BY_TITLE = "DELETE FROM edition WHERE (title=?)";
 
     public static final String SQL_GET_NUMBER_OF_GENRES = "SELECT COUNT(*) AS rowcount FROM genre";
@@ -40,5 +44,6 @@ public final class SQLConstant {
     public static final String SQL_FIND_ALL_USER_EDITION_BY_USER_ID_EDITION_ID =
             "SELECT * FROM user_edition WHERE user_id = ? AND edition_id = ?";
     public static final String SQL_INSERT_USER_EDITION = "INSERT INTO user_edition (user_id, edition_id) VALUES (?, ?)";
+    public static final String SQL_DELETE_USER_EDITION = "DELETE FROM user_edition WHERE user_id = ? AND edition_id = ?";
 
 }

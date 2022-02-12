@@ -4,12 +4,14 @@ import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.util.external_folder.DeleteImageFromExternalDirectory;
 import ua.epam.final_project.util.entity.Edition;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,44 +24,50 @@ import java.util.stream.Collectors;
 import static ua.epam.final_project.util.JSPPathConstant.*;
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(urlPatterns = ADD_NEW_EDITION_URL)
+@WebServlet(urlPatterns = EDIT_EDITION_URL)
 @MultipartConfig(location = "E:/Programming/EPAM_JAVA_Autumn_Final_project/external_storage/static/edition_titles")
-public class AddNewEditionServlet extends HttpServlet {
+public class EditEditionServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final HttpSession session = req.getSession();
-        String currentRole = (String) session.getAttribute("role");
+        HttpSession session = req.getSession();
+        String editionTitle = req.getParameter("edit_edition_title");
 
-        if (currentRole.equals("1")) {
-            List<String> genres = null;
-            Map<Integer, String> genreMap;
-            try {
-                DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-                genreMap = daoFactory.getGenreDao().findAllGenres();
-                genres = new ArrayList<>(genreMap.values());
-            } catch (DataBaseNotSupportedException | SQLException e) {
-                e.printStackTrace();
-            }
-            req.setAttribute("genresList", genres);
-            req.getRequestDispatcher(ADD_NEW_EDITION_PAGE).forward(req, resp);
-        } else {
-            resp.sendRedirect(ERROR_404_PAGE);
+        Edition edition = null;
+        List<String> genres = null;
+        Map<Integer, String> genreMap = null;
+
+        try {
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            genreMap = daoFactory.getGenreDao().findAllGenres();
+            edition = daoFactory.getEditionDao().getEditionByTitle(editionTitle);
+            genres = new ArrayList<>(genreMap.values());
+        } catch (DataBaseNotSupportedException | SQLException e) {
+            e.printStackTrace();
         }
 
-        System.out.println("AddNewEditionServlet - DoGET method: " + LocalTime.now());
+        if (edition != null) {
+            session.setAttribute("editionEntity", edition);
+            req.setAttribute("genresList", genres);
+            req.setAttribute("genreMap", genreMap);
+            req.getRequestDispatcher(EDIT_EDITION_PAGE).forward(req, resp);
+        } else {
+            resp.sendRedirect(MAIN_URL);
+        }
+
+        System.out.println("EditEditionServlet - DoGET method: " + LocalTime.now());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final HttpSession session = req.getSession();
-        DaoFactory daoFactory;
+        HttpSession session = req.getSession();
+        DaoFactory daoFactory = null;
 
         String editionTitle = "";
         String imageUUID = "";
         String price = "";
         int genreId = 0;
-        Edition edition = null;
-
+        Edition edition = (Edition) session.getAttribute("editionEntity");
         Map<Integer, String> genreMap = null;
 
         //Error flag to catch different errors in the user input data:
@@ -86,10 +94,10 @@ public class AddNewEditionServlet extends HttpServlet {
                         .collect(Collectors.joining("\n"));
             } else if (part.getName().equals("file-name")) {
                 if (part.getSize() != 0) {
+                    DeleteImageFromExternalDirectory.delete(getExternalFolderPath(), edition.getImagePath());
                     imageUUID = UUID.randomUUID() + part.getSubmittedFileName();
                     part.write(imageUUID);
-                } else {
-                    imageUUID = "no image";
+                    edition.setImagePath(getAbsoluteImagePath(imageUUID));
                 }
             } else if (part.getName().equals("price")) {
                 InputStream inputStream = part.getInputStream();
@@ -115,31 +123,25 @@ public class AddNewEditionServlet extends HttpServlet {
         }
         session.setAttribute("editionErrorFlag", newEditionErrorFlag);
 
-
-        if (newEditionErrorFlag.equals("0")) {
-            edition = new Edition();
+        if (newEditionErrorFlag.equals("0") && edition != null && daoFactory != null) {
             edition.setTitle(editionTitle);
-            edition.setImagePath(getAbsoluteImagePath(imageUUID));
-            edition.setGenreId(genreId);
             edition.setPrice(Integer.parseInt(price));
-            session.setAttribute("editionEntity", edition);
-        }
+            edition.setGenreId(genreId);
 
-        if (edition != null) {
             try {
-                daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
                 daoFactory.beginTransaction();
-                daoFactory.getEditionDao().insertNewEdition(edition);
+                daoFactory.getEditionDao().updateEdition(edition);
                 daoFactory.commitTransaction();
                 resp.sendRedirect(ADD_NEW_EDITION_SUCCESS_URL);
-            } catch (SQLException | DataBaseNotSupportedException | DataBaseConnectionException e) {
+            } catch (DataBaseConnectionException | SQLException e) {
                 e.printStackTrace();
             }
         } else {
             resp.sendRedirect(ADD_NEW_EDITION_FAILURE_URL);
         }
 
-        System.out.println("AddNewEditionServlet - DoPOST method: " + LocalTime.now());
+
+        System.out.println("EditEditionServlet - DoGET method: " + LocalTime.now());
     }
 
     private static <T, E> T getKeyByValue(Map<T, E> map, E value) {
@@ -147,6 +149,24 @@ public class AddNewEditionServlet extends HttpServlet {
             if (Objects.equals(value, entry.getValue())) {
                 return entry.getKey();
             }
+        }
+        return null;
+    }
+
+    private String getExternalFolderPath() {
+        String imageFolderName = "image_folder.properties";
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        Properties prop = new Properties();
+
+        String folderPath;
+
+        try (InputStream resourceStream = loader.getResourceAsStream(imageFolderName)) {
+            prop.load(resourceStream);
+            folderPath = prop.getProperty("title_image_folder_path");
+            return folderPath;
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }

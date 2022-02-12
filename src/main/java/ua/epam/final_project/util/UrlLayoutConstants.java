@@ -30,9 +30,12 @@ public final class UrlLayoutConstants {
     public static final String ADD_NEW_EDITION_SUCCESS_URL = "/cabinet/admin_console/global_edition_list/add_new_edition/success";
     public static final String ADD_NEW_EDITION_FAILURE_URL = "/cabinet/admin_console/global_edition_list/add_new_edition/failure";
     public static final String DELETE_EDITION_URL = "/cabinet/admin_console/global_edition_list/delete_edition";
+    public static final String EDIT_EDITION_URL = "/cabinet/admin_console/global_edition_list/update_edition";
+
     public static final String USER_LIST_URL = "/cabinet/admin_console/user_list";
 
     public static final String USER_SUBSCRIPTION_LIST_URL = "/cabinet/subscription_list";
+    public static final String UNSUBSCRIBE_EDITION_LIST_URL = "/cabinet/subscription_list/unsubscribe";
 
     public static final String USER_SETTINGS_URL = "/cabinet/user_settings";
 

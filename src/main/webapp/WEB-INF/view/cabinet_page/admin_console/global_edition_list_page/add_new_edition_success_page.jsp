@@ -18,7 +18,7 @@
 <body>
 
 <%
-    Edition edition = (Edition) session.getAttribute("newEdition");
+    Edition edition = (Edition) session.getAttribute("editionEntity");
     request.setAttribute("imagePath", edition.getImagePath());
     request.setAttribute("title", edition.getTitle());
     request.setAttribute("price", edition.getPrice());
@@ -33,13 +33,10 @@
 
         <h3>Edition:</h3>
         ${title}<br/>
-        <h3>was successfully created</h3>
+        <h3>Operation success!</h3>
         Price: ${price}
 
         <div id="formFooter">
-            <a class="underlineHover" href="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list/add_new_edition">Add another one</a>
-            <br/>
-            <br/>
             <a class="underlineHover" href="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list">Go back to edition list page</a>
         </div>
     </div>

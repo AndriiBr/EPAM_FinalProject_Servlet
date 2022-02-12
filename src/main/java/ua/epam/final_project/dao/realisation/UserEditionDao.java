@@ -1,6 +1,8 @@
 package ua.epam.final_project.dao.realisation;
 
 import ua.epam.final_project.dao.IUserEditionDao;
+import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.util.entity.User;
 import ua.epam.final_project.util.entity.UserEdition;
 
 import static ua.epam.final_project.dao.SQLConstant.*;
@@ -69,13 +71,25 @@ public class UserEditionDao implements IUserEditionDao {
     }
 
     @Override
-    public boolean insertUserEdition(int userId, int editionId) throws SQLException {
+    public boolean insertUserEdition(User user, Edition edition) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER_EDITION)) {
-            statement.setInt(1, userId);
-            statement.setInt(2, editionId);
+            statement.setInt(1, user.getId());
+            statement.setInt(2, edition.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteUserEdition(User user, Edition edition) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_USER_EDITION)) {
+            statement.setInt(1, user.getId());
+            statement.setInt(2, edition.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e);
         }
         return true;
     }
@@ -93,7 +107,6 @@ public class UserEditionDao implements IUserEditionDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         return userEdition;
     }

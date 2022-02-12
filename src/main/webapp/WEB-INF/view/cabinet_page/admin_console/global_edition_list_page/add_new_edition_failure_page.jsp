@@ -33,10 +33,10 @@
         <%}%>
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080//edition_list/add_new_edition">Try again</a>
+            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list/add_new_edition">Try again</a>
             <br/>
             <br/>
-            <a class="underlineHover" href="http://localhost:8080//edition_list">Go back to edition list</a>
+            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list">Go back to edition list</a>
         </div>
     </div>
 </div>

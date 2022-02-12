@@ -33,9 +33,17 @@ public class EditionDao implements IEditionDao {
     }
 
     @Override
-    public Integer getNumberOfEditions(User user) throws SQLException {
+    public Integer getNumberOfEditions(User user, boolean has) throws SQLException {
         int numberOfEditions = 0;
-        try (PreparedStatement statement = connection.prepareStatement(SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS)) {
+        String sqlPattern;
+
+        if (has) {
+            sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS;
+        } else {
+            sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS;
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
             statement.setInt(1, user.getId());
             ResultSet rs = statement.executeQuery();
 
@@ -92,18 +100,19 @@ public class EditionDao implements IEditionDao {
     public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String orderBy) throws SQLException {
         List<Edition> list = new ArrayList<>();
         String order = orderBy;
-        String SqlPattern;
+        String sqlPattern;
 
         if (orderBy.equals("")) {
             order = "id";
         }
+
         if (has) {
-            SqlPattern = SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS;
+            sqlPattern = SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS;
         } else {
-            SqlPattern = SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS;
+            sqlPattern = SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS;
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(SqlPattern)) {
+        try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
             statement.setInt(1, user.getId());
             statement.setString(2, order);
             statement.setInt(3, recordsPerPage);
@@ -151,6 +160,23 @@ public class EditionDao implements IEditionDao {
         } catch (SQLException e) {
             throw new SQLException(e);
         }
+        return true;
+    }
+
+    @Override
+    public boolean updateEdition(Edition edition) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_EDITION)) {
+            statement.setString(1, edition.getTitle());
+            statement.setString(2, edition.getImagePath());
+            statement.setInt(3, edition.getGenreId());
+            statement.setInt(4, edition.getPrice());
+            statement.setInt(5, edition.getId());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+
         return true;
     }
 
