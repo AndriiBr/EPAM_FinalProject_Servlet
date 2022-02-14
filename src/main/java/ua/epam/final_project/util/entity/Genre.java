@@ -2,6 +2,7 @@ package ua.epam.final_project.util.entity;
 
 import java.util.Map;
 
+//ToDo
 public class Genre {
     private Map<Integer, String> genres;
 

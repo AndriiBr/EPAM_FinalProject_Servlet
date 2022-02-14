@@ -1,6 +1,8 @@
 package ua.epam.final_project.util.entity;
 
-public class Edition {
+import java.io.Serializable;
+
+public class Edition implements Serializable {
 
     private int id;
     private String title;

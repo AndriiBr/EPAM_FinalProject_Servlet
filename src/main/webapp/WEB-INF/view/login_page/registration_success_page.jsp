@@ -1,7 +1,16 @@
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session" />
+<-- Deprecated -->
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="localization/locale" />
+<-- A custom property loader was used to work with Cyrillic (UTF-8 format) -->
 
-<html>
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
