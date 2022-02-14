@@ -1,7 +1,16 @@
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session"/>
+<%-- Deprecated --%>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="localization/locale"/>
+<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
 
-<html>
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,27 +20,29 @@
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/fade_in_animation.css"
           type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/input_form_style.css"
+          type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
 </head>
 <body>
-
-<%
-    String name = (String) session.getAttribute("login");
-    request.setAttribute("userLogin", name);
-%>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
-
         <div class="fadeIn first">
             <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
         </div>
 
-        <h3>You are successfully logged in as ${userLogin}</h3>
+        <div class="message_success">
+        ${requestScope.localization.getString("login.text.login_success")}<br/>
+            <div class="user_message">
+                ${sessionScope.login}
+            </div>
+        </div>
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/">Go back to main page</a>
+            <a class="underlineHover" href="http://localhost:8080/">${requestScope.localization.getString("main.text.main_page")}</a>
         </div>
     </div>
 </div>

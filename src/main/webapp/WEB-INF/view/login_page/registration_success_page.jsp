@@ -4,10 +4,10 @@
 <c:set var="language"
        value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
        scope="session" />
-<-- Deprecated -->
+<%-- Deprecated --%>
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="localization/locale" />
-<-- A custom property loader was used to work with Cyrillic (UTF-8 format) -->
+<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
 
 <!DOCTYPE html>
 <html lang="${language}">
@@ -18,16 +18,15 @@
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/frame_structure_style.css"
           type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/input_form_style.css"
+          type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/fade_in_animation.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/login_page_style.css"
           type="text/css">
 </head>
 <body>
-
-<%
-    String login = (String) session.getAttribute("login");
-%>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -36,10 +35,18 @@
             <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon" alt="User Icon"/>
         </div>
 
-        <h3>Account for <%= login%> was successfully created</h3>
+        <div class="message_success">
+            ${requestScope.localization.getString("login.text.account_for")}<br/>
+        </div>
+        <div class="user_message">
+            ${sessionScope.login}
+        </div>
+        <div class="message_success">
+            ${requestScope.localization.getString("login.text.create_success")}
+        </div>
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/">Go back to main page</a>
+            <a class="underlineHover" href="http://localhost:8080/">${requestScope.localization.getString("main.text.main_page")}</a>
         </div>
     </div>
 </div>

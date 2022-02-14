@@ -1,4 +1,5 @@
 /* STRUCTURE */
+
 .wrapper {
     display: flex;
     align-items: center;
@@ -44,7 +45,7 @@ h2.active {
 
 /* OTHERS */
 a {
-    color: #92badd;
+    color: #0d0d0d;
     display:inline-block;
     text-decoration: none;
     font-weight: 400;
@@ -67,4 +68,20 @@ h2 {
 #icon {
     padding-top: 10px;
     width:35%;
+}
+
+.message_error, .message_success, .user_message {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+.message_success {
+    color: #39ace7;
+}
+
+.user_message {
+    font-size: 24px;
+    color: #0d0d0d;
 }

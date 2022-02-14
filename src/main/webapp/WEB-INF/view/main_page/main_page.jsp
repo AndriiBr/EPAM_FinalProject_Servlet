@@ -19,18 +19,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main_page/main_page_style.css" type="text/css">
 </head>
 <body>
-
-<form method="get">
-    <select id="language" name="language" onchange="submit()">
-        <option value="ua" ${language == 'ua' ? 'selected' : ''}>UA</option>
-        <option value="en" ${language == 'en' ? 'selected' : ''}>EN</option>
-    </select>
-</form>
-
-
-<h1>${requestScope.localization.getString("main.text.main_page")}</h1>
-<br/>
-<br/>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
 <a href="http://localhost:8080/about">${requestScope.localization.getString("main.link.about_us")}</a><br/>
 <a href="http://localhost:8080/edition_list">${requestScope.localization.getString("main.link.edition_list")}</a><br/>

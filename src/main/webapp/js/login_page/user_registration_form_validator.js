@@ -1,15 +1,15 @@
-const form = document.querySelector("form"),
+const form = document.querySelector("form[name='registration_form']"),
     loginField = form.querySelector(".login"),
-    loginInput = loginField.querySelector("input"),
+    loginInput = loginField.querySelector("input[name='login']"),
 
     emailField = form.querySelector(".email"),
-    emailInput = emailField.querySelector("input"),
+    emailInput = emailField.querySelector("input[name='email']"),
 
     passwordField = form.querySelector(".password"),
-    passwordInput = passwordField.querySelector("input"),
+    passwordInput = passwordField.querySelector("input[name='password']"),
 
     confirmPasswordField = form.querySelector(".password_confirm"),
-    confirmPasswordInput = confirmPasswordField.querySelector("input");
+    confirmPasswordInput = confirmPasswordField.querySelector("input[name='password_confirm']");
 
 
 

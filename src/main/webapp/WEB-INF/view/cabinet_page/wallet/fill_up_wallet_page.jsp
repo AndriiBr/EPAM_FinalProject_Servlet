@@ -1,5 +1,16 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session" />
+<%-- Deprecated --%>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="localization/locale" />
+<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
+
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <title>Wallet fill up</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
@@ -17,9 +28,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
 <%
-    String login = (String) session.getAttribute("login");
     int balance = (Integer) session.getAttribute("balance");
 %>
 
@@ -32,7 +43,7 @@
                  alt="User Icon"/><br/>
             <div class="fadeIn second">
                 <div class="wallet-header">
-                    Привіт <%= login%>!
+                    ${requestScope.localization.getString("wallet.text.hello")} ${sessionScope.login}!
                 </div>
             </div>
         </div>
@@ -40,20 +51,20 @@
         <!-- Balance bar -->
         <div class="fadeIn third">
             <div class="balance-area">
-                <label id="balance">Поточний баланс: </label><br/>
+                <label id="balance">${requestScope.localization.getString("wallet.text.balance")} </label><br/>
                 <div class="fadeIn fourth">
                     <div class="balance-bar">
-                        <%= balance%> UAH
+                        <%= balance%> ${requestScope.localization.getString("wallet.label.uah")}
                     </div>
                 </div>
             </div>
         </div>
 
-        <form method="post">
+        <form name="balance_form" method="post">
             <div class="field money">
                 <div class="input-area">
-                    <label for="money">Поповнення поточного балансу</label><br/>
-                    <input type="text" id="money" class="fadeIn third" name="money" placeholder="Enter amount">
+                    <label for="money">${requestScope.localization.getString("wallet.button.top_up")}</label><br/>
+                    <input type="text" id="money" class="fadeIn third" name="money" placeholder="${requestScope.localization.getString("wallet.label.enter_amount")}">
                     <div class="fadeIn third">
                         <em class="icon fas fa-money-bill"></em>
                     </div>
@@ -67,7 +78,7 @@
         </form>
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/cabinet">Back to personal cabinet</a>
+            <a class="underlineHover" href="http://localhost:8080/cabinet">${requestScope.localization.getString("wallet.link.cabinet")}</a>
         </div>
     </div>
 </div>

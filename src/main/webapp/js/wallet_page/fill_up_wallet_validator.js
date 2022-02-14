@@ -1,6 +1,6 @@
-const form = document.querySelector("form"),
+const form = document.querySelector("form[name='balance_form']"),
     moneyField = form.querySelector(".money"),
-    moneyInput = moneyField.querySelector("input");
+    moneyInput = moneyField.querySelector("input[name='money']");
 
 //If user entered any character in login field this event will be triggered
 moneyInput.onkeyup = () => {

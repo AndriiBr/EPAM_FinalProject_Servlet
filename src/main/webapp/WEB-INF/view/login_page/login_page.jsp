@@ -30,17 +30,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-
-<div class="general_header">
-    <div class="language_switch">
-        <form method="get">
-            <select id="language" name="language" onchange="submit()">
-                <option value="ua" ${language == 'ua' ? 'selected' : ''}>UA</option>
-                <option value="en" ${language == 'en' ? 'selected' : ''}>EN</option>
-            </select>
-        </form>
-    </div>
-</div>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -52,11 +42,10 @@
         </div>
 
         <!-- Login Form -->
-        <form class="log-in" method="post">
+        <form name="login_form" class="log-in" method="post">
             <!-- Login -->
             <div class="field login">
                 <div class="input-area">
-
                     <input type="text" id="login" class="fadeIn second" name="login"
                            placeholder="${requestScope.localization.getString("login.label.username")}">
                     <div class="fadeIn second">

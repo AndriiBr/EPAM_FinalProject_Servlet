@@ -1,8 +1,8 @@
-const form = document.querySelector("form"),
+const form = document.querySelector("form[name='login_form']"),
     loginField = form.querySelector(".login"),
-    loginInput = loginField.querySelector("input"),
+    loginInput = loginField.querySelector("input[name='login']"),
     passwordField = form.querySelector(".password"),
-    passwordInput = passwordField.querySelector("input");
+    passwordInput = passwordField.querySelector("input[name='password']");
 
 //If user entered any character in login field this event will be triggered
 loginInput.onkeyup = () => {
