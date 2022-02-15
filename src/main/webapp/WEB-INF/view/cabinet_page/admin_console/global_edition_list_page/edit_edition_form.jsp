@@ -1,9 +1,18 @@
 <%@ page import="ua.epam.final_project.util.entity.Edition" %>
 <%@ page import="java.util.Map" %>
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session" />
+<%-- Deprecated --%>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="localization/locale" />
+<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
+
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
@@ -21,6 +30,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
 <%
     Edition edition = (Edition) session.getAttribute("editionEntity");
@@ -36,7 +46,7 @@
             <img src="${sessionScope.editionEntity.imagePath}" id="icon" width="150" height="200" alt="Edition Icon"
                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 
-            <legend class="registration-header">Here you can edit the edition</legend>
+            <legend class="registration-header">${requestScope.localization.getString("edition_list.text.edit_text2")}</legend>
             <br/>
         </div>
 
@@ -48,7 +58,7 @@
             <%-- <div class="field login"> --%>
             <div class="field title">
                 <div class="input-area">
-                    <input type="text" id="title" class="fadeIn second" name="title" value="${sessionScope.editionEntity.title}" placeholder="Edition title"><br/>
+                    <input type="text" id="title" class="fadeIn second" name="title" value="${sessionScope.editionEntity.title}" placeholder="${requestScope.localization.getString("edition_list.text.title")}"><br/>
                     <div class="fadeIn second">
                         <em class="icon fas fa-book"></em>
                     </div>
@@ -60,7 +70,7 @@
             <!-- Price Form -->
             <div class="field price">
                 <div class="input-area">
-                    <input type="text" id="price" class="fadeIn third" name="price" value="${sessionScope.editionEntity.price}" placeholder="Price"><br/>
+                    <input type="text" id="price" class="fadeIn third" name="price" value="${sessionScope.editionEntity.price}" placeholder="${requestScope.localization.getString("edition_list.text.price")}"><br/>
                     <div class="fadeIn third">
                         <em class="icon fas fa-money-bill"></em>
                     </div>
@@ -90,16 +100,16 @@
             <!-- File Form -->
             <div class="field file">
                 <div class="input-area">
-                    <input type="file" class="fadeIn fifth" name="file-name" placeholder="Title image"><br/>
+                    <input type="file" class="fadeIn fifth" name="file-name" placeholder="${requestScope.localization.getString("edition_list.text.image")}"><br/>
                 </div>
             </div>
 
-            <input type="submit" class="fadeIn sixth" value="Update edition">
+            <input type="submit" class="fadeIn sixth" value="${requestScope.localization.getString("edition_list.button.update")}">
         </form>
 
         <!-- Go back to edition page -->
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list">Go back to edition page</a>
+            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list">${requestScope.localization.getString("edition_list.link.edition_list")}</a>
         </div>
 
     </div>

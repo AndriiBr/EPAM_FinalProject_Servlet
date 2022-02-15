@@ -1,6 +1,16 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session" />
+<%-- Deprecated --%>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="localization/locale" />
+<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
+
 <!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="${language}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,6 +24,7 @@
           type="text/css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
 <%
     String title = (String) session.getAttribute("editionTitle");
@@ -27,16 +38,16 @@
         </div>
 
         <% if (errorFlag.equals("1")) {%>
-            Title<br/>
+            ${requestScope.localization.getString("edition_list.text.title_single")}<br/>
             <%= title%><br/>
-            already exist
+            ${requestScope.localization.getString("edition_list.text.already_exist")}
         <%}%>
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list/add_new_edition">Try again</a>
+            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list/add_new_edition">${requestScope.localization.getString("edition_list.button.try_again")}</a>
             <br/>
             <br/>
-            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list">Go back to edition list</a>
+            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list">${requestScope.localization.getString("edition_list.link.edition_list")}</a>
         </div>
     </div>
 </div>

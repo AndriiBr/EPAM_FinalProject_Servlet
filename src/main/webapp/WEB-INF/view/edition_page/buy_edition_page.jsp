@@ -1,7 +1,16 @@
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session" />
+<%-- Deprecated --%>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="localization/locale" />
+<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
+
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <title>Wallet</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
@@ -18,6 +27,7 @@
           type="text/css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -35,7 +45,7 @@
         <!-- Price bar -->
         <div class="fadeIn second">
             <div class="balance-area">
-                <label id="price">Edition price: </label><br/>
+                <label id="price">${requestScope.localization.getString("edition_list.label.edition_price")} </label><br/>
                 <div class="fadeIn second">
                     <div class="price-bar">
                         ${requestScope.edition.price}
@@ -47,7 +57,7 @@
         <!-- Balance bar -->
         <div class="fadeIn third">
             <div class="balance-area">
-                <label id="balance">Balance: </label><br/>
+                <label id="balance">${requestScope.localization.getString("edition_list.label.balance")} </label><br/>
                 <div class="fadeIn third">
                     <div class="balance-bar">
                         ${requestScope.user.balance}
@@ -60,21 +70,21 @@
             <c:when test="${(requestScope.user.balance - requestScope.edition.price) < 0}">
                 <div class="fadeIn fourth">
                     <div class="balance-area">
-                        <label id="label-not-enough-balance">Remaining balance: </label><br/>
+                        <label id="label-not-enough-balance">${requestScope.localization.getString("edition_list.label.remaining")} </label><br/>
                         <div class="fadeIn fourth">
                             <div id="not-enough-balance" class="not-enough-balance">
                                     ${requestScope.user.balance - requestScope.edition.price}
                             </div>
                         </div>
                     </div>
-                    <div class="error error-text">Not enough money</div><br/>
+                    <div class="error error-text">${requestScope.localization.getString("edition_list.text.no_money")}</div><br/>
                 </div>
             </c:when>
             <c:otherwise>
                 <!-- Remaining balance bar (Enough money) -->
                 <div class="fadeIn fourth">
                     <div class="balance-area">
-                        <label id="label-remain-balance">Remaining balance: </label><br/>
+                        <label id="label-remain-balance">${requestScope.localization.getString("edition_list.label.remaining")} </label><br/>
                         <div class="fadeIn fourth">
                             <div id="remain-balance" class="remain-balance-bar">
                                     ${requestScope.user.balance - requestScope.edition.price}
@@ -90,10 +100,10 @@
         </c:choose>
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/cabinet/wallet">Top up the balance</a>
+            <a class="underlineHover" href="http://localhost:8080/cabinet/wallet">${requestScope.localization.getString("edition_list.link.top_up")}</a>
             <br/>
             <br/>
-            <a class="underlineHover" href="http://localhost:8080/edition_list">Back to edition page</a>
+            <a class="underlineHover" href="http://localhost:8080/edition_list">${requestScope.localization.getString("edition_list.link.edition_list")}</a>
         </div>
     </div>
 </div>

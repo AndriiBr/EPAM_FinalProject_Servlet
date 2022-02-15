@@ -1,7 +1,16 @@
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session" />
+<%-- Deprecated --%>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="localization/locale" />
+<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
+
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <title>Main edition list</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
@@ -10,25 +19,18 @@
           type="text/css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/parts/header.jsp"/><br/>
 
-<%
-    String login = (String) session.getAttribute("login");
-    String role = "";
-    if (session.getAttribute("role") != null) {
-        role = (String) session.getAttribute("role");
-    }
-%>
-
-<h1>Hello <%= login%> !</h1>
-<h2>Here is your subscription list:</h2>
+<h1>${requestScope.localization.getString("subscriptions.text.hello")} ${sessionScope.login} !</h1>
+<h2>${requestScope.localization.getString("subscriptions.text.subscriptions_list")}</h2>
 
 <table border="1" cellpadding="5" cellspacing="3">
     <tr>
-        <th id="title">Edition Title</th>
-        <th id="title_image">Image Path</th>
+        <th id="title">${requestScope.localization.getString("subscriptions.text.title")}</th>
+        <th id="title_image">${requestScope.localization.getString("subscriptions.text.image")}</th>
         <th id="genres">
             <form action="${pageContext.request.contextPath}/edition_list" method="get">
-                <p><label for="genre">Genre</label><br/>
+                <p><label for="genre">${requestScope.localization.getString("subscriptions.text.genre")}</label><br/>
                     <select id="genre" name="genre" onchange="this.form.submit()">
                         <c:forEach items="${requestScope.genresList}" var="genre">
                             <option value="${genre}">${genre}</option>
@@ -54,7 +56,7 @@
 
             <%-- Unsubscribe button --%>
             <td>
-                <button onclick="document.getElementById('${edition.title}').style.display='block'">Unsubscribe
+                <button onclick="document.getElementById('${edition.title}').style.display='block'">${requestScope.localization.getString("subscriptions.text.unsubscribe")}
                 </button>
 
                 <div id="${edition.title}" class="modal">
@@ -67,14 +69,14 @@
                             <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
                                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 
-                            <p>Do you want to cancel your subscription?</p>
+                            <p>${requestScope.localization.getString("subscriptions.text.unsubscribe_text")}</p>
 
                             <div class="clearfix">
                                 <button type="button"
                                         onclick="document.getElementById('${edition.title}').style.display='none'"
-                                        class="cancel">Cancel</button>
+                                        class="cancel">${requestScope.localization.getString("subscriptions.button.cancel")}</button>
                                 <button type="submit" name="edition_title" value="${edition.title}"
-                                        class="delete-btn">Unsubscribe</button>
+                                        class="delete-btn">${requestScope.localization.getString("subscriptions.text.unsubscribe")}</button>
                             </div>
                         </div>
                     </form>
