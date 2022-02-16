@@ -1,6 +1,9 @@
 package ua.epam.final_project.dao.realisation;
 
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IUserDao;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.User;
 import static ua.epam.final_project.dao.SQLConstant.*;
 import static ua.epam.final_project.dao.SQLConstant.SQL_INSERT_USER;
@@ -35,9 +38,6 @@ public class UserDao implements IUserDao {
         return numberOfUsers;
     }
 
-    /**
-     * Get list of all users with their attributes
-     */
     public List<User> findAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
 
@@ -53,13 +53,11 @@ public class UserDao implements IUserDao {
         return users;
     }
 
-
     @Override
     public List<User> findAllUsersFromTo(int recordsPerPage, int page) throws SQLException {
         List<User> list = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_USERS_FROM_TO)) {
-
             statement.setInt(1, recordsPerPage);
             statement.setInt(2, (page - 1) * recordsPerPage);
 
@@ -74,9 +72,6 @@ public class UserDao implements IUserDao {
         return list;
     }
 
-    /**
-     * Get single user from database by Login/Password
-     */
     public User findUserByLoginPassword(String login, String password) throws SQLException {
         User user = null;
 
@@ -94,9 +89,6 @@ public class UserDao implements IUserDao {
         return user;
     }
 
-    /**
-     * Get single user from database by Login
-     */
     public User findUserByLogin(String login) throws  SQLException {
         User user = null;
 
@@ -114,9 +106,6 @@ public class UserDao implements IUserDao {
         return user;
     }
 
-    /**
-     * Insert new user into database
-     */
     public boolean insertUser(User user) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER)) {
             if (findUserByLogin(user.getLogin()) != null) {
@@ -135,9 +124,6 @@ public class UserDao implements IUserDao {
         return true;
     }
 
-    /**
-     * Update user balance value
-     */
     public boolean updateUserBalance(User user, int money) throws SQLException {
         final int userID = user.getId();
         int balance = user.getBalance();
@@ -154,21 +140,41 @@ public class UserDao implements IUserDao {
         return true;
     }
 
-    /**
-     * Delete user
-     */
     @Override
-    public boolean deleteUserByLogin(String login) throws SQLException {
-
-        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_USER_BY_LOGIN)) {
-            statement.setString(1, login);
+    public boolean updateUser(User user) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER)) {
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getName());
+            statement.setString(5, user.getUserImage());
+            statement.setInt(6, user.getBalance());
+            statement.setString(7, user.getRole());
+            statement.setInt(8, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            return false;
+            throw new SQLException(e);
         }
+
         return true;
     }
 
+    @Override
+    public boolean deleteUser(User user) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_USER)) {
+            //Delete all user-edition relationships before delete edition from DB
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            daoFactory.getUserEditionDao().deleteUserEditionByUser(user);
+
+            statement.setInt(1, user.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        } catch (DataBaseNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     /**
      * UTILITY METHOD

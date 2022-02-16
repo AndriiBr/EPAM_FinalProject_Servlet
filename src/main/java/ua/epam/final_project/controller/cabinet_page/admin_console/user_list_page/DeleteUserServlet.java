@@ -42,7 +42,7 @@ public class DeleteUserServlet extends HttpServlet {
         if (user != null) {
             //delete user from DB
             try {
-                daoFactory.getUserDao().deleteUserByLogin(userLogin);
+                daoFactory.getUserDao().deleteUser(user);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

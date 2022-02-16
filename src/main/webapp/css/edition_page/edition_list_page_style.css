@@ -14,6 +14,7 @@ button {
     opacity: 0.9;
 }
 
+
 button:hover {
     opacity:1;
 }
@@ -28,6 +29,16 @@ button:hover {
 .cancel {
     background-color: #ccc;
     color: black;
+}
+
+.red-btn {
+    background-color: #f44336;
+    width: 100%;
+}
+
+.green-btn {
+    background-color: #04AA6D;
+    width: 100%;
 }
 
 /* Add a color to the delete button */

@@ -94,6 +94,28 @@ public class UserEditionDao implements IUserEditionDao {
         return true;
     }
 
+    @Override
+    public boolean deleteUserEditionByEdition(Edition edition) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_USER_EDITION_BY_EDITION)) {
+            statement.setInt(1, edition.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteUserEditionByUser(User user) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_USER_EDITION_BY_USER)) {
+            statement.setInt(1, user.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        return true;
+    }
+
     /**
      * create single entity user-edition
      * @param rs - Result set from DB

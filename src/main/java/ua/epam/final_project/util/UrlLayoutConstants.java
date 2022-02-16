@@ -33,14 +33,15 @@ public final class UrlLayoutConstants {
     public static final String EDIT_EDITION_URL = "/cabinet/admin_console/global_edition_list/update_edition";
 
     public static final String USER_LIST_URL = "/cabinet/admin_console/user_list";
+    @Deprecated
+    public static final String DELETE_USER_URL = "/cabinet/admin_console/user_list/delete_user";
+    public static final String CHANGE_USER_STATUS_URL = "/cabinet/admin_console/user_list/change_user_status";
 
     public static final String USER_SUBSCRIPTION_LIST_URL = "/cabinet/subscription_list";
     public static final String UNSUBSCRIBE_EDITION_LIST_URL = "/cabinet/subscription_list/unsubscribe";
 
     public static final String USER_SETTINGS_URL = "/cabinet/user_settings";
 
-    @Deprecated
-    public static final String DELETE_USER_URL = "/cabinet/admin_console/user_list/delete_user";
 
     public static final String WALLET_URL = "/cabinet/wallet";
     public static final String FILL_UP_WALLET_URL = "/cabinet/wallet/fill_up";

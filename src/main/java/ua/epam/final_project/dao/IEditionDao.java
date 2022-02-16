@@ -69,5 +69,5 @@ public interface IEditionDao {
      */
     boolean updateEdition(Edition edition) throws SQLException;
 
-    boolean deleteEditionByTitle(String title) throws SQLException;
+    boolean deleteEdition(Edition edition) throws SQLException;
 }

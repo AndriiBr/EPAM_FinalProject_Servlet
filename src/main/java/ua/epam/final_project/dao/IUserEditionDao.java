@@ -25,4 +25,8 @@ public interface IUserEditionDao {
      * @throws SQLException
      */
     boolean deleteUserEdition(User user, Edition edition) throws SQLException;
+
+    boolean deleteUserEditionByEdition(Edition edition) throws SQLException;
+
+    boolean deleteUserEditionByUser(User user) throws SQLException;
 }

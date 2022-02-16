@@ -49,7 +49,7 @@ public class DeleteEditionServlet extends HttpServlet {
             //delete edition title image from external folder
             try {
                 daoFactory.beginTransaction();
-                daoFactory.getEditionDao().deleteEditionByTitle(editionTitle);
+                daoFactory.getEditionDao().deleteEdition(edition);
                 daoFactory.commitTransaction();
                 DeleteImageFromExternalDirectory.delete(getExternalFolderPath(), edition.getImagePath());
             } catch (SQLException | DataBaseConnectionException e) {

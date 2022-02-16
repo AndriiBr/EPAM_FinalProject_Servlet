@@ -27,7 +27,15 @@ public class UserListServlet extends HttpServlet {
         final HttpSession session = req.getSession();
         final String currentRole = (String)session.getAttribute("role");
 
+        int page = 1;
+        int recordsPerPage = 5;
+        int noOfRecords = 0;
+
         List<User> userList;
+
+        if(req.getParameter("page") != null) {
+            page = Integer.parseInt(req.getParameter("page"));
+        }
 
         //access rights check.
         //only admin can access this page
@@ -35,11 +43,15 @@ public class UserListServlet extends HttpServlet {
         if (currentRole.equals("1")) {
             try {
                 DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-                userList = daoFactory.getUserDao().findAllUsers();
+                userList = daoFactory.getUserDao().findAllUsersFromTo(recordsPerPage, page);
+                noOfRecords = daoFactory.getUserDao().getNumberOfUsers();
                 req.setAttribute("userList", userList);
             } catch (SQLException | DataBaseNotSupportedException e) {
                 e.printStackTrace();
             }
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+            req.setAttribute("noOfPages", noOfPages);
+            req.setAttribute("currentPage", page);
 
             req.getRequestDispatcher(USER_LIST_PAGE).forward(req, resp);
         } else {

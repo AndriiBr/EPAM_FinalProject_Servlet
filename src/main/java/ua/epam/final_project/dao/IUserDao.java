@@ -22,5 +22,7 @@ public interface IUserDao {
 
     boolean updateUserBalance(User user, int money) throws SQLException;
 
-    boolean deleteUserByLogin(String login) throws SQLException;
+    boolean updateUser(User user) throws SQLException;
+
+    boolean deleteUser(User user) throws SQLException;
 }

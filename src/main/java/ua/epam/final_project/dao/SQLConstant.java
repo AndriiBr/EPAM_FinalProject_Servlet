@@ -10,9 +10,11 @@ public final class SQLConstant {
     public static final String SQL_FIND_USER_BY_LOGIN_PASSWORD = "SELECT * FROM user WHERE (login=?) AND (password=?)";
     public static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM user WHERE (login=?)";
     public static final String SQL_UPDATE_USER_BALANCE = "UPDATE user SET balance = ? where id = ?";
+    public static final String SQL_UPDATE_USER =
+            "UPDATE user SET login = ?, password = ?, email = ?, name = ?, user_image = ?, balance = ?, user_role_id = ? WHERE id = ?";
     public static final String SQL_INSERT_USER =
             "INSERT INTO user (login, password, email, name, user_image, user_role_id) VALUES (?, ?, ?, ?, ?, ?)";
-    public static final String SQL_DELETE_USER_BY_LOGIN = "DELETE FROM user WHERE login = ?";
+    public static final String SQL_DELETE_USER = "DELETE FROM user WHERE id = ?";
 
     public static final String SQL_GET_NUMBER_OF_EDITIONS = "SELECT COUNT(*) AS rowcount FROM edition";
     public static final String SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS =
@@ -33,7 +35,7 @@ public final class SQLConstant {
             "INSERT INTO edition (title, title_image, genre_id, price) VALUES (?, ?, ?, ?)";
     public static final String SQL_UPDATE_EDITION =
             "UPDATE edition SET title = ?, title_image = ?, genre_id = ?, price = ? WHERE id = ?;";
-    public static final String SQL_DELETE_EDITION_BY_TITLE = "DELETE FROM edition WHERE (title=?)";
+    public static final String SQL_DELETE_EDITION = "DELETE FROM edition WHERE id = ?";
 
     public static final String SQL_GET_NUMBER_OF_GENRES = "SELECT COUNT(*) AS rowcount FROM genre";
     public static final String SQL_FIND_ALL_GENRES = "SELECT * FROM genre";
@@ -45,5 +47,7 @@ public final class SQLConstant {
             "SELECT * FROM user_edition WHERE user_id = ? AND edition_id = ?";
     public static final String SQL_INSERT_USER_EDITION = "INSERT INTO user_edition (user_id, edition_id) VALUES (?, ?)";
     public static final String SQL_DELETE_USER_EDITION = "DELETE FROM user_edition WHERE user_id = ? AND edition_id = ?";
+    public static final String SQL_DELETE_USER_EDITION_BY_EDITION = "DELETE FROM user_edition WHERE edition_id = ?;";
+    public static final String SQL_DELETE_USER_EDITION_BY_USER = "DELETE FROM user_edition WHERE user_id = ?;";
 
 }

@@ -6,14 +6,14 @@
 
   <!-- *WELCOME PAGE* -->
   <welcome-file-list>
-    <welcome-file>/WEB-INF/view/main_page/main_page.jsp</welcome-file>
+    <welcome-file>/view/main_page/main_page.jsp</welcome-file>
   </welcome-file-list>
 
 
   <!-- *ERROR PAGE* -->
   <error-page>
     <error-code>404</error-code>
-    <location>/WEB-INF/view/error_page/error_404_page.jsp</location>
+    <location>/view/error_page/error_404_page.jsp</location>
   </error-page>
 
 
@@ -21,7 +21,7 @@
   <!--About us-->
   <servlet>
     <servlet-name>about_us</servlet-name>
-    <jsp-file>/WEB-INF/view/about_page/about_us_page.jsp</jsp-file>
+    <jsp-file>/view/about_page/about_us_page.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>about_us</servlet-name>
@@ -30,7 +30,7 @@
 
   <servlet>
     <servlet-name>cabinet</servlet-name>
-    <jsp-file>/WEB-INF/view/cabinet_page/cabinet.jsp</jsp-file>
+    <jsp-file>/view/cabinet_page/cabinet.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>cabinet</servlet-name>

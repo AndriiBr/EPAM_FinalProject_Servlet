@@ -1,6 +1,9 @@
 package ua.epam.final_project.dao.realisation;
 
+import ua.epam.final_project.dao.DaoFactory;
+import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IEditionDao;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.Edition;
 import ua.epam.final_project.util.entity.User;
 
@@ -132,7 +135,6 @@ public class EditionDao implements IEditionDao {
 
     @Override
     public Edition getEditionByTitle(String title) throws SQLException {
-
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITION_BY_TITLE);) {
             statement.setString(1, title);
 
@@ -181,12 +183,18 @@ public class EditionDao implements IEditionDao {
     }
 
     @Override
-    public boolean deleteEditionByTitle(String title) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_EDITION_BY_TITLE)) {
-            statement.setString(1, title);
+    public boolean deleteEdition(Edition edition) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_EDITION)) {
+            //Delete all user-edition relationships before delete edition from DB
+            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
+            daoFactory.getUserEditionDao().deleteUserEditionByEdition(edition);
+
+            statement.setInt(1, edition.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException(e);
+        } catch (DataBaseNotSupportedException e) {
+            e.printStackTrace();
         }
         return true;
     }

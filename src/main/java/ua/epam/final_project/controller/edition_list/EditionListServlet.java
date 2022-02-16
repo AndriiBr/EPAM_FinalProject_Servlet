@@ -32,6 +32,7 @@ public class EditionListServlet extends HttpServlet {
         int recordsPerPage = 4;
         int noOfRecords = 0;
         String genre = "";
+        String sortBy = "";
         List<Edition> editionList = null;
         List<String> genres = null;
         Map<Integer, String> genreMap = null;
@@ -49,16 +50,18 @@ public class EditionListServlet extends HttpServlet {
 
         try {
             DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-            daoFactory.beginTransaction();
             User user = daoFactory.getUserDao().findUserByLogin(login);
-            editionList = daoFactory.getEditionDao().findAllEditionsFromTo(user, false, recordsPerPage, page, genre);
+            if (login == null) {
+                editionList = daoFactory.getEditionDao().findAllEditionsFromTo(recordsPerPage, page, genre);
+                noOfRecords = daoFactory.getEditionDao().getNumberOfEditions();
+            } else {
+                editionList = daoFactory.getEditionDao().findAllEditionsFromTo(user, false, recordsPerPage, page, genre);
+                noOfRecords = daoFactory.getEditionDao().getNumberOfEditions(user, false);
+            }
             genreMap = daoFactory.getGenreDao().findAllGenres();
-            noOfRecords = daoFactory.getEditionDao().getNumberOfEditions(user, false);
-
-            daoFactory.commitTransaction();
             genres = new ArrayList<>(genreMap.values());
             genres.add(0, "*");
-        } catch (DataBaseNotSupportedException | SQLException | DataBaseConnectionException e) {
+        } catch (DataBaseNotSupportedException | SQLException e) {
             e.printStackTrace();
         }
 
