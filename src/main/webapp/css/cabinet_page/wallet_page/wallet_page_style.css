@@ -17,7 +17,7 @@ body{
     margin-bottom: 10px;
 }
 
-.balance-bar, .price-bar, .remain-balance-bar, .not-enough-balance{
+.balance-bar, .price-bar, .remain-balance-bar, .not-enough-balance {
     background-color: #c6f7c8;
     color: #0d0d0d;
     padding: 15px 15px;

@@ -2,15 +2,32 @@ package ua.epam.final_project.util.entity;
 
 import java.util.Map;
 
-//ToDo
 public class Genre {
-    private Map<Integer, String> genres;
+    private int id;
+    private String genreEn;
+    private String genreUa;
 
-    public Map<Integer, String> getGenreList() {
-        return genres;
+    public int getId() {
+        return id;
     }
 
-    public void setGenreList(Map<Integer, String> genreList) {
-        this.genres = genreList;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getGenreEn() {
+        return genreEn;
+    }
+
+    public void setGenreEn(String genreEn) {
+        this.genreEn = genreEn;
+    }
+
+    public String getGenreUa() {
+        return genreUa;
+    }
+
+    public void setGenreUa(String genreUa) {
+        this.genreUa = genreUa;
     }
 }

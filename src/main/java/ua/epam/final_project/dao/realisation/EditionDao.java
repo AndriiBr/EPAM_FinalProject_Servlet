@@ -153,11 +153,12 @@ public class EditionDao implements IEditionDao {
     @Override
     public boolean insertNewEdition(Edition edition) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_EDITION)) {
-            statement.setString(1, edition.getTitle());
+            statement.setString(1, edition.getTitleEn());
+            statement.setString(2, edition.getTitleUa());
             //insert path to image into DB
-            statement.setString(2, edition.getImagePath());
-            statement.setInt(3, edition.getGenreId());
-            statement.setInt(4, edition.getPrice());
+            statement.setString(3, edition.getImagePath());
+            statement.setInt(4, edition.getGenreId());
+            statement.setInt(5, edition.getPrice());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException(e);
@@ -168,11 +169,12 @@ public class EditionDao implements IEditionDao {
     @Override
     public boolean updateEdition(Edition edition) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_EDITION)) {
-            statement.setString(1, edition.getTitle());
-            statement.setString(2, edition.getImagePath());
-            statement.setInt(3, edition.getGenreId());
-            statement.setInt(4, edition.getPrice());
-            statement.setInt(5, edition.getId());
+            statement.setString(1, edition.getTitleEn());
+            statement.setString(2, edition.getTitleUa());
+            statement.setString(3, edition.getImagePath());
+            statement.setInt(4, edition.getGenreId());
+            statement.setInt(5, edition.getPrice());
+            statement.setInt(6, edition.getId());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -207,7 +209,8 @@ public class EditionDao implements IEditionDao {
         Edition edition = new Edition();
         try {
             edition.setId(rs.getInt("id"));
-            edition.setTitle(rs.getString("title"));
+            edition.setTitleEn(rs.getString("titleEn"));
+            edition.setTitleUa(rs.getString("titleUa"));
             edition.setImagePath(rs.getString("title_image"));
             edition.setGenreId(rs.getInt("genre_id"));
             edition.setPrice(rs.getInt("price"));

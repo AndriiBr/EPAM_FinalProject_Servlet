@@ -5,6 +5,7 @@ import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.util.entity.Genre;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +33,7 @@ public class GlobalEditionListServlet extends HttpServlet {
         String genre = "";
         List<Edition> editionList = null;
         List<String> genres = null;
-        Map<Integer, String> genreMap = null;
+        List<Genre> genreList = null;
 
         if(req.getParameter("page") != null) {
             page = Integer.parseInt(req.getParameter("page"));
@@ -46,11 +47,11 @@ public class GlobalEditionListServlet extends HttpServlet {
             DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
             daoFactory.beginTransaction();
             editionList = daoFactory.getEditionDao().findAllEditionsFromTo(recordsPerPage, page, genre);
-            genreMap = daoFactory.getGenreDao().findAllGenres();
+            genreList = daoFactory.getGenreDao().findAllGenres();
             noOfRecords = daoFactory.getEditionDao().getNumberOfEditions();
             daoFactory.commitTransaction();
-            genres = new ArrayList<>(genreMap.values());
-            genres.add(0, "*");
+            //ToDo
+//            genreList.add(0, "*");
         } catch (DataBaseNotSupportedException | SQLException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
@@ -59,8 +60,7 @@ public class GlobalEditionListServlet extends HttpServlet {
         req.setAttribute("editionList", editionList);
         req.setAttribute("noOfPages", noOfPages);
         req.setAttribute("currentPage", page);
-        req.setAttribute("genreMap", genreMap);
-        req.setAttribute("genresList", genres);
+        req.setAttribute("genresList", genreList);
         req.getRequestDispatcher(ADMIN_EDITION_LIST_PAGE).forward(req, resp);
 
         System.out.println("GlobalEditionListServlet - doGET method: " + LocalTime.now());

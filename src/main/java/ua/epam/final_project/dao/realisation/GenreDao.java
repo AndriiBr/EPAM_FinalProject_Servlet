@@ -1,10 +1,15 @@
 package ua.epam.final_project.dao.realisation;
 
 import ua.epam.final_project.dao.IGenreDao;
+import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.util.entity.Genre;
+
 import static ua.epam.final_project.dao.SQLConstant.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GenreDao implements IGenreDao {
@@ -31,13 +36,13 @@ public class GenreDao implements IGenreDao {
     }
 
     @Override
-    public Map<Integer, String> findAllGenres() throws SQLException {
-        Map<Integer, String > genres = new HashMap<>();
+    public List<Genre> findAllGenres() throws SQLException {
+        List<Genre> genres = new ArrayList<>();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(SQL_FIND_ALL_GENRES);
             while (rs.next()) {
-                genres.put(rs.getInt("id"), rs.getString("name"));
+                genres.add(extractGenre(rs));
             }
         } catch (SQLException e) {
             throw new SQLException(e);
@@ -45,18 +50,19 @@ public class GenreDao implements IGenreDao {
         return genres;
     }
 
-    @Override
-    public int findGenreIdByName(String genre) throws SQLException {
-        int genreId = 0;
-        
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_GENRE_WHERE)) {
-            statement.setString(1, genre);
-            ResultSet rs = statement.executeQuery();
-            
-            if (rs.next()) {
-                genreId = rs.getInt("id");
-            }
+    /**
+     * UTILITY METHOD
+     * create Edition entity according to data from database
+     */
+    private Genre extractGenre(ResultSet rs) throws SQLException {
+        Genre genre = new Genre();
+        try {
+            genre.setId(rs.getInt("id"));
+            genre.setGenreEn(rs.getString("nameEn"));
+            genre.setGenreUa(rs.getString("nameUa"));
+        } catch (SQLException e) {
+            throw new SQLException(e);
         }
-        return genreId;
+        return genre;
     }
 }

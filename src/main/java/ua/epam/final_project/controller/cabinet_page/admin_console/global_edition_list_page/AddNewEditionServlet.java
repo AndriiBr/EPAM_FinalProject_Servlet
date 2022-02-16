@@ -5,6 +5,7 @@ import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.util.entity.Genre;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -31,16 +32,15 @@ public class AddNewEditionServlet extends HttpServlet {
         String currentRole = (String) session.getAttribute("role");
 
         if (currentRole.equals("1")) {
-            List<String> genres = null;
-            Map<Integer, String> genreMap;
+            List<Genre> genreList = null;
             try {
                 DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-                genreMap = daoFactory.getGenreDao().findAllGenres();
-                genres = new ArrayList<>(genreMap.values());
+                genreList = daoFactory.getGenreDao().findAllGenres();
+                
             } catch (DataBaseNotSupportedException | SQLException e) {
                 e.printStackTrace();
             }
-            req.setAttribute("genresList", genres);
+            req.setAttribute("genresList", genreList);
             req.getRequestDispatcher(ADD_NEW_EDITION_PAGE).forward(req, resp);
         } else {
             resp.sendRedirect(ERROR_404_PAGE);
@@ -54,13 +54,13 @@ public class AddNewEditionServlet extends HttpServlet {
         final HttpSession session = req.getSession();
         DaoFactory daoFactory;
 
-        String editionTitle = "";
+        String editionTitleEn = "";
+        String editionTitleUa = "";
         String imageUUID = "";
         String price = "";
         int genreId = 0;
-        Edition edition = null;
 
-        Map<Integer, String> genreMap = null;
+        List<Genre> genreList = null;
 
         //Error flag to catch different errors in the user input data:
         //         * 0 - everything correct
@@ -70,7 +70,7 @@ public class AddNewEditionServlet extends HttpServlet {
 
         try {
             daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-            genreMap = daoFactory.getGenreDao().findAllGenres();
+            genreList = daoFactory.getGenreDao().findAllGenres();
             editionList = daoFactory.getEditionDao().findAllEditions();
         } catch (DataBaseNotSupportedException | SQLException e) {
             e.printStackTrace();
@@ -78,10 +78,16 @@ public class AddNewEditionServlet extends HttpServlet {
 
         //Read input data from the html-form
         for (Part part : req.getParts()) {
-            if (part.getName().equals("title")) {
+            if (part.getName().equals("titleEn")) {
                 InputStream inputStream = part.getInputStream();
                 InputStreamReader isr = new InputStreamReader(inputStream);
-                editionTitle = new BufferedReader(isr)
+                editionTitleEn = new BufferedReader(isr)
+                        .lines()
+                        .collect(Collectors.joining("\n"));
+            } else if (part.getName().equals("titleUa")) {
+                InputStream inputStream = part.getInputStream();
+                InputStreamReader isr = new InputStreamReader(inputStream);
+                editionTitleUa = new BufferedReader(isr)
                         .lines()
                         .collect(Collectors.joining("\n"));
             } else if (part.getName().equals("file-name")) {
@@ -103,29 +109,29 @@ public class AddNewEditionServlet extends HttpServlet {
                 String genreName = new BufferedReader(isr)
                         .lines()
                         .collect(Collectors.joining("\n"));
-                genreId = getKeyByValue(genreMap, genreName);
+                genreId = genreList.stream()
+                        .filter(x -> x.getGenreEn().equals(genreName) || x.getGenreUa().equals(genreName))
+                        .collect(Collectors.toList()).get(0).getId();
             }
         }
 
+        Edition edition = new Edition();
+        edition.setTitleEn(editionTitleEn);
+        edition.setTitleUa(editionTitleUa);
+        edition.setImagePath(getAbsoluteImagePath(imageUUID));
+        edition.setGenreId(genreId);
+        edition.setPrice(Integer.parseInt(price));
+
         //Validate input data before insert new edition in DB.
-        String finalEditionTitle = editionTitle;
-        if (editionList != null && editionList.stream().anyMatch(x -> x.getTitle().equals(finalEditionTitle))) {
+        if (editionList != null &&
+                (editionList.stream().anyMatch(x -> x.getTitleEn().equals(edition.getTitleEn())) ||
+                        editionList.stream().anyMatch(x -> x.getTitleUa().equals(edition.getTitleUa())))) {
             newEditionErrorFlag = "1";
-            session.setAttribute("editionTitle", finalEditionTitle);
         }
-        session.setAttribute("editionErrorFlag", newEditionErrorFlag);
+        session.setAttribute("edition", edition);
 
 
         if (newEditionErrorFlag.equals("0")) {
-            edition = new Edition();
-            edition.setTitle(editionTitle);
-            edition.setImagePath(getAbsoluteImagePath(imageUUID));
-            edition.setGenreId(genreId);
-            edition.setPrice(Integer.parseInt(price));
-            session.setAttribute("editionEntity", edition);
-        }
-
-        if (edition != null) {
             try {
                 daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
                 daoFactory.beginTransaction();

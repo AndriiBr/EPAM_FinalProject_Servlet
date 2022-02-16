@@ -37,7 +37,14 @@
             <img src="${requestScope.edition.imagePath}" id="icon" width="150" height="200" alt="User Icon"
                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/><br/><br/>
             <div class="wallet-header">
-                ${requestScope.edition.title}
+                <c:choose>
+                    <c:when test="${language == 'ua'}">
+                        <c:out value="${edition.titleUa}"/>
+                    </c:when>
+                    <c:when test="${language == 'en'}">
+                        <c:out value="${edition.titleEn}"/>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
 

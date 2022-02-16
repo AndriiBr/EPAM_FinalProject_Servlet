@@ -5,6 +5,7 @@ import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.util.entity.Genre;
 import ua.epam.final_project.util.entity.User;
 
 import javax.servlet.ServletException;
@@ -34,7 +35,7 @@ public class SubscriptionListServlet extends HttpServlet {
         String genre = "";
         List<Edition> editionList = null;
         List<String> genres = null;
-        Map<Integer, String> genreMap = null;
+        List<Genre> genreList = null;
 
         HttpSession session = req.getSession();
         String login = (String) session.getAttribute("login");
@@ -52,12 +53,12 @@ public class SubscriptionListServlet extends HttpServlet {
             daoFactory.beginTransaction();
             User user = daoFactory.getUserDao().findUserByLogin(login);
             editionList = daoFactory.getEditionDao().findAllEditionsFromTo(user, true, recordsPerPage, page, genre);
-            genreMap = daoFactory.getGenreDao().findAllGenres();
+            genreList = daoFactory.getGenreDao().findAllGenres();
             noOfRecords = daoFactory.getEditionDao().getNumberOfEditions(user, true);
 
             daoFactory.commitTransaction();
-            genres = new ArrayList<>(genreMap.values());
-            genres.add(0, "*");
+            //ToDo
+//            genreList.add(0, "*");
         } catch (DataBaseNotSupportedException | SQLException | DataBaseConnectionException e) {
             e.printStackTrace();
         }
@@ -66,8 +67,7 @@ public class SubscriptionListServlet extends HttpServlet {
         req.setAttribute("editionList", editionList);
         req.setAttribute("noOfPages", noOfPages);
         req.setAttribute("currentPage", page);
-        req.setAttribute("genreMap", genreMap);
-        req.setAttribute("genresList", genres);
+        req.setAttribute("genresList", genreList);
 
         req.getRequestDispatcher(USER_SUBSCRIPTION_LIST_PAGE).forward(req, resp);
 

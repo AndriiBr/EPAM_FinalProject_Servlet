@@ -32,12 +32,6 @@
 <body>
 <jsp:include page="/view/parts/header.jsp"/><br/>
 
-<%
-    Edition edition = (Edition) session.getAttribute("editionEntity");
-    Map<Integer, String> genreMap = (Map<Integer, String>) request.getAttribute("genreMap");
-    String genre = genreMap.get(edition.getGenreId());
-%>
-
 <div class="wrapper fadeInDown">
     <div id="formContent">
 
@@ -54,11 +48,24 @@
         <form class="form-horizontal" method="post"
               action="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list/update_edition"
               enctype="multipart/form-data">
-            <!-- Title Form -->
+            <!-- TitleEn Form -->
             <%-- <div class="field login"> --%>
             <div class="field title">
                 <div class="input-area">
-                    <input type="text" id="title" class="fadeIn second" name="title" value="${sessionScope.editionEntity.title}" placeholder="${requestScope.localization.getString("edition_list.text.title")}"><br/>
+                    <input type="text" id="titleEn" class="fadeIn second" name="titleEn" value="${sessionScope.editionEntity.title}" placeholder="${requestScope.localization.getString("edition_list.text.titleEn")}"><br/>
+                    <div class="fadeIn second">
+                        <em class="icon fas fa-book"></em>
+                    </div>
+                    <em class="error icon-error fas fa-exclamation-circle"></em>
+                </div>
+                <div class="error error-text">Title can`t be blank</div>
+            </div>
+
+            <!-- TitleUa Form -->
+            <%-- <div class="field login"> --%>
+            <div class="field title">
+                <div class="input-area">
+                    <input type="text" id="titleUa" class="fadeIn second" name="titleUa" value="${sessionScope.editionEntity.title}" placeholder="${requestScope.localization.getString("edition_list.text.titleUa")}"><br/>
                     <div class="fadeIn second">
                         <em class="icon fas fa-book"></em>
                     </div>
@@ -84,9 +91,30 @@
                 <div class="input-area">
                     <label for="genre"></label>
                     <select id="genre" class="fadeIn fourth" name="genre">
-                        <option value="<%= genre%>" selected="selected"><%= genre%></option>
+                        <c:set var="key" value="${sessionScope.editionEntity.genreId}"/>
+                        <c:forEach var="genre" items="${requestScope.genresList}">
+                            <c:choose>
+                                <c:when test="${genre.id == key}">
+                                    <c:when test="${language == 'ua'}">
+                                        <c:set var="genreName" value="${genre.genreUa}" />
+                                    </c:when>
+                                    <c:when test="${language == 'en'}">
+                                        <c:set var="genreName" value="${genre.genreEn}" />
+                                    </c:when>
+                                </c:when>
+                            </c:choose>
+                        </c:forEach>
+
+                        <option value="${genreName}" selected="selected">${genreName}</option>
                         <c:forEach items="${requestScope.genresList}" var="genre">
-                            <option value="${genre}">${genre}</option>
+                            <c:choose>
+                                <c:when test="${language == 'ua'}">
+                                    <option value="${genre.genreUa}">${genre.genreUa}</option>
+                                </c:when>
+                                <c:when test="${language == 'en'}">
+                                    <option value="${genre.genreEn}">${genre.genreEn}</option>
+                                </c:when>
+                            </c:choose>
                         </c:forEach>
                     </select><br/>
                     <div class="fadeIn fourth">

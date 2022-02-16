@@ -42,14 +42,25 @@
         </div>
 
         <%--New edition form--%>
-        <form class="form-horizontal" method="post"
+        <form name="new_edition_form" class="form-horizontal" method="post"
               action="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list/add_new_edition"
               enctype="multipart/form-data">
-            <!-- Title Form -->
-            <%-- <div class="field login"> --%>
-            <div class="field title">
+            <!-- TitleEn Form -->
+            <div class="field titleEn">
                 <div class="input-area">
-                    <input type="text" id="title" class="fadeIn second" name="title" placeholder="${requestScope.localization.getString("edition_list.text.title")}"><br/>
+                    <input type="text" id="titleEn" class="fadeIn second" name="titleEn" placeholder="${requestScope.localization.getString("edition_list.text.titleEn")}"><br/>
+                    <div class="fadeIn second">
+                        <em class="icon fas fa-book"></em>
+                    </div>
+                    <em class="error icon-error fas fa-exclamation-circle"></em>
+                </div>
+                <div class="error error-text">Title can`t be blank</div>
+            </div>
+
+            <!-- TitleUa Form -->
+            <div class="field titleUa">
+                <div class="input-area">
+                    <input type="text" id="titleUa" class="fadeIn second" name="titleUa" placeholder="${requestScope.localization.getString("edition_list.text.titleUa")}"><br/>
                     <div class="fadeIn second">
                         <em class="icon fas fa-book"></em>
                     </div>
@@ -78,7 +89,14 @@
                     <select id="genre" class="fadeIn fourth" name="genre">
                         <option selected disabled="disabled">${requestScope.localization.getString("edition_list.text.genre")}</option>
                         <c:forEach items="${requestScope.genresList}" var="genre">
-                            <option value="${genre}">${genre}</option>
+                            <c:choose>
+                                <c:when test="${language == 'ua'}">
+                                    <option value="${genre.genreUa}">${genre.genreUa}</option>
+                                </c:when>
+                                <c:when test="${language == 'en'}">
+                                    <option value="${genre.genreEn}">${genre.genreEn}</option>
+                                </c:when>
+                            </c:choose>
                         </c:forEach>
                     </select><br/>
                     <div class="fadeIn fourth">
@@ -101,7 +119,7 @@
 
         <!-- Go back to edition page -->
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/edition_list">${requestScope.localization.getString("edition_list.link.edition_list")}</a>
+            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list">${requestScope.localization.getString("edition_list.link.edition_list")}</a>
         </div>
 
     </div>

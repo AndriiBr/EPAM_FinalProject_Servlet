@@ -29,11 +29,18 @@
         <th id="title">${requestScope.localization.getString("subscriptions.text.title")}</th>
         <th id="title_image">${requestScope.localization.getString("subscriptions.text.image")}</th>
         <th id="genres">
-            <form action="${pageContext.request.contextPath}/edition_list" method="get">
+            <form action="${pageContext.request.contextPath}/cabinet/subscription_list" method="get">
                 <p><label for="genre">${requestScope.localization.getString("subscriptions.text.genre")}</label><br/>
                     <select id="genre" name="genre" onchange="this.form.submit()">
                         <c:forEach items="${requestScope.genresList}" var="genre">
-                            <option value="${genre}">${genre}</option>
+                            <c:choose>
+                                <c:when test="${language == 'ua'}">
+                                    <option value="${genre.genreUa}">${genre.genreUa}</option>
+                                </c:when>
+                                <c:when test="${language == 'en'}">
+                                    <option value="${genre.genreEn}">${genre.genreEn}</option>
+                                </c:when>
+                            </c:choose>
                         </c:forEach>
                     </select>
                 </p>
@@ -44,14 +51,36 @@
 
     <c:forEach var="edition" items="${requestScope.editionList}">
         <tr>
-            <td>${edition.title}</td>
             <td>
-                <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
+                <c:choose>
+                    <c:when test="${language == 'ua'}">
+                        <c:out value="${edition.titleUa}"/>
+                    </c:when>
+                    <c:when test="${language == 'en'}">
+                        <c:out value="${edition.titleEn}"/>
+                    </c:when>
+                </c:choose>
+            </td>
+            <td>
+                <img src="${edition.imagePath}" alt="${edition.titleEn}" width="150" height="200"
                      onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
             </td>
             <td>
                 <c:set var="key" value="${edition.genreId}"/>
-                <c:out value="${requestScope.genreMap.get(key)}"/>
+                <c:forEach var="genre" items="${requestScope.genresList}">
+                    <c:choose>
+                        <c:when test="${genre.id == key}">
+                            <c:choose>
+                                <c:when test="${language == 'ua'}">
+                                    <c:out value="${genre.genreUa}"/>
+                                </c:when>
+                                <c:when test="${language == 'en'}">
+                                    <c:out value="${genre.genreEn}"/>
+                                </c:when>
+                            </c:choose>
+                        </c:when>
+                    </c:choose>
+                </c:forEach>
             </td>
 
             <%-- Unsubscribe button --%>
@@ -65,7 +94,16 @@
                     <form class="modal-content"
                           action="${pageContext.request.contextPath}/cabinet/subscription_list/unsubscribe" method="post">
                         <div class="container">
-                            <h1>${edition.title}</h1>
+                            <h1>
+                                <c:choose>
+                                    <c:when test="${language == 'ua'}">
+                                        <c:out value="${edition.titleUa}"/>
+                                    </c:when>
+                                    <c:when test="${language == 'en'}">
+                                        <c:out value="${edition.titleEn}"/>
+                                    </c:when>
+                                </c:choose>
+                            </h1>
                             <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
                                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 

@@ -27,24 +27,20 @@
 <body>
 <jsp:include page="/view/parts/header.jsp"/><br/>
 
-<%
-    Edition edition = (Edition) session.getAttribute("editionEntity");
-    request.setAttribute("imagePath", edition.getImagePath());
-    request.setAttribute("title", edition.getTitle());
-    request.setAttribute("price", edition.getPrice());
-%>
-
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <div class="fadeIn first">
-            <img src="${requestScope.imagePath}" id="icon" width="150" height="200" alt="Edition Icon"
+            <img src="${sessionScope.edition.imagePath}" id="icon" width="150" height="200" alt="Edition Icon"
                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
         </div>
 
         <h3>${requestScope.localization.getString("edition_list.text.title_single")}</h3>
-        ${title}<br/>
+        <c:choose>
+            <c:when test="${language == 'ua'}">${sessionScope.edition.titleUa}</c:when>
+            <c:when test="${language == 'en'}">${sessionScope.edition.titleEn}</c:when>
+        </c:choose>
         <h3>${requestScope.localization.getString("edition_list.text.operation_success")}</h3>
-        ${requestScope.localization.getString("edition_list.text.price")}: ${price}
+        ${requestScope.localization.getString("edition_list.text.price")}: ${sessionScope.edition.price}
 
         <div id="formFooter">
             <a class="underlineHover" href="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list">${requestScope.localization.getString("edition_list.link.edition_list")}</a>

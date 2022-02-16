@@ -5,6 +5,7 @@ import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.util.entity.Genre;
 import ua.epam.final_project.util.entity.User;
 
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
@@ -34,8 +35,7 @@ public class EditionListServlet extends HttpServlet {
         String genre = "";
         String sortBy = "";
         List<Edition> editionList = null;
-        List<String> genres = null;
-        Map<Integer, String> genreMap = null;
+        List<Genre> genreList = null;
 
         HttpSession session = req.getSession();
         String login = (String) session.getAttribute("login");
@@ -58,9 +58,9 @@ public class EditionListServlet extends HttpServlet {
                 editionList = daoFactory.getEditionDao().findAllEditionsFromTo(user, false, recordsPerPage, page, genre);
                 noOfRecords = daoFactory.getEditionDao().getNumberOfEditions(user, false);
             }
-            genreMap = daoFactory.getGenreDao().findAllGenres();
-            genres = new ArrayList<>(genreMap.values());
-            genres.add(0, "*");
+            genreList = daoFactory.getGenreDao().findAllGenres();
+            //ToDo
+//            genreList.add(0, "*");
         } catch (DataBaseNotSupportedException | SQLException e) {
             e.printStackTrace();
         }
@@ -69,8 +69,7 @@ public class EditionListServlet extends HttpServlet {
         req.setAttribute("editionList", editionList);
         req.setAttribute("noOfPages", noOfPages);
         req.setAttribute("currentPage", page);
-        req.setAttribute("genreMap", genreMap);
-        req.setAttribute("genresList", genres);
+        req.setAttribute("genresList", genreList);
         req.getRequestDispatcher(EDITION_LIST_PAGE).forward(req, resp);
 
         System.out.println("EditionListServlet - doGET method: " + LocalTime.now());

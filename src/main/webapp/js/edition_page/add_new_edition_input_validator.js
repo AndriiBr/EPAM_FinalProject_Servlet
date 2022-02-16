@@ -1,17 +1,24 @@
-const form = document.querySelector("form"),
-    titleField = form.querySelector(".title"),
-    titleInput = titleField.querySelector("input"),
+const form = document.querySelector("form[name='new_edition_form']"),
+    titleEnField = form.querySelector(".titleEn"),
+    titleEnInput = titleEnField.querySelector("input[name='titleEn']"),
+
+    titleUaField = form.querySelector(".titleUa"),
+    titleUaInput = titleUaField.querySelector("input[name='titleUa']"),
 
     priceField = form.querySelector(".price"),
-    priceInput = priceField.querySelector("input"),
+    priceInput = priceField.querySelector("input[name='price']"),
 
     genreField = form.querySelector(".genre"),
-    genreInput = genreField.querySelector("select");
+    genreInput = genreField.querySelector("select[name='genre']");
 
 
 //If user entered any character in title field this event will be triggered
-titleInput.onkeyup = () => {
-    checkTitle();
+titleEnInput.onkeyup = () => {
+    checkTitleEn();
+}
+
+titleUaInput.onkeyup = () => {
+    checkTitleUa();
 }
 
 //If user entered any character in email field this event will be triggered
@@ -29,12 +36,20 @@ form.onsubmit = (e) => {
     //prevent form from default submitting
     e.preventDefault();
 
-    // If title is empty
-    if (titleInput.value === "") {
-        titleField.classList.add("shake", "error");
+    // If title is empty (EN)
+    if (titleEnInput.value === "") {
+        titleEnField.classList.add("shake", "error");
     } else {
         //Function to validate title
-        checkTitle();
+        checkTitleEn();
+    }
+
+    // If title is empty (UA)
+    if (titleUaInput.value === "") {
+        titleUaField.classList.add("shake", "error");
+    } else {
+        //Function to validate title
+        checkTitleUa();
     }
 
     //If price is empty
@@ -56,14 +71,16 @@ form.onsubmit = (e) => {
 
     //remove shale class after 500ms delay
     setTimeout(() => {
-        titleField.classList.remove("shake");
+        titleEnField.classList.remove("shake");
+        titleUaField.classList.remove("shake");
         priceField.classList.remove("shake");
         genreField.classList.remove("shake");
     }, 500);
 
 
     //If error class not contain errors (user entered valid inputs) so we can submit a form
-    if (!titleField.classList.contains("error")
+    if (!titleEnField.classList.contains("error")
+        && !titleUaField.classList.contains("error")
         && !priceField.classList.contains("error")
         && !genreField.classList.contains("error")) {
         form.submit();

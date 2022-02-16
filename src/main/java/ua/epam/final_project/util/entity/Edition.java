@@ -5,7 +5,8 @@ import java.io.Serializable;
 public class Edition implements Serializable {
 
     private int id;
-    private String title;
+    private String titleEn;
+    private String titleUa;
     private String imagePath;
     private int genreId;
     private int price;
@@ -18,12 +19,20 @@ public class Edition implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitleEn() {
+        return titleEn;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitleEn(String title) {
+        this.titleEn = title;
+    }
+
+    public String getTitleUa() {
+        return titleUa;
+    }
+
+    public void setTitleUa(String titleUa) {
+        this.titleUa = titleUa;
     }
 
     public String getImagePath() {

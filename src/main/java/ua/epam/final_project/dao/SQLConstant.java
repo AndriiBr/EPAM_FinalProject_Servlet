@@ -32,9 +32,9 @@ public final class SQLConstant {
 
     public static final String SQL_FIND_EDITION_BY_ID = "SELECT * FROM edition WHERE id = ?";
     public static final String SQL_INSERT_EDITION =
-            "INSERT INTO edition (title, title_image, genre_id, price) VALUES (?, ?, ?, ?)";
+            "INSERT INTO edition (titleEn, titleUa, title_image, genre_id, price) VALUES (?, ?, ?, ?, ?)";
     public static final String SQL_UPDATE_EDITION =
-            "UPDATE edition SET title = ?, title_image = ?, genre_id = ?, price = ? WHERE id = ?;";
+            "UPDATE edition SET titleEn = ?, titleUa = ?, title_image = ?, genre_id = ?, price = ? WHERE id = ?;";
     public static final String SQL_DELETE_EDITION = "DELETE FROM edition WHERE id = ?";
 
     public static final String SQL_GET_NUMBER_OF_GENRES = "SELECT COUNT(*) AS rowcount FROM genre";

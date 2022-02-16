@@ -2,6 +2,7 @@ package ua.epam.final_project.controller.cabinet_page.wallet;
 
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.util.entity.User;
 
@@ -54,9 +55,11 @@ public class FillUpWalletServlet extends HttpServlet {
 
         if (user != null) {
             try {
+                daoFactory.beginTransaction();
                 daoFactory.getUserDao().updateUserBalance(user, money);
+                daoFactory.commitTransaction();
                 resp.sendRedirect(WALLET_URL);
-            } catch (SQLException e) {
+            } catch (SQLException | DataBaseConnectionException e) {
                 e.printStackTrace();
             }
         }
