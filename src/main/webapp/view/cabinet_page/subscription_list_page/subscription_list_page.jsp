@@ -56,26 +56,26 @@
 
             <%-- Unsubscribe button --%>
             <td>
-                <button onclick="document.getElementById('${edition.title}').style.display='block'">${requestScope.localization.getString("subscriptions.text.unsubscribe")}
+                <button class="red-btn" onclick="document.getElementById('${edition.id}').style.display='block'">${requestScope.localization.getString("subscriptions.text.unsubscribe")}
                 </button>
 
-                <div id="${edition.title}" class="modal">
-                    <span onclick="document.getElementById('${edition.title}').style.display='none'" class="close"
+                <div id="${edition.id}" class="modal">
+                    <span onclick="document.getElementById('${edition.id}').style.display='none'" class="close"
                           title="Close Modal">×</span>
                     <form class="modal-content"
                           action="${pageContext.request.contextPath}/cabinet/subscription_list/unsubscribe" method="post">
                         <div class="container">
                             <h1>${edition.title}</h1>
-                            <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
+                            <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
                                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 
                             <p>${requestScope.localization.getString("subscriptions.text.unsubscribe_text")}</p>
 
                             <div class="clearfix">
                                 <button type="button"
-                                        onclick="document.getElementById('${edition.title}').style.display='none'"
+                                        onclick="document.getElementById('${edition.id}').style.display='none'"
                                         class="cancel">${requestScope.localization.getString("subscriptions.button.cancel")}</button>
-                                <button type="submit" name="edition_title" value="${edition.title}"
+                                <button type="submit" name="edition_id" value="${edition.id}"
                                         class="delete-btn">${requestScope.localization.getString("subscriptions.text.unsubscribe")}</button>
                             </div>
                         </div>

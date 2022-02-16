@@ -57,7 +57,7 @@ public interface IEditionDao {
      */
     List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String orderBy) throws SQLException;
 
-    Edition getEditionByTitle(String title) throws SQLException;
+    Edition getEditionByTitle(int id) throws SQLException;
 
     boolean insertNewEdition(Edition edition) throws SQLException;
 

@@ -71,26 +71,26 @@
                 <%--Edit button
                         Available only for admin--%>
             <td>
-                <button onclick="document.getElementById('${edition.title}').style.display='block'">${requestScope.localization.getString("edition_list.button.edit")}</button>
+                <button class="green-btn" onclick="document.getElementById('${edition.id}').style.display='block'">${requestScope.localization.getString("edition_list.button.edit")}</button>
 
-                <div id="${edition.title}" class="modal">
-                    <span onclick="document.getElementById('${edition.title}').style.display='none'" class="close"
+                <div id="${edition.id}" class="modal">
+                    <span onclick="document.getElementById('${edition.id}').style.display='none'" class="close"
                           title="Close Modal">×</span>
                     <form class="modal-content"
                           action="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list/update_edition" method="get">
                         <div class="container">
                             <h1>${edition.title}</h1>
-                            <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
+                            <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
                                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 
                             <p>${requestScope.localization.getString("edition_list.text.edit_text")}</p>
 
                             <div class="clearfix">
                                 <button type="button"
-                                        onclick="document.getElementById('${edition.title}').style.display='none'"
+                                        onclick="document.getElementById('${edition.id}').style.display='none'"
                                         class="cancel">${requestScope.localization.getString("edition_list.button.cancel")}
                                 </button>
-                                <button type="submit" name="edit_edition_title" value="${edition.title}" class="buy-btn">${requestScope.localization.getString("edition_list.button.edit")}</button>
+                                <button type="submit" name="edit_edition_id" value="${edition.id}" class="buy-btn">${requestScope.localization.getString("edition_list.button.edit")}</button>
                             </div>
                         </div>
                     </form>
@@ -100,27 +100,27 @@
                 <%--Delete button
                     Available only for admin--%>
             <td>
-                <button class="red-btn" onclick="document.getElementById('${edition.title}2').style.display='block'">${requestScope.localization.getString("edition_list.button.delete")}
+                <button class="red-btn" onclick="document.getElementById('${edition.id}2').style.display='block'">${requestScope.localization.getString("edition_list.button.delete")}
                 </button>
 
-                <div id="${edition.title}2" class="modal">
-                    <span onclick="document.getElementById('${edition.title}2').style.display='none'" class="close"
+                <div id="${edition.id}2" class="modal">
+                    <span onclick="document.getElementById('${edition.id}2').style.display='none'" class="close"
                           title="Close Modal">×</span>
                     <form class="modal-content"
                           action="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list/delete_edition" method="post">
                         <div class="container">
                             <h1>${edition.title}</h1>
-                            <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
+                            <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
                                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 
                             <p>${requestScope.localization.getString("edition_list.text.delete_text")}</p>
 
                             <div class="clearfix">
                                 <button type="button"
-                                        onclick="document.getElementById('${edition.title}2').style.display='none'"
+                                        onclick="document.getElementById('${edition.id}2').style.display='none'"
                                         class="cancel">${requestScope.localization.getString("edition_list.button.cancel")}
                                 </button>
-                                <button type="submit" name="edition_title" value="${edition.title}" class="delete-btn">
+                                <button type="submit" name="edition_id" value="${edition.id}" class="delete-btn">
                                         ${requestScope.localization.getString("edition_list.button.delete")}
                                 </button>
                             </div>

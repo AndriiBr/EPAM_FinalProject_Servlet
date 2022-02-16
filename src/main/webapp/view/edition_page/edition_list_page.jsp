@@ -68,25 +68,25 @@
             Available only for registered users and admin--%>
             <% if (role.equals("1") || role.equals("2")) {%>
             <td>
-                <button onclick="document.getElementById('${edition.title}').style.display='block'">${requestScope.localization.getString("edition_list.button.buy")}</button>
+                <button onclick="document.getElementById('${edition.id}').style.display='block'">${requestScope.localization.getString("edition_list.button.buy")}</button>
 
-                <div id="${edition.title}" class="modal">
-                    <span onclick="document.getElementById('${edition.title}').style.display='none'" class="close"
+                <div id="${edition.id}" class="modal">
+                    <span onclick="document.getElementById('${edition.id}').style.display='none'" class="close"
                           title="Close Modal">×</span>
                     <form class="modal-content"
                           action="${pageContext.request.contextPath}/edition_list/buy_edition" method="get">
                         <div class="container">
                             <h1>${edition.title}</h1>
-                            <img src="${edition.imagePath}" alt="${edition.title}" width="150" height="200"
+                            <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
                                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 
                             <p>${requestScope.localization.getString("edition_list.text.buy_it")}</p>
 
                             <div class="clearfix">
                                 <button type="button"
-                                        onclick="document.getElementById('${edition.title}').style.display='none'"
+                                        onclick="document.getElementById('${edition.id}').style.display='none'"
                                         class="cancel">${requestScope.localization.getString("edition_list.button.cancel")}</button>
-                                <button type="submit" name="buy_edition" value="${edition.title}" class="buy-btn">${requestScope.localization.getString("edition_list.button.buy")}</button>
+                                <button type="submit" name="buy_edition_id" value="${edition.id}" class="buy-btn">${requestScope.localization.getString("edition_list.button.buy")}</button>
                             </div>
                         </div>
                     </form>

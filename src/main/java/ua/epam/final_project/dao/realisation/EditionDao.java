@@ -134,9 +134,9 @@ public class EditionDao implements IEditionDao {
     }
 
     @Override
-    public Edition getEditionByTitle(String title) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITION_BY_TITLE);) {
-            statement.setString(1, title);
+    public Edition getEditionByTitle(int id) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITION_BY_ID)) {
+            statement.setInt(1, id);
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {

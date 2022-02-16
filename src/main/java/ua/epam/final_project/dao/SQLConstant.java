@@ -30,7 +30,7 @@ public final class SQLConstant {
     public static final String SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS =
             "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) ORDER BY ? LIMIT ? offset ?";
 
-    public static final String SQL_FIND_EDITION_BY_TITLE = "SELECT * FROM edition WHERE (title=?)";
+    public static final String SQL_FIND_EDITION_BY_ID = "SELECT * FROM edition WHERE id = ?";
     public static final String SQL_INSERT_EDITION =
             "INSERT INTO edition (title, title_image, genre_id, price) VALUES (?, ?, ?, ?)";
     public static final String SQL_UPDATE_EDITION =

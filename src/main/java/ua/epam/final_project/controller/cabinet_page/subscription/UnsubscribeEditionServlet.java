@@ -26,7 +26,7 @@ public class UnsubscribeEditionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String editionTitle = req.getParameter("edition_title");
+        int editionId = Integer.parseInt(req.getParameter("edition_id"));
         String login = (String) session.getAttribute("login");
 
         boolean deleteOperation = false;
@@ -37,7 +37,7 @@ public class UnsubscribeEditionServlet extends HttpServlet {
             daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
             daoFactory.beginTransaction();
             User user = daoFactory.getUserDao().findUserByLogin(login);
-            Edition edition = daoFactory.getEditionDao().getEditionByTitle(editionTitle);
+            Edition edition = daoFactory.getEditionDao().getEditionByTitle(editionId);
             deleteOperation = daoFactory.getUserEditionDao().deleteUserEdition(user, edition);
 
             daoFactory.commitTransaction();

@@ -31,7 +31,7 @@ public class EditEditionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String editionTitle = req.getParameter("edit_edition_title");
+        int editionId = Integer.parseInt(req.getParameter("edit_edition_id"));
 
         Edition edition = null;
         List<String> genres = null;
@@ -40,7 +40,7 @@ public class EditEditionServlet extends HttpServlet {
         try {
             DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
             genreMap = daoFactory.getGenreDao().findAllGenres();
-            edition = daoFactory.getEditionDao().getEditionByTitle(editionTitle);
+            edition = daoFactory.getEditionDao().getEditionByTitle(editionId);
             genres = new ArrayList<>(genreMap.values());
         } catch (DataBaseNotSupportedException | SQLException e) {
             e.printStackTrace();

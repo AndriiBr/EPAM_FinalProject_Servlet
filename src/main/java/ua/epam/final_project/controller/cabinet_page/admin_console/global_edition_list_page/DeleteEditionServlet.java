@@ -24,7 +24,7 @@ public class DeleteEditionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String editionTitle = req.getParameter("edition_title");
+        int editionId = Integer.parseInt(req.getParameter("edition_id"));
 
         DaoFactory daoFactory = null;
 
@@ -38,7 +38,7 @@ public class DeleteEditionServlet extends HttpServlet {
 
         try {
             assert daoFactory != null;
-            edition = daoFactory.getEditionDao().getEditionByTitle(editionTitle);
+            edition = daoFactory.getEditionDao().getEditionByTitle(editionId);
         } catch (SQLException e) {
             e.printStackTrace();
         }

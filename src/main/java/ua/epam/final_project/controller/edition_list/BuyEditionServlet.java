@@ -28,7 +28,7 @@ public class BuyEditionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String editionTitle = req.getParameter("buy_edition");
+        int editionId = Integer.parseInt(req.getParameter("buy_edition_id"));
         String login = (String) session.getAttribute("login");
 
         DaoFactory daoFactory = null;
@@ -37,11 +37,9 @@ public class BuyEditionServlet extends HttpServlet {
 
         try {
             daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-            daoFactory.beginTransaction();
             user = daoFactory.getUserDao().findUserByLogin(login);
-            edition = daoFactory.getEditionDao().getEditionByTitle(editionTitle);
-            daoFactory.commitTransaction();
-        } catch (SQLException | DataBaseConnectionException | DataBaseNotSupportedException e) {
+            edition = daoFactory.getEditionDao().getEditionByTitle(editionId);
+        } catch (SQLException | DataBaseNotSupportedException e) {
             e.printStackTrace();
         }
 
@@ -71,7 +69,7 @@ public class BuyEditionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        String editionTitle = req.getParameter("buy_edition");
+        int editionId = Integer.parseInt(req.getParameter("buy_edition_id"));
         String login = (String) session.getAttribute("login");
 
         User user = (User) req.getAttribute("user");
@@ -84,7 +82,7 @@ public class BuyEditionServlet extends HttpServlet {
             daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
             daoFactory.beginTransaction();
             user = daoFactory.getUserDao().findUserByLogin(login);
-            edition = daoFactory.getEditionDao().getEditionByTitle(editionTitle);
+            edition = daoFactory.getEditionDao().getEditionByTitle(editionId);
             daoFactory.commitTransaction();
         } catch (SQLException | DataBaseConnectionException | DataBaseNotSupportedException e) {
             e.printStackTrace();
