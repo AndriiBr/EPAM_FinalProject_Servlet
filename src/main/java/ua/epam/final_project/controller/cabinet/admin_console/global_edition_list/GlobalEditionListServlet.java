@@ -28,11 +28,10 @@ public class GlobalEditionListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int page = 1;
         int recordsPerPage = 4;
-        int noOfRecords = 0;
+        int noOfRecords;
         String orderBy = "";
-        List<Edition> editionList = null;
-        List<String> genres = null;
-        List<Genre> genreList = null;
+        List<Edition> editionList;
+        List<Genre> genreList;
 
         //ToDo
         //Put parameter 'page' into form with hidden input value + button

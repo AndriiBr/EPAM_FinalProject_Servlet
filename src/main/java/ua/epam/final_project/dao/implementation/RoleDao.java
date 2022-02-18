@@ -15,7 +15,6 @@ import static ua.epam.final_project.dao.SQLConstant.*;
 
 public class RoleDao implements IRoleDao {
     private static final Logger logger = LogManager.getLogger(RoleDao.class);
-    private static final String DB_TABLE = "role";
     private final Connection connection;
 
     public RoleDao(Connection connection) {
@@ -26,9 +25,8 @@ public class RoleDao implements IRoleDao {
     public Integer getNumberOfRoles() throws DataNotFoundException {
         int numberOfRows = 0;
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_GET_NUMBER_OF_ROWS)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_ROLES);
 
             if (rs.next()) {
                 numberOfRows = rs.getInt("rowcount");
@@ -44,9 +42,8 @@ public class RoleDao implements IRoleDao {
     public List<Role> findAllRoles() throws DataNotFoundException {
         List<Role> genres = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_FIND_ALL_ROLES);
             while (rs.next()) {
                 genres.add(extractRole(rs));
             }

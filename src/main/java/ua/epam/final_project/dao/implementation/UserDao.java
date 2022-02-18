@@ -19,7 +19,6 @@ import java.util.List;
 
 public class UserDao implements IUserDao {
     private static final Logger logger = LogManager.getLogger(UserDao.class);
-    private static final String DB_TABLE = "user";
     private final Connection connection;
 
     public UserDao(Connection connection) {
@@ -30,9 +29,8 @@ public class UserDao implements IUserDao {
     public Integer getNumberOfUsers() throws DataNotFoundException {
         int numberOfRows = 0;
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_GET_NUMBER_OF_ROWS)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_USERS);
 
             if (rs.next()) {
                 numberOfRows = rs.getInt("rowcount");
@@ -48,9 +46,8 @@ public class UserDao implements IUserDao {
     public List<User> findAllUsers() throws DataNotFoundException {
         List<User> users = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_FIND_ALL_USERS);
 
             while (rs.next()) {
                 users.add(extractUser(rs));
@@ -128,7 +125,7 @@ public class UserDao implements IUserDao {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getName());
             statement.setString(5, user.getUserImage());
-            statement.setInt(6, user.getRole());
+            statement.setString(6, user.getRole());
             statement.executeUpdate();
         } catch (SQLException | DataNotFoundException e) {
             logger.error(e);
@@ -146,7 +143,7 @@ public class UserDao implements IUserDao {
             statement.setString(4, user.getName());
             statement.setString(5, user.getUserImage());
             statement.setInt(6, user.getBalance());
-            statement.setInt(7, user.getRole());
+            statement.setString(7, user.getRole());
             statement.setInt(8, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -181,7 +178,7 @@ public class UserDao implements IUserDao {
         user.setEmail(rs.getString("email"));
         user.setName(rs.getString("name"));
         user.setBalance(Integer.parseInt(rs.getString("balance")));
-        user.setRole(rs.getInt("user_role_id"));
+        user.setRole(rs.getString("user_role_id"));
 
         return user;
     }

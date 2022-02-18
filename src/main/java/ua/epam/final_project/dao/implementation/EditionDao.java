@@ -20,7 +20,6 @@ import static ua.epam.final_project.dao.SQLConstant.*;
 
 public class EditionDao implements IEditionDao {
     private static final Logger logger = LogManager.getLogger(EditionDao.class);
-    private static final String DB_TABLE = "edition";
     private final Connection connection;
 
     public EditionDao(Connection connection) {
@@ -30,9 +29,8 @@ public class EditionDao implements IEditionDao {
     @Override
     public Integer getNumberOfEditions() throws DataNotFoundException {
         int numberOfRows = 0;
-        try (PreparedStatement statement = connection.prepareStatement(SQL_GET_NUMBER_OF_ROWS)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_EDITIONS);
 
             if (rs.next()) {
                 numberOfRows = rs.getInt("rowcount");
@@ -73,9 +71,8 @@ public class EditionDao implements IEditionDao {
     public List<Edition> findAllEditions() throws DataNotFoundException {
         List<Edition> editionList = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_FIND_ALL_EDITIONS);
             while (rs.next()) {
                 editionList.add(extractEdition(rs));
             }

@@ -5,10 +5,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="language"
        value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
-       scope="session" />
+       scope="session"/>
 <%-- Deprecated --%>
-<fmt:setLocale value="${language}" />
-<fmt:setBundle basename="localization/locale" />
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="localization/locale"/>
 <%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
 
 <!DOCTYPE html>
@@ -30,7 +30,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<jsp:include page="/view/parts/header.jsp"/><br/>
+<jsp:include page="/view/parts/header.jsp"/>
+<br/>
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -52,7 +53,9 @@
             <%-- <div class="field login"> --%>
             <div class="field title">
                 <div class="input-area">
-                    <input type="text" id="titleEn" class="fadeIn second" name="titleEn" value="${sessionScope.editionEntity.title}" placeholder="${requestScope.localization.getString("edition_list.text.titleEn")}"><br/>
+                    <input type="text" id="titleEn" class="fadeIn second" name="titleEn"
+                           value="${sessionScope.editionEntity.titleEn}"
+                           placeholder="${requestScope.localization.getString("edition_list.text.titleEn")}"><br/>
                     <div class="fadeIn second">
                         <em class="icon fas fa-book"></em>
                     </div>
@@ -65,7 +68,9 @@
             <%-- <div class="field login"> --%>
             <div class="field title">
                 <div class="input-area">
-                    <input type="text" id="titleUa" class="fadeIn second" name="titleUa" value="${sessionScope.editionEntity.title}" placeholder="${requestScope.localization.getString("edition_list.text.titleUa")}"><br/>
+                    <input type="text" id="titleUa" class="fadeIn second" name="titleUa"
+                           value="${sessionScope.editionEntity.titleUa}"
+                           placeholder="${requestScope.localization.getString("edition_list.text.titleUa")}"><br/>
                     <div class="fadeIn second">
                         <em class="icon fas fa-book"></em>
                     </div>
@@ -77,7 +82,9 @@
             <!-- Price Form -->
             <div class="field price">
                 <div class="input-area">
-                    <input type="text" id="price" class="fadeIn third" name="price" value="${sessionScope.editionEntity.price}" placeholder="${requestScope.localization.getString("edition_list.text.price")}"><br/>
+                    <input type="text" id="price" class="fadeIn third" name="price"
+                           value="${sessionScope.editionEntity.price}"
+                           placeholder="${requestScope.localization.getString("edition_list.text.price")}"><br/>
                     <div class="fadeIn third">
                         <em class="icon fas fa-money-bill"></em>
                     </div>
@@ -95,12 +102,14 @@
                         <c:forEach var="genre" items="${requestScope.genresList}">
                             <c:choose>
                                 <c:when test="${genre.id == key}">
-                                    <c:when test="${language == 'ua'}">
-                                        <c:set var="genreName" value="${genre.genreUa}" />
-                                    </c:when>
-                                    <c:when test="${language == 'en'}">
-                                        <c:set var="genreName" value="${genre.genreEn}" />
-                                    </c:when>
+                                    <c:choose>
+                                        <c:when test="${language == 'ua'}">
+                                            <c:set var="genreName" value="${genre.genreUa}"/>
+                                        </c:when>
+                                        <c:when test="${language == 'en'}">
+                                            <c:set var="genreName" value="${genre.genreEn}"/>
+                                        </c:when>
+                                    </c:choose>
                                 </c:when>
                             </c:choose>
                         </c:forEach>
@@ -128,16 +137,19 @@
             <!-- File Form -->
             <div class="field file">
                 <div class="input-area">
-                    <input type="file" class="fadeIn fifth" name="file-name" placeholder="${requestScope.localization.getString("edition_list.text.image")}"><br/>
+                    <input type="file" class="fadeIn fifth" name="file-name"
+                           placeholder="${requestScope.localization.getString("edition_list.text.image")}"><br/>
                 </div>
             </div>
 
-            <input type="submit" class="fadeIn sixth" value="${requestScope.localization.getString("edition_list.button.update")}">
+            <input type="submit" class="fadeIn sixth"
+                   value="${requestScope.localization.getString("edition_list.button.update")}">
         </form>
 
         <!-- Go back to edition page -->
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/cabinet/admin_console/global_edition_list">${requestScope.localization.getString("edition_list.link.edition_list")}</a>
+            <a class="underlineHover"
+               href="http://localhost:8080/cabinet/admin_console/global_edition_list">${requestScope.localization.getString("edition_list.link.edition_list")}</a>
         </div>
 
     </div>

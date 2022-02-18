@@ -11,7 +11,7 @@ public class User implements Serializable {
     private String name = "no name";
     private String userImage = "no image";
     private int balance;
-    private int role;
+    private String role;
 
     public User() {}
 
@@ -20,7 +20,7 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.balance = 0;
-        this.role = 2;
+        this.role = "2";
     }
 
     public int getId() {
@@ -79,11 +79,11 @@ public class User implements Serializable {
         this.balance = balance;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }

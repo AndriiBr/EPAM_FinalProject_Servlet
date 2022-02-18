@@ -28,9 +28,9 @@ public class AdminAccessFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
-        int role = (Integer) session.getAttribute("role");
+        String role = (String) session.getAttribute("role");
 
-        if (role == 1) {
+        if (role != null && role.equals("1")) {
             filterChain.doFilter(request, response);
         } else {
             resp.sendRedirect(ERROR_404_PAGE);

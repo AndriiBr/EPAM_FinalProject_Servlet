@@ -68,7 +68,7 @@ public class UserRegistrationServlet extends HttpServlet {
             user.setEmail(email);
             user.setPassword(password);
             user.setBalance(0);
-            user.setRole(2);
+            user.setRole("2");
 
             if (userService.insertUser(user)) {
                 //Automatically log-in after successful registration
@@ -95,7 +95,7 @@ public class UserRegistrationServlet extends HttpServlet {
                                      String confirmPassword) {
         String validatingResult;
 
-        if (validatePassword(password, confirmPassword)) {
+        if (!validatePassword(password, confirmPassword)) {
             validatingResult = "1";
         } else if (validateLogin(login, userList)) {
             validatingResult = "2";

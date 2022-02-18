@@ -24,7 +24,7 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="../../img/error_page/unknown_error_placeholder.gif" alt="icon" class="icon"/>
+            <img src="../../img/error_page/unknown_error_placeholder.gif" alt="icon" class="icon2"/>
         </div>
 
         <!-- Error Message -->

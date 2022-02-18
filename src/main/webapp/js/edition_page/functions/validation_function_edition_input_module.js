@@ -52,7 +52,7 @@ function checkPrice() {
 
 function checkGenre() {
     //if price is empty
-    if (genreInput.value === "Choose a genre") {
+    if (genreInput.value === "Genre" || genreInput.value === "Жанр") {
         genreField.classList.add("error");
     } else {
         genreField.classList.remove("error");

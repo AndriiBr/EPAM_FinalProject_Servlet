@@ -14,7 +14,6 @@ import java.util.List;
 
 public class GenreDao implements IGenreDao {
     private static final Logger logger = LogManager.getLogger(GenreDao.class);
-    private static final String DB_TABLE = "genre";
     private final Connection connection;
 
     public GenreDao(Connection connection) {
@@ -25,9 +24,8 @@ public class GenreDao implements IGenreDao {
     public Integer getNumberOfGenres() throws DataNotFoundException {
         int numberOfRows = 0;
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_GET_NUMBER_OF_ROWS)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_GENRES);
 
             if (rs.next()) {
                 numberOfRows = rs.getInt("rowcount");
@@ -43,9 +41,8 @@ public class GenreDao implements IGenreDao {
     public List<Genre> findAllGenres() throws DataNotFoundException {
         List<Genre> genres = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_FIND_ALL_GENRES);
             while (rs.next()) {
                 genres.add(extractGenre(rs));
             }

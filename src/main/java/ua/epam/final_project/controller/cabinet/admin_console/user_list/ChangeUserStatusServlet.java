@@ -30,7 +30,7 @@ public class ChangeUserStatusServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int newRole = Integer.parseInt(req.getParameter("status"));
+        String newRole = req.getParameter("status");
         String login = req.getParameter("userName");
 
         IUserService userService = ServiceFactory.getUserService();

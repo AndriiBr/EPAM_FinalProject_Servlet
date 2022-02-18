@@ -33,12 +33,10 @@ public class DeleteEditionServlet extends HttpServlet {
             return;
         }
 
-
         IEditionService editionService = ServiceFactory.getEditionService();
 
-        Edition edition = null;
         try {
-            edition = editionService.findEditionById(editionId);
+            Edition edition = editionService.findEditionById(editionId);
             if (editionService.deleteEdition(edition)) {
                 DeleteImageFromExternalDirectory.delete(getExternalFolderPath(), edition.getImagePath());
                 resp.sendRedirect(ADMIN_EDITION_LIST_URL);

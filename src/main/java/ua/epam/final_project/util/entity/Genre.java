@@ -1,7 +1,5 @@
 package ua.epam.final_project.util.entity;
 
-import java.util.Map;
-
 public class Genre {
     private int id;
     private String genreEn;

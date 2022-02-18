@@ -1,13 +1,11 @@
 package ua.epam.final_project.controller.login;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.Enumeration;
 
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
@@ -18,7 +16,7 @@ public class LogOutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final HttpSession session = req.getSession();
-        final String currentRole = (String)session.getAttribute("role");
+        final String currentRole = (String) session.getAttribute("role");
 
         if (currentRole != null) {
             //Remove all attributes from previous session

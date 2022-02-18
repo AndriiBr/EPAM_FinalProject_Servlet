@@ -43,9 +43,14 @@ public class LogInServlet extends HttpServlet {
         try {
             User user = userService.findUserByLoginPassword(login, password);
             //Save user login/role into session
-            session.setAttribute("login", login);
-            session.setAttribute("role", user.getRole());
-            resp.sendRedirect(LOGIN_SUCCESS_URL);
+            if (user != null) {
+                session.setAttribute("login", login);
+                session.setAttribute("role", user.getRole());
+                resp.sendRedirect(LOGIN_SUCCESS_URL);
+            } else {
+                logger.warn(new UnknownUserException());
+                resp.sendRedirect(LOGIN_FAILURE_URL);
+            }
         } catch (UnknownUserException e) {
             logger.warn(e);
             resp.sendRedirect(LOGIN_FAILURE_URL);

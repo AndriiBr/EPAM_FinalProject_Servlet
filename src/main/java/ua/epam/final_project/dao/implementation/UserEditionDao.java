@@ -16,7 +16,6 @@ import java.util.List;
 
 public class UserEditionDao implements IUserEditionDao {
     private static final Logger logger = LogManager.getLogger(UserEditionDao.class);
-    private static final String DB_TABLE = "user_edition";
     private final Connection connection;
 
     public UserEditionDao(Connection connection) {
@@ -27,9 +26,8 @@ public class UserEditionDao implements IUserEditionDao {
     @Override
     public Integer getNumberOfRows() throws DataNotFoundException {
         int numberOfRows = 0;
-        try (PreparedStatement statement = connection.prepareStatement(SQL_GET_NUMBER_OF_ROWS)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_USER_EDITIONS);
 
             if (rs.next()) {
                 numberOfRows = rs.getInt("rowcount");
@@ -45,9 +43,8 @@ public class UserEditionDao implements IUserEditionDao {
     public List<UserEdition> findAllUserEdition() throws DataNotFoundException {
         List<UserEdition> userEditionList = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
-            statement.setString(1, DB_TABLE);
-            ResultSet rs = statement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(SQL_FIND_ALL_USER_EDITIONS);
 
             while (rs.next()) {
                 userEditionList.add(extractUserEdition(rs));

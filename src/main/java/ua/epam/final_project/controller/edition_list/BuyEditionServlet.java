@@ -41,6 +41,7 @@ public class BuyEditionServlet extends HttpServlet {
         //Check for edition id
         if (req.getParameter(BUY_EDITION_ATTRIBUTE) != null) {
             editionId = Integer.parseInt(req.getParameter(BUY_EDITION_ATTRIBUTE));
+            session.setAttribute(BUY_EDITION_ATTRIBUTE, editionId);
         } else if (session.getAttribute(BUY_EDITION_ATTRIBUTE) != null) {
             editionId = (Integer) session.getAttribute(BUY_EDITION_ATTRIBUTE);
         } else {
@@ -74,15 +75,25 @@ public class BuyEditionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = (User) req.getAttribute("user");
-        Edition edition = (Edition) req.getAttribute("edition");
+        HttpSession session = req.getSession();
+        int editionId = (Integer)session.getAttribute(BUY_EDITION_ATTRIBUTE);
+        String login = (String) session.getAttribute("login");
 
+        IUserService userService = ServiceFactory.getUserService();
+        IEditionService editionService = ServiceFactory.getEditionService();
         IUserEditionService userEditionService = ServiceFactory.getUserEditionService();
 
-        if (userEditionService.insertUserEdition(user, edition)) {
-            resp.sendRedirect(BUY_EDITION_SUCCESS_URL);
-        } else {
-            resp.sendRedirect(BUY_EDITION_FAILURE_URL);
+        try {
+            User  user = userService.findUserByLogin(login);
+            Edition edition = editionService.findEditionById(editionId);
+            if (userEditionService.insertUserEdition(user, edition)) {
+                resp.sendRedirect(BUY_EDITION_SUCCESS_URL);
+            } else {
+                resp.sendRedirect(BUY_EDITION_FAILURE_URL);
+            }
+        } catch (UnknownUserException | UnknownEditionException e) {
+            logger.warn(e);
+            resp.sendRedirect(UNKNOWN_ERROR_URL);
         }
     }
 }
