@@ -16,7 +16,7 @@ import static ua.epam.final_project.util.UrlLayoutConstants.*;
 public class LogOutServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final HttpSession session = req.getSession();
         final String currentRole = (String)session.getAttribute("role");
 
@@ -31,7 +31,5 @@ public class LogOutServlet extends HttpServlet {
             //Redirection according to PRG Pattern
             resp.sendRedirect(MAIN_URL);
         }
-
-        System.out.println("LogOutServlet - DoGET method: " + LocalTime.now());
     }
 }

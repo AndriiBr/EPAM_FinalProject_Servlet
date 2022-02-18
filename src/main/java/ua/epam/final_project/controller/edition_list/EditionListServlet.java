@@ -1,15 +1,15 @@
 package ua.epam.final_project.controller.edition_list;
 
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.exception.DataBaseConnectionException;
-import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ua.epam.final_project.exception.*;
+import ua.epam.final_project.service.IEditionService;
+import ua.epam.final_project.service.IGenreService;
+import ua.epam.final_project.service.IUserService;
+import ua.epam.final_project.service.ServiceFactory;
 import ua.epam.final_project.util.entity.Edition;
 import ua.epam.final_project.util.entity.Genre;
 import ua.epam.final_project.util.entity.User;
-
-import static ua.epam.final_project.util.UrlLayoutConstants.*;
-import static ua.epam.final_project.util.JSPPathConstant.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,60 +18,82 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalTime;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Map;
+
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
+import static ua.epam.final_project.util.JSPPathConstant.*;
 
 @WebServlet(urlPatterns = EDITION_LIST_URL)
 public class EditionListServlet extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger(EditionListServlet.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        final HttpSession session = req.getSession();
+        final String login = (String) session.getAttribute("login");
         int page = 1;
         int recordsPerPage = 4;
-        int noOfRecords = 0;
-        String genre = "";
-        String sortBy = "";
-        List<Edition> editionList = null;
-        List<Genre> genreList = null;
+        int noOfRecords;
+        String orderBy = "";
+        List<Edition> editionList;
+        List<Genre> genreList;
 
-        HttpSession session = req.getSession();
-        String login = (String) session.getAttribute("login");
-
+        //ToDo
+        //Put parameter 'page' into form with hidden input value + button
         if(req.getParameter("page") != null) {
-            page = Integer.parseInt(req.getParameter("page"));
-        }
-
-        if (req.getParameter("genre") != null) {
-            genre = req.getParameter("genre");
-        }
-
-        try {
-            DaoFactory daoFactory = DaoFactory.getDaoFactory(DataBaseSelector.MY_SQL);
-            User user = daoFactory.getUserDao().findUserByLogin(login);
-            if (login == null) {
-                editionList = daoFactory.getEditionDao().findAllEditionsFromTo(recordsPerPage, page, genre);
-                noOfRecords = daoFactory.getEditionDao().getNumberOfEditions();
-            } else {
-                editionList = daoFactory.getEditionDao().findAllEditionsFromTo(user, false, recordsPerPage, page, genre);
-                noOfRecords = daoFactory.getEditionDao().getNumberOfEditions(user, false);
+            try {
+                page = Integer.parseInt(req.getParameter("page"));
+            } catch (NumberFormatException e) {
+                logger.warn(e);
             }
-            genreList = daoFactory.getGenreDao().findAllGenres();
-            //ToDo
-//            genreList.add(0, "*");
-        } catch (DataBaseNotSupportedException | SQLException e) {
-            e.printStackTrace();
+        }
+        //ToDo
+        if (req.getParameter("genre") != null) {
+            orderBy = req.getParameter("genre");
         }
 
-        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-        req.setAttribute("editionList", editionList);
-        req.setAttribute("noOfPages", noOfPages);
-        req.setAttribute("currentPage", page);
-        req.setAttribute("genresList", genreList);
-        req.getRequestDispatcher(EDITION_LIST_PAGE).forward(req, resp);
+        IEditionService editionService = ServiceFactory.getEditionService();
+        IGenreService genreService = ServiceFactory.getGenreService();
+        IUserService userService = ServiceFactory.getUserService();
 
-        System.out.println("EditionListServlet - doGET method: " + LocalTime.now());
+        if (login == null) {
+            try {
+                editionList = editionService.findAllEditionsFromTo(recordsPerPage, page, orderBy);
+                noOfRecords = editionService.getNumberOfEditions();
+                genreList = genreService.findAllGenres();
+                forwardToPage(req, resp, page, noOfRecords, recordsPerPage, editionList, genreList);
+            } catch (UnknownEditionException | UnknownGenreException e) {
+                logger.error(e);
+                resp.sendRedirect(UNKNOWN_ERROR_PAGE);
+            }
+        } else {
+            try {
+                User user = userService.findUserByLogin(login);
+                editionList = editionService.findAllEditionsFromTo(user, false, recordsPerPage, page, orderBy);
+                noOfRecords = editionService.getNumberOfEditions(user, false);
+                genreList = genreService.findAllGenres();
+                forwardToPage(req, resp, page, noOfRecords, recordsPerPage, editionList, genreList);
+            } catch (UnknownUserException | UnknownEditionException | UnknownGenreException e) {
+                logger.error(e);
+                resp.sendRedirect(UNKNOWN_ERROR_PAGE);
+            }
+        }
+    }
+
+    private void forwardToPage(HttpServletRequest req, HttpServletResponse resp,
+                               int page, int noOfRecords, int recordsPerPage,
+                               List<Edition> editionList, List<Genre> genreList) throws IOException {
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        req.setAttribute("currentPage", page);
+        req.setAttribute("noOfPages", noOfPages);
+        req.setAttribute("editionList", editionList);
+        req.setAttribute("genresList", genreList);
+        try {
+            req.getRequestDispatcher(EDITION_LIST_PAGE).forward(req, resp);
+        } catch (ServletException | IOException e) {
+            logger.error(e);
+            resp.sendRedirect(UNKNOWN_ERROR_URL);
+        }
     }
 }

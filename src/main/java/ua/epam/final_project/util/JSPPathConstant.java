@@ -7,6 +7,7 @@ public final class JSPPathConstant {
     public static final String ABOUT_PAGE = "/view/about_page/about_page.jsp";
 
     public static final String ERROR_404_PAGE = "/view/error_page/error_404_page.jsp";
+    public static final String UNKNOWN_ERROR_PAGE = "/view/error_page/unknown_error_page.jsp";
 
     public static final String LOGIN_PAGE = "/view/login_page/login_page.jsp";
     public static final String LOGIN_SUCCESS_PAGE = "/view/login_page/login_success_page.jsp";

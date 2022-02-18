@@ -11,8 +11,17 @@ public class User implements Serializable {
     private String name = "no name";
     private String userImage = "no image";
     private int balance;
-    private String role;
+    private int role;
 
+    public User() {}
+
+    public User(String login, String password, String email) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.balance = 0;
+        this.role = 2;
+    }
 
     public int getId() {
         return id;
@@ -70,11 +79,11 @@ public class User implements Serializable {
         this.balance = balance;
     }
 
-    public String getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
     }
 }

@@ -1,5 +1,6 @@
 package ua.epam.final_project.dao;
 
+import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.util.entity.User;
 
 import java.sql.SQLException;
@@ -8,21 +9,64 @@ import java.util.List;
 public interface IUserDao {
 
 
-    Integer getNumberOfUsers() throws SQLException;
+    /**
+     * Gets number of rows in 'user' table from DB
+     * @return number of rows
+     * @throws DataNotFoundException if nothing was found in Db
+     */
+    Integer getNumberOfUsers() throws DataNotFoundException;
 
-    List<User> findAllUsers() throws SQLException;
+    /**
+     * Gets list of all users from DB
+     * @return list of users
+     * @throws DataNotFoundException if nothing was found in Db
+     */
+    List<User> findAllUsers() throws DataNotFoundException;
 
-    List<User> findAllUsersFromTo(int recordsPerPage, int page) throws SQLException;
+    /**
+     * Gets limited number of users from DB
+     * @param recordsPerPage to define end element
+     * @param page to define start element
+     * @return list of users
+     * @throws DataNotFoundException if nothing was found in Db
+     */
+    List<User> findAllUsersFromTo(int recordsPerPage, int page) throws DataNotFoundException;
 
-    User findUserByLoginPassword(String login, String password) throws SQLException;
+    /**
+     * Gets a user with a username and password match
+     * @param login user login
+     * @param password password
+     * @return user entity
+     * @throws DataNotFoundException if nothing was found in Db
+     */
+    User findUserByLoginPassword(String login, String password) throws DataNotFoundException;
 
-    User findUserByLogin(String login) throws SQLException;
+    /**
+     * Gets a user by login match
+     * @param login user login
+     * @return user entity
+     * @throws DataNotFoundException if nothing was found in Db
+     */
+    User findUserByLogin(String login) throws DataNotFoundException;
 
-    boolean insertUser(User user) throws SQLException;
+    /**
+     * Inserts new user into DB
+     * @param user user entity
+     * @return TRUE - if operation was success. FALSE - if not.
+     */
+    boolean insertUser(User user);
 
-    boolean updateUserBalance(User user, int money) throws SQLException;
+    /**
+     * Updates user in DB
+     * @param user user entity
+     * @return TRUE - if operation was success. FALSE - if not.
+     */
+    boolean updateUser(User user);
 
-    boolean updateUser(User user) throws SQLException;
-
-    boolean deleteUser(User user) throws SQLException;
+    /**
+     * Deletes user from DB
+     * @param user user entity
+     * @return TRUE - if operation was success. FALSE - if not.
+     */
+    boolean deleteUser(User user);
 }

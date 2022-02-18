@@ -1,9 +1,9 @@
 package ua.epam.final_project.dao;
 
+import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.util.entity.Edition;
 import ua.epam.final_project.util.entity.User;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,61 +13,76 @@ import java.util.List;
 public interface IEditionDao {
 
     /**
-     * Gets the number of rows in the table "edition"
+     * Gets the number of rows in the table "edition" from DB
      * @return number of rows
-     * @throws SQLException
+     * @throws DataNotFoundException if nothing was found in Db
      */
-    Integer getNumberOfEditions() throws SQLException;
+    Integer getNumberOfEditions() throws DataNotFoundException;
 
     /**
-     * Gets the number of rows in the table "edition" without positions user already has.
+     * Gets the number of rows in the table "edition" without positions user already has/ not has.
      * @param user - user entity
      * @param has - TRUE - user subscribe for / FALSE - user does not subscribe for
      * @return - number of rows
-     * @throws SQLException
+     * @throws DataNotFoundException if nothing was found in Db
      */
-    Integer getNumberOfEditions(User user, boolean has) throws SQLException;
+    Integer getNumberOfEditions(User user, boolean has) throws DataNotFoundException;
 
     /**
-     * Creates a list of All publications retrieved from the database
+     * Gets a list of all editions retrieved from the database
      * @return List of editions from DB
-     * @throws SQLException
+     * @throws DataNotFoundException if nothing was found in Db
      */
-    List<Edition> findAllEditions() throws SQLException;
+    List<Edition> findAllEditions() throws DataNotFoundException;
 
     /**
-     * Creates a list of publications retrieved from the database
+     * Gets a list of editions retrieved from the database
      * @param recordsPerPage - the number of items to be unloaded from DB
      * @param page - start point to load from
      * @param orderBy - sort list by. You can put "" to sort by "id" as default value
      * @return List of editions from DB
-     * @throws SQLException
+     * @throws DataNotFoundException if nothing was found in Db
      */
-    List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String orderBy) throws SQLException;
+    List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String orderBy) throws DataNotFoundException;
 
     /**
-     * Creates a list of publications retrieved from the database
+     * Gets a list of editions retrieved from the database
      * @param user - the user to be searched in the database
      * @param has - TRUE - user has / FALSE - user does not have
      * @param recordsPerPage - the number of items to be unloaded from DB
      * @param page - start point to load from
      * @param orderBy - sort list by. You can put "" to sort by "id" as default value
      * @return List of editions from DB
-     * @throws SQLException
+     * @throws DataNotFoundException if nothing was found in Db
      */
-    List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String orderBy) throws SQLException;
-
-    Edition getEditionByTitle(int id) throws SQLException;
-
-    boolean insertNewEdition(Edition edition) throws SQLException;
+    List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String orderBy) throws DataNotFoundException;
 
     /**
-     * Updates edition in database
-     * @param edition - modified edition entity
-     * @return TRUE - if operation was successful.
-     * @throws SQLException
+     * Gets edition entity from DB by id
+     * @param id edition unique id
+     * @return edition entity
+     * @throws DataNotFoundException if nothing was found in Db
      */
-    boolean updateEdition(Edition edition) throws SQLException;
+    Edition findEditionById(int id) throws DataNotFoundException;
 
-    boolean deleteEdition(Edition edition) throws SQLException;
+    /**
+     * Inserts new edition into DB
+     * @param edition edition entity
+     * @return TRUE - if operation was success. FALSE - if not.
+     */
+    boolean insertNewEdition(Edition edition);
+
+    /**
+     * Updates edition in DB
+     * @param edition edition entity
+     * @return TRUE - if operation was success. FALSE - if not.
+     */
+    boolean updateEdition(Edition edition);
+
+    /**
+     * Deletes edition from DB
+     * @param edition edition entity
+     * @return TRUE - if operation was success. FALSE - if not.
+     */
+    boolean deleteEdition(Edition edition);
 }

@@ -1,23 +1,29 @@
 package ua.epam.final_project.controller.login.prg;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalTime;
 
-import static ua.epam.final_project.util.JSPPathConstant.LOGIN_SUCCESS_PAGE;
-import static ua.epam.final_project.util.UrlLayoutConstants.LOGIN_SUCCESS_URL;
+import static ua.epam.final_project.util.JSPPathConstant.*;
+import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
 @WebServlet(urlPatterns = LOGIN_SUCCESS_URL)
 public class LogInSuccessServlet extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger(LogInSuccessServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(LOGIN_SUCCESS_PAGE).forward(req, resp);
-
-        System.out.println("LogInSuccessServlet - DoGET method: " + LocalTime.now());
+        try {
+            req.getRequestDispatcher(LOGIN_SUCCESS_PAGE).forward(req, resp);
+        } catch (IOException | ServletException e) {
+            logger.warn(e);
+            resp.sendRedirect(UNKNOWN_ERROR_URL);
+        }
     }
 }

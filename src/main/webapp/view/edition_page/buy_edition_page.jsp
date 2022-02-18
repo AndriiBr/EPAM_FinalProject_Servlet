@@ -39,10 +39,10 @@
             <div class="wallet-header">
                 <c:choose>
                     <c:when test="${language == 'ua'}">
-                        <c:out value="${edition.titleUa}"/>
+                        <c:out value="${requestScope.edition.titleUa}"/>
                     </c:when>
                     <c:when test="${language == 'en'}">
-                        <c:out value="${edition.titleEn}"/>
+                        <c:out value="${requestScope.edition.titleEn}"/>
                     </c:when>
                 </c:choose>
             </div>

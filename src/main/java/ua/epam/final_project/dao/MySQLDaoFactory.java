@@ -1,31 +1,44 @@
 package ua.epam.final_project.dao;
 
-import ua.epam.final_project.dao.realisation.*;
+import ua.epam.final_project.dao.implementation.*;
 import ua.epam.final_project.exception.DataBaseConnectionException;
+import ua.epam.final_project.exception.IncorrectPropertyException;
 
 import java.sql.*;
 
 public class MySQLDaoFactory extends DaoFactory {
-//    private static final Logger logger = Logger.getAnonymousLogger();
+
 
     private final IConnectionPool connectionPool;
-    private final Connection connection;
+    private Connection connection;
 
-    public MySQLDaoFactory() {
+    public MySQLDaoFactory() throws IncorrectPropertyException {
         connectionPool = SQLConnectionPool.getInstance();
         connection = connectionPool.getConnection();
     }
 
-    private void releaseConnection() {
-        connectionPool.releaseConnection(this.connection);
+    @Override
+    public void getConnection() {
+        if (this.connection == null) {
+            connection = connectionPool.getConnection();
+        }
+    }
+
+    @Override
+    public void releaseConnection() {
+        if (this.connection != null) {
+            connectionPool.releaseConnection(this.connection);
+            this.connection = null;
+        }
     }
 
     @Override
     public void beginTransaction() throws DataBaseConnectionException {
         try {
+            getConnection();
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseConnectionException();
         }
     }
 
@@ -35,7 +48,7 @@ public class MySQLDaoFactory extends DaoFactory {
             connection.commit();
             releaseConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseConnectionException();
         }
     }
 
@@ -45,7 +58,7 @@ public class MySQLDaoFactory extends DaoFactory {
             connection.rollback();
             releaseConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseConnectionException();
         }
     }
 
@@ -60,13 +73,19 @@ public class MySQLDaoFactory extends DaoFactory {
     }
 
     @Override
+    public IUserEditionDao getUserEditionDao() {
+        return new UserEditionDao(this.connection);
+    }
+
+    @Override
     public IGenreDao getGenreDao() {
         return new GenreDao(this.connection);
     }
 
     @Override
-    public IUserEditionDao getUserEditionDao() {
-        return new UserEditionDao(this.connection);
+    public IRoleDao getRoleDao() {
+        return new RoleDao(this.connection);
     }
+
 
 }

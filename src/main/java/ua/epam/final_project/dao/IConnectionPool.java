@@ -10,6 +10,4 @@ public interface IConnectionPool {
     String getUrl();
     String getUser();
     String getPassword();
-
-
 }

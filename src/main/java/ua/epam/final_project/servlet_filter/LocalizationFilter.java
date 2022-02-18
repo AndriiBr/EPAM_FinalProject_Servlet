@@ -1,5 +1,7 @@
 package ua.epam.final_project.servlet_filter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.util.localization.LocalizationFactory;
 
 import javax.servlet.*;
@@ -10,13 +12,14 @@ import java.io.IOException;
 
 @WebFilter(filterName = "localization filter", urlPatterns = "/*")
 public class LocalizationFilter implements Filter {
+    private static final Logger logger = LogManager.getLogger(LocalizationFilter.class);
 
     private static final String LOCALIZATION = "localization";
     private static final String LANGUAGE = "language";
 
     @Override
     public void init(FilterConfig filterConfig) {
-        System.out.println("Localization Filter ----------->> START");
+        logger.info( "The filter: {} has begun its work", LocalizationFilter.class);
     }
 
     @Override
@@ -51,6 +54,6 @@ public class LocalizationFilter implements Filter {
 
     @Override
     public void destroy() {
-        System.out.println("Localization Filter ----------->> END");
+        logger.info( "The filter: {} has finished its work", LocalizationFilter.class);
     }
 }
