@@ -122,7 +122,8 @@ public class EditEditionServlet extends HttpServlet {
         //Error flag to catch different errors in the user input data:
         //         * 0 - everything correct
         //         * 1 - title is already exist
-        String newEditionErrorFlag = validateInputData(editionTitleEn, editionTitleUa, editionList);
+        String newEditionErrorFlag = "0";
+//                validateInputData(editionTitleEn, editionTitleUa, editionList);
         session.setAttribute("edition", edition);
 
         if (newEditionErrorFlag.equals("0")) {
@@ -136,25 +137,25 @@ public class EditEditionServlet extends HttpServlet {
         }
     }
 
-    private String validateInputData(String editionTitleEn, String editionTitleUa, List<Edition> editionList) {
-        String validatingResult;
+//    private String validateInputData(String editionTitleEn, String editionTitleUa, List<Edition> editionList) {
+//        String validatingResult;
+//
+//        if (validateEditionTitleEn(editionTitleEn, editionList) ||
+//                validateEditionTitleUa(editionTitleUa, editionList)) {
+//            validatingResult = "1";
+//        } else {
+//            validatingResult = "0";
+//        }
+//        return validatingResult;
+//    }
 
-        if (validateEditionTitleEn(editionTitleEn, editionList) ||
-                validateEditionTitleUa(editionTitleUa, editionList)) {
-            validatingResult = "1";
-        } else {
-            validatingResult = "0";
-        }
-        return validatingResult;
-    }
-
-    private boolean validateEditionTitleEn(String titleEn, List<Edition> editionList) {
-        return editionList.stream().anyMatch(x -> x.getTitleEn().equals(titleEn));
-    }
-
-    private boolean validateEditionTitleUa(String titleUa, List<Edition> editionList) {
-        return editionList.stream().anyMatch(x -> x.getTitleUa().equals(titleUa));
-    }
+//    private boolean validateEditionTitleEn(String titleEn, List<Edition> editionList) {
+//        return editionList.stream().anyMatch(x -> x.getTitleEn().equals(titleEn));
+//    }
+//
+//    private boolean validateEditionTitleUa(String titleUa, List<Edition> editionList) {
+//        return editionList.stream().anyMatch(x -> x.getTitleUa().equals(titleUa));
+//    }
 
     private String getExternalFolderPath() {
         String imageFolderName = "image_folder.properties";

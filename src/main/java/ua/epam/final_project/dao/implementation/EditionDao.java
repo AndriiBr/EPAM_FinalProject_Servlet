@@ -133,7 +133,7 @@ public class EditionDao implements IEditionDao {
         String genre = genreFilter;
         String sqlPattern;
 
-        if (order.equals("")) {
+        if (order == null || order.equals("")) {
             order = "id";
         }
         if (genre == null || genre.equals("0")) {
@@ -141,11 +141,10 @@ public class EditionDao implements IEditionDao {
         }
 
         if (genre.equals("all")) {
-            sqlPattern = SQL_FIND_EDITIONS_ORDER_BY_FROM_TO_ALL_GENRES;
+            sqlPattern = String.format(SQL_FIND_EDITIONS_ORDER_BY_FROM_TO_ALL_GENRES, order) ;
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
-                statement.setString(1, order);
-                statement.setInt(2, recordsPerPage);
-                statement.setInt(3, (page - 1) * recordsPerPage);
+                statement.setInt(1, recordsPerPage);
+                statement.setInt(2, (page - 1) * recordsPerPage);
                 ResultSet rs = statement.executeQuery();
 
                 while (rs.next()) {
@@ -157,12 +156,11 @@ public class EditionDao implements IEditionDao {
             }
 
         } else {
-            sqlPattern = SQL_FIND_EDITIONS_ORDER_BY_FROM_TO;
+            sqlPattern = String.format(SQL_FIND_EDITIONS_ORDER_BY_FROM_TO, order);
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
                 statement.setString(1, genre);
-                statement.setString(2, order);
-                statement.setInt(3, recordsPerPage);
-                statement.setInt(4, (page - 1) * recordsPerPage);
+                statement.setInt(2, recordsPerPage);
+                statement.setInt(3, (page - 1) * recordsPerPage);
                 ResultSet rs = statement.executeQuery();
 
                 while (rs.next()) {
@@ -183,7 +181,7 @@ public class EditionDao implements IEditionDao {
         String genre = genreFilter;
         String sqlPattern;
 
-        if (orderBy.equals("")) {
+        if (order == null || order.equals("")) {
             order = "id";
         }
         if (genre == null || genre.equals("0")) {
@@ -192,16 +190,15 @@ public class EditionDao implements IEditionDao {
 
         if (genre.equals("all")) {
             if (has) {
-                sqlPattern = SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS_ALL_GENRES;
+                sqlPattern = String.format(SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS_ALL_GENRES, order);
             } else {
-                sqlPattern = SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS_ALL_GENRES;
+                sqlPattern = String.format(SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS_ALL_GENRES, order);
             }
 
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
                 statement.setInt(1, user.getId());
-                statement.setString(2, order);
-                statement.setInt(3, recordsPerPage);
-                statement.setInt(4, (page - 1) * recordsPerPage);
+                statement.setInt(2, recordsPerPage);
+                statement.setInt(3, (page - 1) * recordsPerPage);
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
                     editionList.add(extractEdition(rs));
@@ -213,17 +210,16 @@ public class EditionDao implements IEditionDao {
 
         } else {
             if (has) {
-                sqlPattern = SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS;
+                sqlPattern = String.format(SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS, order);
             } else {
-                sqlPattern = SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS;
+                sqlPattern = String.format(SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS, order);
             }
 
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
                 statement.setInt(1, user.getId());
                 statement.setString(2, genre);
-                statement.setString(3, order);
-                statement.setInt(4, recordsPerPage);
-                statement.setInt(5, (page - 1) * recordsPerPage);
+                statement.setInt(3, recordsPerPage);
+                statement.setInt(4, (page - 1) * recordsPerPage);
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
                     editionList.add(extractEdition(rs));

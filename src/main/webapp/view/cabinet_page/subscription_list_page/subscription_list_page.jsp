@@ -32,15 +32,15 @@
             <form action="${pageContext.request.contextPath}/cabinet/subscription_list" method="get">
                 <p><label for="genreFilter">${requestScope.localization.getString("subscriptions.text.genre")}</label><br/>
                     <select id="genreFilter" name="genreFilter" onchange="this.form.submit()">
-                        <option value="0" ${requestScope.genreFilter == '0' ? 'selected' : ''} >*</option>
+                        <option value="0" ${sessionScope.genreFilter == '0' ? 'selected' : ''} >*</option>
                         <c:forEach items="${requestScope.genresList}" var="genre">
                             <c:set var="genreId" value="${genre.id}"/>
                             <c:choose>
                                 <c:when test="${language == 'ua'}">
-                                    <option value="${genreId}" ${requestScope.genreFilter == genreId ? 'selected' : ''}>${genre.genreUa}</option>
+                                    <option value="${genreId}" ${sessionScope.genreFilter == genreId ? 'selected' : ''}>${genre.genreUa}</option>
                                 </c:when>
                                 <c:when test="${language == 'en'}">
-                                    <option value="${genreId}" ${requestScope.genreFilter == genreId ? 'selected' : ''}>${genre.genreEn}</option>
+                                    <option value="${genreId}" ${sessionScope.genreFilter == genreId ? 'selected' : ''}>${genre.genreEn}</option>
                                 </c:when>
                             </c:choose>
                         </c:forEach>

@@ -35,24 +35,37 @@
 
 <table border="1" cellpadding="5" cellspacing="3">
     <tr>
-        <th id="title">${requestScope.localization.getString("edition_list.text.title")}</th>
+        <th id="title">
+            <form action="${pageContext.request.contextPath}/edition_list" method="get">
+                <input id="titleFilter" name="sortFilter" hidden value="${language == 'ua' ? 'titleUa' : 'titleEn'}">
+                <button onclick="this.form.submit()">${requestScope.localization.getString("edition_list.text.title")}</button>
+            </form>
+        </th>
         <th id="title_image">${requestScope.localization.getString("edition_list.text.image")}</th>
         <th id="genres">
-            <form action="${pageContext.request.contextPath}/edition_list" method="get">
-                <p><label for="genre">${requestScope.localization.getString("edition_list.text.genre")}</label><br/>
-                    <select id="genre" name="genre" onchange="this.form.submit()">
+            <form action="${pageContext.request.contextPath}/cabinet/admin_console/global_edition_list" method="get">
+                <p><label for="genreFilter">${requestScope.localization.getString("edition_list.text.genre")}</label><br/>
+                    <select id="genreFilter" name="genreFilter" onchange="this.form.submit()">
+                        <option value="0" ${sessionScope.genreFilter == '0' ? 'selected' : ''} >*</option>
                         <c:forEach items="${requestScope.genresList}" var="genre">
+                            <c:set var="genreId" value="${genre.id}"/>
                             <c:choose>
                                 <c:when test="${language == 'ua'}">
-                                    <option value="${genre.genreUa}">${genre.genreUa}</option>
+                                    <option value="${genreId}" ${sessionScope.genreFilter == genreId ? 'selected' : ''}>${genre.genreUa}</option>
                                 </c:when>
                                 <c:when test="${language == 'en'}">
-                                    <option value="${genre.genreEn}">${genre.genreEn}</option>
+                                    <option value="${genreId}" ${sessionScope.genreFilter == genreId ? 'selected' : ''}>${genre.genreEn}</option>
                                 </c:when>
                             </c:choose>
                         </c:forEach>
                     </select>
                 </p>
+            </form>
+        </th>
+        <th id="price">
+            <form action="${pageContext.request.contextPath}/edition_list" method="get">
+                <input id="priceFilter" name="sortFilter" hidden value="price">
+                <button onclick="this.form.submit()">${requestScope.localization.getString("edition_list.text.price")}</button>
             </form>
         </th>
 
@@ -96,6 +109,8 @@
                 </c:forEach>
                 <c:out value="${requestScope.genreMap.get(key)}"/>
             </td>
+            <td>${edition.price}</td>
+
 
             <% if (role.equals("1")) {%>
                 <%--Edit button

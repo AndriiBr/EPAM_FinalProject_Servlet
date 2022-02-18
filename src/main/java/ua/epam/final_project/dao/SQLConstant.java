@@ -32,18 +32,18 @@ public final class SQLConstant {
             "SELECT COUNT(*) AS rowcount FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id";
     public static final String SQL_FIND_ALL_EDITIONS = "SELECT * FROM edition";
         //Get list of edition with genre filter and without genre filter
-    public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO = "SELECT * FROM edition WHERE genre_id = ? ORDER BY ? LIMIT ? OFFSET ?";
-    public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO_ALL_GENRES = "SELECT * FROM edition WHERE genre_id = genre_id ORDER BY ? LIMIT ? OFFSET ?";
+    public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO = "SELECT * FROM edition WHERE genre_id = ? ORDER BY %s LIMIT ? OFFSET ?";
+    public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO_ALL_GENRES = "SELECT * FROM edition WHERE genre_id = genre_id ORDER BY %s LIMIT ? OFFSET ?";
         //Get list of edition with genre filter and without genre filter
     public static final String SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS =
-            "SELECT * FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ? ORDER BY ? LIMIT ? offset ?";
+            "SELECT * FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ? ORDER BY %s LIMIT ? offset ?";
     public static final String SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS_ALL_GENRES =
-            "SELECT * FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id ORDER BY ? LIMIT ? offset ?";
+            "SELECT * FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id ORDER BY %s LIMIT ? offset ?";
         //Get list of edition with genre filter and without genre filter
     public static final String SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS =
-            "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ? ORDER BY ? LIMIT ? offset ?";
+            "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ? ORDER BY %s LIMIT ? offset ?";
     public static final String SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS_ALL_GENRES =
-            "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id ORDER BY ? LIMIT ? offset ?";
+            "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id ORDER BY %s LIMIT ? offset ?";
     public static final String SQL_FIND_EDITION_BY_ID = "SELECT * FROM edition WHERE id = ?";
     public static final String SQL_INSERT_EDITION =
             "INSERT INTO edition (titleEn, titleUa, title_image, genre_id, price) VALUES (?, ?, ?, ?, ?)";

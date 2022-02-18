@@ -27,6 +27,8 @@ import static ua.epam.final_project.util.JSPPathConstant.*;
 @WebServlet(urlPatterns = EDITION_LIST_URL)
 public class EditionListServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(EditionListServlet.class);
+    private static final String SORT_FILTER = "sortFilter";
+    private static final String GENRE_FILTER = "genreFilter";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -35,21 +37,36 @@ public class EditionListServlet extends HttpServlet {
         int page = 1;
         int recordsPerPage = 4;
         int noOfRecords;
-        String orderBy = "";
-        String genreFilter = req.getParameter("genreFilter");
-        req.setAttribute("genreFilter", genreFilter);
+        String orderBy = req.getParameter(SORT_FILTER);
+        String genreFilter = req.getParameter(GENRE_FILTER);
         List<Edition> editionList;
         List<Genre> genreList;
 
+        //Save column filter in session
+        if (req.getParameter(SORT_FILTER) != null) {
+            session.setAttribute(SORT_FILTER, orderBy);
+        } else if (session.getAttribute(SORT_FILTER) != null) {
+            orderBy = (String)session.getAttribute(SORT_FILTER);
+        }
+
+        //Save genre filter in session
+        if (req.getParameter(GENRE_FILTER) != null) {
+            session.setAttribute(GENRE_FILTER, genreFilter);
+        } else if (session.getAttribute(GENRE_FILTER) != null) {
+            genreFilter = (String) session.getAttribute(GENRE_FILTER);
+        }
+
+
         //ToDo
         //Put parameter 'page' into form with hidden input value + button
-        if(req.getParameter("page") != null) {
+        if (req.getParameter("page") != null) {
             try {
                 page = Integer.parseInt(req.getParameter("page"));
             } catch (NumberFormatException e) {
                 logger.warn(e);
             }
         }
+
         //ToDo
         if (req.getParameter("genre") != null) {
             orderBy = req.getParameter("genre");
