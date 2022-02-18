@@ -35,6 +35,8 @@ public class SubscriptionListServlet extends HttpServlet {
         int recordsPerPage = 4;
         int noOfRecords;
         String orderBy = "";
+        String genreFilter = req.getParameter("genreFilter");
+        req.setAttribute("genreFilter", genreFilter);
         List<Edition> editionList;
         List<Genre> genreList;
 
@@ -59,8 +61,8 @@ public class SubscriptionListServlet extends HttpServlet {
 
         try {
             User user = userService.findUserByLogin(login);
-            editionList = editionService.findAllEditionsFromTo(user, true, recordsPerPage, page, orderBy);
-            noOfRecords = editionService.getNumberOfEditions(user, true);
+            editionList = editionService.findAllEditionsFromTo(user, true, recordsPerPage, page, genreFilter, orderBy);
+            noOfRecords = editionService.getNumberOfEditions(user, true, genreFilter);
             genreList = genreService.findAllGenres();
             forwardToPage(req, resp, page, noOfRecords, recordsPerPage, editionList, genreList);
         } catch (UnknownUserException | UnknownEditionException | UnknownGenreException e) {

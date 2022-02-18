@@ -36,6 +36,8 @@ public class EditionListServlet extends HttpServlet {
         int recordsPerPage = 4;
         int noOfRecords;
         String orderBy = "";
+        String genreFilter = req.getParameter("genreFilter");
+        req.setAttribute("genreFilter", genreFilter);
         List<Edition> editionList;
         List<Genre> genreList;
 
@@ -59,8 +61,8 @@ public class EditionListServlet extends HttpServlet {
 
         if (login == null) {
             try {
-                editionList = editionService.findAllEditionsFromTo(recordsPerPage, page, orderBy);
-                noOfRecords = editionService.getNumberOfEditions();
+                editionList = editionService.findAllEditionsFromTo(recordsPerPage, page, genreFilter, orderBy);
+                noOfRecords = editionService.getNumberOfEditions(genreFilter);
                 genreList = genreService.findAllGenres();
                 forwardToPage(req, resp, page, noOfRecords, recordsPerPage, editionList, genreList);
             } catch (UnknownEditionException | UnknownGenreException e) {
@@ -70,8 +72,8 @@ public class EditionListServlet extends HttpServlet {
         } else {
             try {
                 User user = userService.findUserByLogin(login);
-                editionList = editionService.findAllEditionsFromTo(user, false, recordsPerPage, page, orderBy);
-                noOfRecords = editionService.getNumberOfEditions(user, false);
+                editionList = editionService.findAllEditionsFromTo(user, false, recordsPerPage, page, genreFilter, orderBy);
+                noOfRecords = editionService.getNumberOfEditions(user, false, genreFilter);
                 genreList = genreService.findAllGenres();
                 forwardToPage(req, resp, page, noOfRecords, recordsPerPage, editionList, genreList);
             } catch (UnknownUserException | UnknownEditionException | UnknownGenreException e) {

@@ -31,7 +31,6 @@ public class SQLConnectionPool implements IConnectionPool {
      */
     private SQLConnectionPool(List<Connection> pool) {
         connectionsAvailable = pool;
-        System.out.println("<<<< SQLConnectionPool was created >>>>");
     }
 
     /**

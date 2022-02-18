@@ -31,12 +31,12 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public Integer getNumberOfEditions() throws UnknownEditionException {
+    public Integer getNumberOfEditions(String genreFilter) throws UnknownEditionException {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
             editionDao = daoFactory.getEditionDao();
-            numberOfRows = editionDao.getNumberOfEditions();
+            numberOfRows = editionDao.getNumberOfEditions(genreFilter);
             return numberOfRows;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -47,12 +47,12 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public Integer getNumberOfEditions(User user, boolean has) throws UnknownEditionException {
+    public Integer getNumberOfEditions(User user, boolean has, String genreFilter) throws UnknownEditionException {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
             editionDao = daoFactory.getEditionDao();
-            numberOfRows = editionDao.getNumberOfEditions(user, has);
+            numberOfRows = editionDao.getNumberOfEditions(user, has, genreFilter);
             return numberOfRows;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -79,12 +79,12 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String orderBy) throws UnknownEditionException {
+    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
             editionDao = daoFactory.getEditionDao();
-            editionList = editionDao.findAllEditionsFromTo(recordsPerPage, page, orderBy);
+            editionList = editionDao.findAllEditionsFromTo(recordsPerPage, page, genreFilter, orderBy);
             return editionList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -95,12 +95,12 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String orderBy) throws UnknownEditionException {
+    public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
             editionDao = daoFactory.getEditionDao();
-            editionList = editionDao.findAllEditionsFromTo(user, has, recordsPerPage, page, orderBy);
+            editionList = editionDao.findAllEditionsFromTo(user, has, recordsPerPage, page, genreFilter, orderBy);
             return editionList;
         } catch (DataNotFoundException e) {
             logger.error(e);

@@ -17,17 +17,33 @@ public final class SQLConstant {
     public static final String SQL_DELETE_USER = "DELETE FROM user WHERE id = ?";
 
     //SQL requests for EditionDAO
-    public static final String SQL_GET_NUMBER_OF_EDITIONS = "SELECT COUNT(*) AS rowcount FROM edition";
+        //Get number of rows with and without genre filter
+    public static final String SQL_GET_NUMBER_OF_EDITIONS = "SELECT COUNT(*) AS rowcount FROM edition WHERE genre_id = ?";
+    public static final String SQL_GET_NUMBER_OF_EDITIONS_All_GENRES = "SELECT COUNT(*) AS rowcount FROM edition WHERE genre_id = genre_id";
+        //Get number of rows with and without genre filter
     public static final String SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS =
-            "SELECT COUNT(*) AS rowcount FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?)";
+            "SELECT COUNT(*) AS rowcount FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ?";
+    public static final String SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS_ALL_GENRES =
+            "SELECT COUNT(*) AS rowcount FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id";
+        //Get number of rows with and without genre filter
     public static final String SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS =
-            "SELECT COUNT(*) AS rowcount FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?)";
+            "SELECT COUNT(*) AS rowcount FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ?";
+    public static final String SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS_ALL_GENRES =
+            "SELECT COUNT(*) AS rowcount FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id";
     public static final String SQL_FIND_ALL_EDITIONS = "SELECT * FROM edition";
-    public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO = "SELECT * FROM edition ORDER BY ? LIMIT ? OFFSET ?";
+        //Get list of edition with genre filter and without genre filter
+    public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO = "SELECT * FROM edition WHERE genre_id = ? ORDER BY ? LIMIT ? OFFSET ?";
+    public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO_ALL_GENRES = "SELECT * FROM edition WHERE genre_id = genre_id ORDER BY ? LIMIT ? OFFSET ?";
+        //Get list of edition with genre filter and without genre filter
     public static final String SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS =
-            "SELECT * FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) ORDER BY ? LIMIT ? offset ?";
+            "SELECT * FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ? ORDER BY ? LIMIT ? offset ?";
+    public static final String SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS_ALL_GENRES =
+            "SELECT * FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id ORDER BY ? LIMIT ? offset ?";
+        //Get list of edition with genre filter and without genre filter
     public static final String SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS =
-            "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) ORDER BY ? LIMIT ? offset ?";
+            "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ? ORDER BY ? LIMIT ? offset ?";
+    public static final String SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS_ALL_GENRES =
+            "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id ORDER BY ? LIMIT ? offset ?";
     public static final String SQL_FIND_EDITION_BY_ID = "SELECT * FROM edition WHERE id = ?";
     public static final String SQL_INSERT_EDITION =
             "INSERT INTO edition (titleEn, titleUa, title_image, genre_id, price) VALUES (?, ?, ?, ?, ?)";

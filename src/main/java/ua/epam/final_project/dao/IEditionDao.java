@@ -17,7 +17,7 @@ public interface IEditionDao {
      * @return number of rows
      * @throws DataNotFoundException if nothing was found in Db
      */
-    Integer getNumberOfEditions() throws DataNotFoundException;
+    Integer getNumberOfEditions(String genreFilter) throws DataNotFoundException;
 
     /**
      * Gets the number of rows in the table "edition" without positions user already has/ not has.
@@ -26,7 +26,7 @@ public interface IEditionDao {
      * @return - number of rows
      * @throws DataNotFoundException if nothing was found in Db
      */
-    Integer getNumberOfEditions(User user, boolean has) throws DataNotFoundException;
+    Integer getNumberOfEditions(User user, boolean has, String genreFilter) throws DataNotFoundException;
 
     /**
      * Gets a list of all editions retrieved from the database
@@ -43,7 +43,7 @@ public interface IEditionDao {
      * @return List of editions from DB
      * @throws DataNotFoundException if nothing was found in Db
      */
-    List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String orderBy) throws DataNotFoundException;
+    List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String genreFilter, String orderBy) throws DataNotFoundException;
 
     /**
      * Gets a list of editions retrieved from the database
@@ -55,7 +55,7 @@ public interface IEditionDao {
      * @return List of editions from DB
      * @throws DataNotFoundException if nothing was found in Db
      */
-    List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String orderBy) throws DataNotFoundException;
+    List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws DataNotFoundException;
 
     /**
      * Gets edition entity from DB by id

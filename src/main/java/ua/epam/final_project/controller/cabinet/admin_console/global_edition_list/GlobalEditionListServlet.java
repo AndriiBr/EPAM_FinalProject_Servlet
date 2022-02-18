@@ -30,6 +30,8 @@ public class GlobalEditionListServlet extends HttpServlet {
         int recordsPerPage = 4;
         int noOfRecords;
         String orderBy = "";
+        String genreFilter = req.getParameter("genreFilter");
+        req.setAttribute("genreFilter", genreFilter);
         List<Edition> editionList;
         List<Genre> genreList;
 
@@ -51,9 +53,9 @@ public class GlobalEditionListServlet extends HttpServlet {
         IGenreService genreService = ServiceFactory.getGenreService();
 
         try {
-            editionList = editionService.findAllEditionsFromTo(recordsPerPage, page, orderBy);
+            editionList = editionService.findAllEditionsFromTo(recordsPerPage, page, genreFilter, orderBy);
             genreList = genreService.findAllGenres();
-            noOfRecords = editionService.getNumberOfEditions();
+            noOfRecords = editionService.getNumberOfEditions(genreFilter);
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
             req.setAttribute("editionList", editionList);
             req.setAttribute("noOfPages", noOfPages);

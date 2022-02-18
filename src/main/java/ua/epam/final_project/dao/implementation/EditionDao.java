@@ -2,13 +2,8 @@ package ua.epam.final_project.dao.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IEditionDao;
-import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.exception.IncorrectPropertyException;
-import ua.epam.final_project.service.implementation.UserService;
 import ua.epam.final_project.util.entity.Edition;
 import ua.epam.final_project.util.entity.User;
 
@@ -27,42 +22,90 @@ public class EditionDao implements IEditionDao {
     }
 
     @Override
-    public Integer getNumberOfEditions() throws DataNotFoundException {
+    public Integer getNumberOfEditions(String genreFilter) throws DataNotFoundException {
         int numberOfRows = 0;
-        try (Statement statement = connection.createStatement()) {
-            ResultSet rs = statement.executeQuery(SQL_GET_NUMBER_OF_EDITIONS);
+        String genre = genreFilter;
+        String sqlPattern;
 
-            if (rs.next()) {
-                numberOfRows = rs.getInt("rowcount");
+        if (genre == null || genre.equals("0")) {
+            genre = "all";
+        }
+
+        if (genre.equals("all")) {
+            sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_All_GENRES;
+            try (Statement statement = connection.createStatement()) {
+                ResultSet rs = statement.executeQuery(sqlPattern);
+
+                if (rs.next()) {
+                    numberOfRows = rs.getInt("rowcount");
+                }
+            } catch (SQLException e) {
+                logger.error(e);
+                throw new DataNotFoundException();
             }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new DataNotFoundException();
+        } else {
+            sqlPattern = SQL_GET_NUMBER_OF_EDITIONS;
+            try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
+                statement.setString(1, genre);
+                ResultSet rs = statement.executeQuery();
+
+                if (rs.next()) {
+                    numberOfRows = rs.getInt("rowcount");
+                }
+            } catch (SQLException e) {
+                logger.error(e);
+                throw new DataNotFoundException();
+            }
         }
         return numberOfRows;
     }
 
     @Override
-    public Integer getNumberOfEditions(User user, boolean has) throws DataNotFoundException {
+    public Integer getNumberOfEditions(User user, boolean has, String genreFilter) throws DataNotFoundException {
         int numberOfEditions = 0;
+        String genre = genreFilter;
         String sqlPattern;
 
-        if (has) {
-            sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS;
-        } else {
-            sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS;
+        if (genre == null || genre.equals("0")) {
+            genre = "all";
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
-            statement.setInt(1, user.getId());
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                numberOfEditions = rs.getInt("rowcount");
+        if (genre.equals("all")) {
+            if (has) {
+                sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS_ALL_GENRES;
+            } else {
+                sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS_ALL_GENRES;
             }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new DataNotFoundException();
+            try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
+                statement.setInt(1, user.getId());
+                ResultSet rs = statement.executeQuery();
+
+                if (rs.next()) {
+                    numberOfEditions = rs.getInt("rowcount");
+                }
+            } catch (SQLException e) {
+                logger.error(e);
+                throw new DataNotFoundException();
+            }
+
+        } else {
+            if (has) {
+                sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS;
+            } else {
+                sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS;
+            }
+            try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
+                statement.setInt(1, user.getId());
+                statement.setString(2, genre);
+                ResultSet rs = statement.executeQuery();
+
+                if (rs.next()) {
+                    numberOfEditions = rs.getInt("rowcount");
+                }
+            } catch (SQLException e) {
+                logger.error(e);
+                throw new DataNotFoundException();
+            }
         }
         return numberOfEditions;
     }
@@ -84,58 +127,111 @@ public class EditionDao implements IEditionDao {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String orderBy) throws DataNotFoundException {
+    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String genreFilter, String orderBy) throws DataNotFoundException {
         List<Edition> editionList = new ArrayList<>();
         String order = orderBy;
+        String genre = genreFilter;
+        String sqlPattern;
 
         if (order.equals("")) {
             order = "id";
         }
+        if (genre == null || genre.equals("0")) {
+            genre = "all";
+        }
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITIONS_ORDER_BY_FROM_TO)) {
-            statement.setString(1, order);
-            statement.setInt(2, recordsPerPage);
-            statement.setInt(3, (page - 1) * recordsPerPage);
-            ResultSet rs = statement.executeQuery();
+        if (genre.equals("all")) {
+            sqlPattern = SQL_FIND_EDITIONS_ORDER_BY_FROM_TO_ALL_GENRES;
+            try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
+                statement.setString(1, order);
+                statement.setInt(2, recordsPerPage);
+                statement.setInt(3, (page - 1) * recordsPerPage);
+                ResultSet rs = statement.executeQuery();
 
-            while (rs.next()) {
-                editionList.add(extractEdition(rs));
+                while (rs.next()) {
+                    editionList.add(extractEdition(rs));
+                }
+            } catch (SQLException e) {
+                logger.error(e);
+                throw new DataNotFoundException();
             }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new DataNotFoundException();
+
+        } else {
+            sqlPattern = SQL_FIND_EDITIONS_ORDER_BY_FROM_TO;
+            try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
+                statement.setString(1, genre);
+                statement.setString(2, order);
+                statement.setInt(3, recordsPerPage);
+                statement.setInt(4, (page - 1) * recordsPerPage);
+                ResultSet rs = statement.executeQuery();
+
+                while (rs.next()) {
+                    editionList.add(extractEdition(rs));
+                }
+            } catch (SQLException e) {
+                logger.error(e);
+                throw new DataNotFoundException();
+            }
         }
         return editionList;
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String orderBy) throws DataNotFoundException {
+    public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws DataNotFoundException {
         List<Edition> editionList = new ArrayList<>();
         String order = orderBy;
+        String genre = genreFilter;
         String sqlPattern;
 
         if (orderBy.equals("")) {
             order = "id";
         }
-
-        if (has) {
-            sqlPattern = SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS;
-        } else {
-            sqlPattern = SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS;
+        if (genre == null || genre.equals("0")) {
+            genre = "all";
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
-            statement.setInt(1, user.getId());
-            statement.setString(2, order);
-            statement.setInt(3, recordsPerPage);
-            statement.setInt(4, (page - 1) * recordsPerPage);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                editionList.add(extractEdition(rs));
+        if (genre.equals("all")) {
+            if (has) {
+                sqlPattern = SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS_ALL_GENRES;
+            } else {
+                sqlPattern = SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS_ALL_GENRES;
             }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new DataNotFoundException();
+
+            try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
+                statement.setInt(1, user.getId());
+                statement.setString(2, order);
+                statement.setInt(3, recordsPerPage);
+                statement.setInt(4, (page - 1) * recordsPerPage);
+                ResultSet rs = statement.executeQuery();
+                while (rs.next()) {
+                    editionList.add(extractEdition(rs));
+                }
+            } catch (SQLException e) {
+                logger.error(e);
+                throw new DataNotFoundException();
+            }
+
+        } else {
+            if (has) {
+                sqlPattern = SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS;
+            } else {
+                sqlPattern = SQL_FIND_EDITIONS_FROM_TO_WITHOUT_USER_ALREADY_HAS;
+            }
+
+            try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
+                statement.setInt(1, user.getId());
+                statement.setString(2, genre);
+                statement.setString(3, order);
+                statement.setInt(4, recordsPerPage);
+                statement.setInt(5, (page - 1) * recordsPerPage);
+                ResultSet rs = statement.executeQuery();
+                while (rs.next()) {
+                    editionList.add(extractEdition(rs));
+                }
+            } catch (SQLException e) {
+                logger.error(e);
+                throw new DataNotFoundException();
+            }
         }
         return editionList;
     }
