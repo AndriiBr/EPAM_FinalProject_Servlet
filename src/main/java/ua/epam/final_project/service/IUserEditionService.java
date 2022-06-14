@@ -1,9 +1,9 @@
 package ua.epam.final_project.service;
 
 import ua.epam.final_project.exception.UnknownUserEditionPairException;
-import ua.epam.final_project.util.entity.Edition;
-import ua.epam.final_project.util.entity.User;
-import ua.epam.final_project.util.entity.UserEdition;
+import ua.epam.final_project.entity.Edition;
+import ua.epam.final_project.entity.User;
+import ua.epam.final_project.entity.UserEdition;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-<%@ page import="ua.epam.final_project.util.entity.Edition" %>
+<%@ page import="ua.epam.final_project.entity.Edition" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

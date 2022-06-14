@@ -8,14 +8,14 @@ import ua.epam.final_project.dao.IUserDao;
 import ua.epam.final_project.dao.IUserEditionDao;
 import ua.epam.final_project.exception.*;
 import ua.epam.final_project.service.IUserService;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.User;
 
 import java.util.List;
 
 public class UserService implements IUserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.MY_SQL;
+    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
     private IUserDao userDao;
 

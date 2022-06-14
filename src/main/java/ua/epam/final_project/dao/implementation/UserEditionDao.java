@@ -4,9 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.dao.IUserEditionDao;
 import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.util.entity.Edition;
-import ua.epam.final_project.util.entity.User;
-import ua.epam.final_project.util.entity.UserEdition;
+import ua.epam.final_project.entity.Edition;
+import ua.epam.final_project.entity.User;
+import ua.epam.final_project.entity.UserEdition;
 
 import static ua.epam.final_project.dao.SQLConstant.*;
 

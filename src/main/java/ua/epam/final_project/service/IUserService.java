@@ -1,7 +1,7 @@
 package ua.epam.final_project.service;
 
 import ua.epam.final_project.exception.UnknownUserException;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.User;
 
 import java.util.List;
 

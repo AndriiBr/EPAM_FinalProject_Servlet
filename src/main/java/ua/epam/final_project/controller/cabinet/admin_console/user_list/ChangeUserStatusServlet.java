@@ -2,16 +2,10 @@ package ua.epam.final_project.controller.cabinet.admin_console.user_list;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.controller.edition_list.EditionListServlet;
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.exception.DataBaseConnectionException;
-import ua.epam.final_project.exception.DataBaseNotSupportedException;
-import ua.epam.final_project.exception.IncorrectPropertyException;
 import ua.epam.final_project.exception.UnknownUserException;
 import ua.epam.final_project.service.IUserService;
 import ua.epam.final_project.service.ServiceFactory;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalTime;
 
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 

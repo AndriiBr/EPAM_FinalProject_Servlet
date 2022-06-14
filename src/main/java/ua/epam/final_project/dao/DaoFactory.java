@@ -74,8 +74,8 @@ public abstract class DaoFactory {
             IncorrectPropertyException {
 
         switch (dataBase) {
-            case MY_SQL:
-                return new MySQLDaoFactory();
+            case POSTGRES:
+                return new PostgresDaoFactory();
             case ORACLE:
                 logger.error("Database - {} not supported yet!", dataBase);
                 throw new DataBaseNotSupportedException(dataBase + "Database not supported");

@@ -6,9 +6,9 @@ import ua.epam.final_project.exception.*;
 import ua.epam.final_project.service.IEditionService;
 import ua.epam.final_project.service.IGenreService;
 import ua.epam.final_project.service.ServiceFactory;
-import ua.epam.final_project.util.entity.Genre;
+import ua.epam.final_project.entity.Genre;
 import ua.epam.final_project.util.external_folder.DeleteImageFromExternalDirectory;
-import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.entity.Edition;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

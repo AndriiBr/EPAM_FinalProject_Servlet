@@ -1,8 +1,8 @@
 package ua.epam.final_project.dao;
 
 import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.util.entity.Edition;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.Edition;
+import ua.epam.final_project.entity.User;
 
 import java.util.List;
 

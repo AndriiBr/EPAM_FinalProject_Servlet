@@ -1,10 +1,10 @@
 package ua.epam.final_project.dao;
 
 public enum DataBaseSelector {
-    MY_SQL {
+    POSTGRES {
         @Override
         public String toString() {
-            return "MySQL";
+            return "Postgres";
         }
     },
     ORACLE {

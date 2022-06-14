@@ -5,16 +5,19 @@ import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IRoleDao;
-import ua.epam.final_project.exception.*;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.exception.DataNotFoundException;
+import ua.epam.final_project.exception.IncorrectPropertyException;
+import ua.epam.final_project.exception.UnknownRoleException;
 import ua.epam.final_project.service.IRoleService;
-import ua.epam.final_project.util.entity.Role;
+import ua.epam.final_project.entity.Role;
 
 import java.util.List;
 
 public class RoleService implements IRoleService {
     private static final Logger logger = LogManager.getLogger(RoleService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.MY_SQL;
+    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
     private IRoleDao roleDao;
 

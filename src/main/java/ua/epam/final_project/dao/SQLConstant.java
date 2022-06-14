@@ -5,16 +5,16 @@ public final class SQLConstant {
     private SQLConstant() {}
 
     //SQL requests for UserDAO
-    public static final String SQL_GET_NUMBER_OF_USERS = "SELECT COUNT(*) AS rowcount FROM user";
-    public static final String SQL_FIND_ALL_USERS = "SELECT * FROM user";
-    public static final String SQL_FIND_USERS_FROM_TO = "SELECT * FROM user LIMIT ? OFFSET ?";
-    public static final String SQL_FIND_USER_BY_LOGIN_PASSWORD = "SELECT * FROM user WHERE (login=?) AND (password=?)";
-    public static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM user WHERE (login=?)";
+    public static final String SQL_GET_NUMBER_OF_USERS = "SELECT COUNT(*) AS rowcount FROM usr";
+    public static final String SQL_FIND_ALL_USERS = "SELECT * FROM usr";
+    public static final String SQL_FIND_USERS_FROM_TO = "SELECT * FROM usr LIMIT ? OFFSET ?";
+    public static final String SQL_FIND_USER_BY_LOGIN_PASSWORD = "SELECT * FROM usr WHERE (username=?) AND (pass=?)";
+    public static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM usr WHERE (username=?)";
     public static final String SQL_UPDATE_USER =
-            "UPDATE user SET login = ?, password = ?, email = ?, name = ?, user_image = ?, balance = ?, user_role_id = ? WHERE id = ?";
+            "UPDATE usr SET username = ?, pass = ?, email = ?, first_name = ?, user_image = ?, balance = ?, user_role_id = ? WHERE id = ?";
     public static final String SQL_INSERT_USER =
-            "INSERT INTO user (login, password, email, name, user_image, user_role_id) VALUES (?, ?, ?, ?, ?, ?)";
-    public static final String SQL_DELETE_USER = "DELETE FROM user WHERE id = ?";
+            "INSERT INTO usr (username, pass, email, first_name, user_image, user_role_id) VALUES (?, ?, ?, ?, ?, ?)";
+    public static final String SQL_DELETE_USER = "DELETE FROM usr WHERE id = ?";
 
     //SQL requests for EditionDAO
         //Get number of rows with and without genre filter

@@ -1,7 +1,7 @@
 package ua.epam.final_project.dao;
 
 import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.util.entity.Role;
+import ua.epam.final_project.entity.Role;
 
 import java.util.List;
 

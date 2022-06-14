@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.dao.IGenreDao;
 import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.util.entity.Genre;
+import ua.epam.final_project.entity.Genre;
 
 import static ua.epam.final_project.dao.SQLConstant.*;
 
@@ -79,8 +79,8 @@ public class GenreDao implements IGenreDao {
         Genre genre = new Genre();
 
         genre.setId(rs.getInt("id"));
-        genre.setGenreEn(rs.getString("nameEn"));
-        genre.setGenreUa(rs.getString("nameUa"));
+        genre.setGenreEn(rs.getString("name_en"));
+        genre.setGenreUa(rs.getString("name_ua"));
 
         return genre;
     }

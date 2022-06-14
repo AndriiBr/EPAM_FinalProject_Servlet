@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.exception.UnknownUserException;
 import ua.epam.final_project.service.IUserService;
 import ua.epam.final_project.service.ServiceFactory;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.User;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

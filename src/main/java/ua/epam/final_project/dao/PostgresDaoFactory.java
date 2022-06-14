@@ -6,13 +6,13 @@ import ua.epam.final_project.exception.IncorrectPropertyException;
 
 import java.sql.*;
 
-public class MySQLDaoFactory extends DaoFactory {
+public class PostgresDaoFactory extends DaoFactory {
 
 
     private final IConnectionPool connectionPool;
     private Connection connection;
 
-    public MySQLDaoFactory() throws IncorrectPropertyException {
+    public PostgresDaoFactory() throws IncorrectPropertyException {
         connectionPool = SQLConnectionPool.getInstance();
         connection = connectionPool.getConnection();
     }
@@ -86,6 +86,5 @@ public class MySQLDaoFactory extends DaoFactory {
     public IRoleDao getRoleDao() {
         return new RoleDao(this.connection);
     }
-
 
 }

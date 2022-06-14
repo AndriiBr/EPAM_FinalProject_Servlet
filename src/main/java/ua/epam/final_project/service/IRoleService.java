@@ -1,7 +1,7 @@
 package ua.epam.final_project.service;
 
 import ua.epam.final_project.exception.UnknownRoleException;
-import ua.epam.final_project.util.entity.Role;
+import ua.epam.final_project.entity.Role;
 
 import java.util.List;
 

@@ -6,16 +6,19 @@ import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
 
 import ua.epam.final_project.dao.IGenreDao;
-import ua.epam.final_project.exception.*;
+import ua.epam.final_project.exception.DataBaseNotSupportedException;
+import ua.epam.final_project.exception.DataNotFoundException;
+import ua.epam.final_project.exception.IncorrectPropertyException;
+import ua.epam.final_project.exception.UnknownGenreException;
 import ua.epam.final_project.service.IGenreService;
-import ua.epam.final_project.util.entity.Genre;
+import ua.epam.final_project.entity.Genre;
 
 import java.util.List;
 
 public class GenreService implements IGenreService {
     private static final Logger logger = LogManager.getLogger(GenreService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.MY_SQL;
+    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
     private IGenreDao genreDao;
 

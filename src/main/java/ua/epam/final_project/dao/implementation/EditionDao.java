@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.dao.IEditionDao;
 import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.util.entity.Edition;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.Edition;
+import ua.epam.final_project.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class EditionDao implements IEditionDao {
         } else {
             sqlPattern = SQL_GET_NUMBER_OF_EDITIONS;
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
-                statement.setString(1, genre);
+                statement.setInt(1, Integer.parseInt(genre));
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) {
@@ -96,7 +96,7 @@ public class EditionDao implements IEditionDao {
             }
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
                 statement.setInt(1, user.getId());
-                statement.setString(2, genre);
+                statement.setInt(2, Integer.parseInt(genre));
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) {
@@ -158,7 +158,7 @@ public class EditionDao implements IEditionDao {
         } else {
             sqlPattern = String.format(SQL_FIND_EDITIONS_ORDER_BY_FROM_TO, order);
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
-                statement.setString(1, genre);
+                statement.setInt(1, Integer.parseInt(genre));
                 statement.setInt(2, recordsPerPage);
                 statement.setInt(3, (page - 1) * recordsPerPage);
                 ResultSet rs = statement.executeQuery();
@@ -217,7 +217,7 @@ public class EditionDao implements IEditionDao {
 
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
                 statement.setInt(1, user.getId());
-                statement.setString(2, genre);
+                statement.setInt(2, Integer.parseInt(genre));
                 statement.setInt(3, recordsPerPage);
                 statement.setInt(4, (page - 1) * recordsPerPage);
                 ResultSet rs = statement.executeQuery();
@@ -304,8 +304,8 @@ public class EditionDao implements IEditionDao {
         Edition edition = new Edition();
 
         edition.setId(rs.getInt("id"));
-        edition.setTitleEn(rs.getString("titleEn"));
-        edition.setTitleUa(rs.getString("titleUa"));
+        edition.setTitleEn(rs.getString("title_en"));
+        edition.setTitleUa(rs.getString("title_ua"));
         edition.setImagePath(rs.getString("title_image"));
         edition.setGenreId(rs.getInt("genre_id"));
         edition.setPrice(rs.getInt("price"));

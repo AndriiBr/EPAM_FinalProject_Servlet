@@ -8,16 +8,16 @@ import ua.epam.final_project.dao.IUserDao;
 import ua.epam.final_project.dao.IUserEditionDao;
 import ua.epam.final_project.exception.*;
 import ua.epam.final_project.service.IUserEditionService;
-import ua.epam.final_project.util.entity.Edition;
-import ua.epam.final_project.util.entity.User;
-import ua.epam.final_project.util.entity.UserEdition;
+import ua.epam.final_project.entity.Edition;
+import ua.epam.final_project.entity.User;
+import ua.epam.final_project.entity.UserEdition;
 
 import java.util.List;
 
 public class UserEditionService implements IUserEditionService {
     private static final Logger logger = LogManager.getLogger(UserEditionService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.MY_SQL;
+    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
     private IUserEditionDao userEditionDao;
 

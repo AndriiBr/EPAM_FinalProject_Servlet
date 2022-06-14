@@ -6,11 +6,10 @@ import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IEditionDao;
 import ua.epam.final_project.dao.IUserEditionDao;
-import ua.epam.final_project.dao.implementation.EditionDao;
 import ua.epam.final_project.exception.*;
 import ua.epam.final_project.service.IEditionService;
-import ua.epam.final_project.util.entity.Edition;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.Edition;
+import ua.epam.final_project.entity.User;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class EditionService implements IEditionService {
 
     private static final Logger logger = LogManager.getLogger(EditionService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.MY_SQL;
+    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
     private IEditionDao editionDao;
 

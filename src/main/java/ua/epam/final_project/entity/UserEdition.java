@@ -1,4 +1,4 @@
-package ua.epam.final_project.util.entity;
+package ua.epam.final_project.entity;
 
 import java.io.Serializable;
 

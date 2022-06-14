@@ -1,8 +1,7 @@
 package ua.epam.final_project.service;
 
-import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.exception.UnknownGenreException;
-import ua.epam.final_project.util.entity.Genre;
+import ua.epam.final_project.entity.Genre;
 
 import java.util.List;
 

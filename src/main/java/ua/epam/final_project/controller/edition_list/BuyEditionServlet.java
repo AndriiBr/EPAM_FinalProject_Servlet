@@ -2,16 +2,14 @@ package ua.epam.final_project.controller.edition_list;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.exception.*;
 import ua.epam.final_project.service.IEditionService;
 import ua.epam.final_project.service.IUserEditionService;
 import ua.epam.final_project.service.IUserService;
 import ua.epam.final_project.service.ServiceFactory;
-import ua.epam.final_project.util.entity.Edition;
-import ua.epam.final_project.util.entity.User;
-import ua.epam.final_project.util.entity.UserEdition;
+import ua.epam.final_project.entity.Edition;
+import ua.epam.final_project.entity.User;
+import ua.epam.final_project.entity.UserEdition;
 
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 import static ua.epam.final_project.util.JSPPathConstant.*;
@@ -23,8 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalTime;
 import java.util.List;
 
 @WebServlet(urlPatterns = BUY_EDITION_URL)

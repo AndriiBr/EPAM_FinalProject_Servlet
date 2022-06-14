@@ -6,7 +6,7 @@ import ua.epam.final_project.exception.UnknownEditionException;
 import ua.epam.final_project.service.IEditionService;
 import ua.epam.final_project.service.ServiceFactory;
 import ua.epam.final_project.util.external_folder.DeleteImageFromExternalDirectory;
-import ua.epam.final_project.util.entity.Edition;
+import ua.epam.final_project.entity.Edition;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

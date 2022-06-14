@@ -7,8 +7,8 @@ import ua.epam.final_project.service.IEditionService;
 import ua.epam.final_project.service.IUserEditionService;
 import ua.epam.final_project.service.IUserService;
 import ua.epam.final_project.service.ServiceFactory;
-import ua.epam.final_project.util.entity.Edition;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.Edition;
+import ua.epam.final_project.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

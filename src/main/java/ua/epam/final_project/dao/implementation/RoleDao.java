@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.dao.IRoleDao;
 import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.util.entity.Role;
+import ua.epam.final_project.entity.Role;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -80,8 +80,8 @@ public class RoleDao implements IRoleDao {
         Role role = new Role();
 
         role.setId(rs.getInt("id"));
-        role.setRoleEn(rs.getString("roleEn"));
-        role.setRoleUa(rs.getString("roleUa"));
+        role.setRoleEn(rs.getString("role_en"));
+        role.setRoleUa(rs.getString("role_ua"));
 
         return role;
     }

@@ -2,13 +2,9 @@ package ua.epam.final_project.dao.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IUserDao;
-import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.exception.DataNotFoundException;
-import ua.epam.final_project.exception.IncorrectPropertyException;
-import ua.epam.final_project.util.entity.User;
+import ua.epam.final_project.entity.User;
 
 import static ua.epam.final_project.dao.SQLConstant.*;
 
@@ -125,7 +121,7 @@ public class UserDao implements IUserDao {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getName());
             statement.setString(5, user.getUserImage());
-            statement.setString(6, user.getRole());
+            statement.setInt(6, Integer.parseInt(user.getRole()));
             statement.executeUpdate();
         } catch (SQLException | DataNotFoundException e) {
             logger.error(e);
@@ -143,7 +139,7 @@ public class UserDao implements IUserDao {
             statement.setString(4, user.getName());
             statement.setString(5, user.getUserImage());
             statement.setInt(6, user.getBalance());
-            statement.setString(7, user.getRole());
+            statement.setInt(7, Integer.parseInt(user.getRole()));
             statement.setInt(8, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -173,10 +169,10 @@ public class UserDao implements IUserDao {
         User user = new User();
 
         user.setId(rs.getInt("id"));
-        user.setLogin(rs.getString("login"));
-        user.setPassword(rs.getString("password"));
+        user.setLogin(rs.getString("username"));
+        user.setPassword(rs.getString("pass"));
         user.setEmail(rs.getString("email"));
-        user.setName(rs.getString("name"));
+        user.setName(rs.getString("first_name"));
         user.setBalance(Integer.parseInt(rs.getString("balance")));
         user.setRole(rs.getString("user_role_id"));
 
