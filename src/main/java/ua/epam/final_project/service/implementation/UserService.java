@@ -18,10 +18,13 @@ public class UserService implements IUserService {
     private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
     private IUserDao userDao;
+    private IUserEditionDao userEditionDao;
 
     public UserService() {
         try {
             daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
+            userDao = daoFactory.getUserDao();
+            userEditionDao = daoFactory.getUserEditionDao();
         } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
             logger.error(e);
         }
@@ -32,7 +35,6 @@ public class UserService implements IUserService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            userDao = daoFactory.getUserDao();
             numberOfRows = userDao.getNumberOfUsers();
             return numberOfRows;
         } catch (DataNotFoundException e) {
@@ -48,7 +50,6 @@ public class UserService implements IUserService {
         List<User> userList;
         try {
             daoFactory.getConnection();
-            userDao = daoFactory.getUserDao();
             userList = userDao.findAllUsers();
             return userList;
         } catch (DataNotFoundException e) {
@@ -64,7 +65,6 @@ public class UserService implements IUserService {
         List<User> userList;
         try {
             daoFactory.getConnection();
-            userDao = daoFactory.getUserDao();
             userList = userDao.findAllUsersFromTo(recordsPerPage, page);
             return userList;
         } catch (DataNotFoundException e) {
@@ -80,7 +80,6 @@ public class UserService implements IUserService {
         User user;
         try {
             daoFactory.getConnection();
-            userDao = daoFactory.getUserDao();
             user = userDao.findUserByLoginPassword(login, password);
             return user;
         } catch (DataNotFoundException e) {
@@ -96,7 +95,6 @@ public class UserService implements IUserService {
         User user;
         try {
             daoFactory.getConnection();
-            userDao = daoFactory.getUserDao();
             user = userDao.findUserByLogin(login);
             return user;
         } catch (DataNotFoundException e) {
@@ -113,7 +111,6 @@ public class UserService implements IUserService {
 
         try {
             daoFactory.beginTransaction();
-            userDao = daoFactory.getUserDao();
             operationResult = userDao.insertUser(user);
             if (operationResult) {
                 daoFactory.commitTransaction();
@@ -134,7 +131,6 @@ public class UserService implements IUserService {
 
         try {
             daoFactory.beginTransaction();
-            userDao = daoFactory.getUserDao();
             operationResult = userDao.updateUser(user);
             if (operationResult) {
                 daoFactory.commitTransaction();
@@ -156,8 +152,6 @@ public class UserService implements IUserService {
 
         try {
             daoFactory.beginTransaction();
-            userDao = daoFactory.getUserDao();
-            IUserEditionDao userEditionDao = daoFactory.getUserEditionDao();
             firstOperationResult = userEditionDao.deleteUserEditionByUser(user);
             secondOperationResult = userDao.deleteUser(user);
             if (firstOperationResult && secondOperationResult) {

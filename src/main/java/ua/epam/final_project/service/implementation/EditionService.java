@@ -20,10 +20,13 @@ public class EditionService implements IEditionService {
     private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
     private IEditionDao editionDao;
+    private IUserEditionDao userEditionDao;
 
     public EditionService() {
         try {
             daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
+            editionDao = daoFactory.getEditionDao();
+            userEditionDao = daoFactory.getUserEditionDao();
         } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
             logger.error(e);
         }
@@ -34,7 +37,6 @@ public class EditionService implements IEditionService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            editionDao = daoFactory.getEditionDao();
             numberOfRows = editionDao.getNumberOfEditions(genreFilter);
             return numberOfRows;
         } catch (DataNotFoundException e) {
@@ -50,7 +52,6 @@ public class EditionService implements IEditionService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            editionDao = daoFactory.getEditionDao();
             numberOfRows = editionDao.getNumberOfEditions(user, has, genreFilter);
             return numberOfRows;
         } catch (DataNotFoundException e) {
@@ -66,7 +67,6 @@ public class EditionService implements IEditionService {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
-            editionDao = daoFactory.getEditionDao();
             editionList = editionDao.findAllEditions();
             return editionList;
         } catch (DataNotFoundException e) {
@@ -82,7 +82,6 @@ public class EditionService implements IEditionService {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
-            editionDao = daoFactory.getEditionDao();
             editionList = editionDao.findAllEditionsFromTo(recordsPerPage, page, genreFilter, orderBy);
             return editionList;
         } catch (DataNotFoundException e) {
@@ -98,7 +97,6 @@ public class EditionService implements IEditionService {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
-            editionDao = daoFactory.getEditionDao();
             editionList = editionDao.findAllEditionsFromTo(user, has, recordsPerPage, page, genreFilter, orderBy);
             return editionList;
         } catch (DataNotFoundException e) {
@@ -114,7 +112,6 @@ public class EditionService implements IEditionService {
         Edition edition;
         try {
             daoFactory.getConnection();
-            editionDao = daoFactory.getEditionDao();
             edition = editionDao.findEditionById(id);
             return edition;
         } catch (DataNotFoundException e) {
@@ -131,7 +128,6 @@ public class EditionService implements IEditionService {
 
         try {
             daoFactory.beginTransaction();
-            editionDao = daoFactory.getEditionDao();
             operationResult = editionDao.insertNewEdition(edition);
             if (operationResult) {
                 daoFactory.commitTransaction();
@@ -152,7 +148,6 @@ public class EditionService implements IEditionService {
 
         try {
             daoFactory.beginTransaction();
-            editionDao = daoFactory.getEditionDao();
             operationResult = editionDao.updateEdition(edition);
             if (operationResult) {
                 daoFactory.commitTransaction();
@@ -174,8 +169,6 @@ public class EditionService implements IEditionService {
 
         try {
             daoFactory.beginTransaction();
-            editionDao = daoFactory.getEditionDao();
-            IUserEditionDao userEditionDao = daoFactory.getUserEditionDao();
             firstOperationResult = userEditionDao.deleteUserEditionByEdition(edition);
             secondOperationResult = editionDao.deleteEdition(edition);
             if (firstOperationResult && secondOperationResult) {

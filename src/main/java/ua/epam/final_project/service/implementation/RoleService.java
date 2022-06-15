@@ -24,6 +24,7 @@ public class RoleService implements IRoleService {
     public RoleService() {
         try {
             daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
+            roleDao = daoFactory.getRoleDao();
         } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
             logger.error(e);
         }
@@ -34,7 +35,6 @@ public class RoleService implements IRoleService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            roleDao = daoFactory.getRoleDao();
             numberOfRows = roleDao.getNumberOfRoles();
             return numberOfRows;
         } catch (DataNotFoundException e) {
@@ -50,7 +50,6 @@ public class RoleService implements IRoleService {
         List<Role> userList;
         try {
             daoFactory.getConnection();
-            roleDao = daoFactory.getRoleDao();
             userList = roleDao.findAllRoles();
             return userList;
         } catch (DataNotFoundException e) {
@@ -66,7 +65,6 @@ public class RoleService implements IRoleService {
         Role role;
         try {
             daoFactory.getConnection();
-            roleDao = daoFactory.getRoleDao();
             role = roleDao.findRoleById(id);
             return role;
         } catch (DataNotFoundException e) {

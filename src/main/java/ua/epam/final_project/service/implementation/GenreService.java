@@ -25,6 +25,7 @@ public class GenreService implements IGenreService {
     public GenreService() {
         try {
             daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
+            genreDao = daoFactory.getGenreDao();
         } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
             logger.error(e);
         }
@@ -35,7 +36,6 @@ public class GenreService implements IGenreService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            genreDao = daoFactory.getGenreDao();
             numberOfRows = genreDao.getNumberOfGenres();
             return numberOfRows;
         } catch (DataNotFoundException e) {
@@ -51,7 +51,6 @@ public class GenreService implements IGenreService {
         List<Genre> userList;
         try {
             daoFactory.getConnection();
-            genreDao = daoFactory.getGenreDao();
             userList = genreDao.findAllGenres();
             return userList;
         } catch (DataNotFoundException e) {
@@ -67,7 +66,6 @@ public class GenreService implements IGenreService {
         Genre genre;
         try {
             daoFactory.getConnection();
-            genreDao = daoFactory.getGenreDao();
             genre = genreDao.findGenreById(id);
             return genre;
         } catch (DataNotFoundException e) {

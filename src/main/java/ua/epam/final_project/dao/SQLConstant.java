@@ -68,7 +68,7 @@ public final class SQLConstant {
     public static final String SQL_FIND_GENRE_BY_ID = "SELECT * FROM genre WHERE id = ?";
 
     //SQL requests for RoleDAO
-    public static final String SQL_GET_NUMBER_OF_ROLES = "SELECT COUNT(*) AS rowcount FROM role";
-    public static final String SQL_FIND_ALL_ROLES = "SELECT * FROM role";
-    public static final String SQL_FIND_ROLE_BY_ID = "SELECT * FROM role WHERE id = ?";
+    public static final String SQL_GET_NUMBER_OF_ROLES = "SELECT COUNT(*) AS rowcount FROM user_role";
+    public static final String SQL_FIND_ALL_ROLES = "SELECT * FROM user_role";
+    public static final String SQL_FIND_ROLE_BY_ID = "SELECT * FROM user_role WHERE id = ?";
 }

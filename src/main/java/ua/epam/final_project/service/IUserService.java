@@ -1,5 +1,6 @@
 package ua.epam.final_project.service;
 
+import ua.epam.final_project.dao.IUserDao;
 import ua.epam.final_project.exception.UnknownUserException;
 import ua.epam.final_project.entity.User;
 
