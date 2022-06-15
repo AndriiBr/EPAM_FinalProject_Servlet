@@ -64,27 +64,27 @@ public class PostgresDaoFactory extends DaoFactory {
 
     @Override
     public IUserDao getUserDao() {
-        return new UserDao(this.connection);
+        return new UserDaoImpl(this.connection);
     }
 
     @Override
     public IEditionDao getEditionDao() {
-        return new EditionDao(this.connection);
+        return new EditionDaoImpl(this.connection);
     }
 
     @Override
     public IUserEditionDao getUserEditionDao() {
-        return new UserEditionDao(this.connection);
+        return new UserEditionDaoImpl(this.connection);
     }
 
     @Override
     public IGenreDao getGenreDao() {
-        return new GenreDao(this.connection);
+        return new GenreDaoImpl(this.connection);
     }
 
     @Override
     public IRoleDao getRoleDao() {
-        return new RoleDao(this.connection);
+        return new RoleDaoImpl(this.connection);
     }
 
 }

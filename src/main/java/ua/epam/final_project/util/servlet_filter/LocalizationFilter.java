@@ -1,4 +1,4 @@
-package ua.epam.final_project.servlet_filter;
+package ua.epam.final_project.util.servlet_filter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

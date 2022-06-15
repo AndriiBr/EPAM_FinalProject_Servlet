@@ -13,11 +13,11 @@ import java.util.List;
 
 import static ua.epam.final_project.dao.SQLConstant.*;
 
-public class EditionDao implements IEditionDao {
-    private static final Logger logger = LogManager.getLogger(EditionDao.class);
+public class EditionDaoImpl implements IEditionDao {
+    private static final Logger logger = LogManager.getLogger(EditionDaoImpl.class);
     private final Connection connection;
 
-    public EditionDao(Connection connection) {
+    public EditionDaoImpl(Connection connection) {
         this.connection = connection;
     }
 

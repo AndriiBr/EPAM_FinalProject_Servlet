@@ -14,11 +14,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserEditionDao implements IUserEditionDao {
-    private static final Logger logger = LogManager.getLogger(UserEditionDao.class);
+public class UserEditionDaoImpl implements IUserEditionDao {
+    private static final Logger logger = LogManager.getLogger(UserEditionDaoImpl.class);
     private final Connection connection;
 
-    public UserEditionDao(Connection connection) {
+    public UserEditionDaoImpl(Connection connection) {
         this.connection = connection;
     }
 

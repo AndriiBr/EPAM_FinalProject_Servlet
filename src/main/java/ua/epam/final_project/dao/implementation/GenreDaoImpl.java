@@ -12,11 +12,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreDao implements IGenreDao {
-    private static final Logger logger = LogManager.getLogger(GenreDao.class);
+public class GenreDaoImpl implements IGenreDao {
+    private static final Logger logger = LogManager.getLogger(GenreDaoImpl.class);
     private final Connection connection;
 
-    public GenreDao(Connection connection) {
+    public GenreDaoImpl(Connection connection) {
         this.connection = connection;
     }
 

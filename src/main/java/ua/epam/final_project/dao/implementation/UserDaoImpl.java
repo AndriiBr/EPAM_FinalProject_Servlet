@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserDao implements IUserDao {
-    private static final Logger logger = LogManager.getLogger(UserDao.class);
+public class UserDaoImpl implements IUserDao {
+    private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
     private final Connection connection;
 
-    public UserDao(Connection connection) {
+    public UserDaoImpl(Connection connection) {
         this.connection = connection;
     }
 

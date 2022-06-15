@@ -13,11 +13,11 @@ import java.util.List;
 import static ua.epam.final_project.dao.SQLConstant.*;
 
 
-public class RoleDao implements IRoleDao {
-    private static final Logger logger = LogManager.getLogger(RoleDao.class);
+public class RoleDaoImpl implements IRoleDao {
+    private static final Logger logger = LogManager.getLogger(RoleDaoImpl.class);
     private final Connection connection;
 
-    public RoleDao(Connection connection) {
+    public RoleDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
