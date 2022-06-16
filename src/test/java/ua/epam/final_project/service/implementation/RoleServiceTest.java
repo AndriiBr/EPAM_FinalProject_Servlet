@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 
-@DisplayName("Service layer")
+@DisplayName("[Unit] Service layer")
 @Feature("Service layer")
 class RoleServiceTest {
 

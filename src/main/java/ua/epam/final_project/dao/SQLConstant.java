@@ -13,7 +13,7 @@ public final class SQLConstant {
     public static final String SQL_UPDATE_USER =
             "UPDATE usr SET username = ?, pass = ?, email = ?, first_name = ?, user_image = ?, balance = ?, user_role_id = ? WHERE id = ?";
     public static final String SQL_INSERT_USER =
-            "INSERT INTO usr (username, pass, email, first_name, user_image, user_role_id) VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO usr (username, pass, email, first_name, user_image, balance, user_role_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_DELETE_USER = "DELETE FROM usr WHERE id = ?";
 
     //SQL requests for EditionDAO

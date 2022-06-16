@@ -116,12 +116,7 @@ public class UserDaoImpl implements IUserDao {
             if (findUserByLogin(user.getLogin()) != null) {
                 return false;
             }
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getEmail());
-            statement.setString(4, user.getName());
-            statement.setString(5, user.getUserImage());
-            statement.setInt(6, Integer.parseInt(user.getRole()));
+            prepareUserStatement(user, statement);
             statement.executeUpdate();
         } catch (SQLException | DataNotFoundException e) {
             logger.error(e);
@@ -133,13 +128,7 @@ public class UserDaoImpl implements IUserDao {
     @Override
     public boolean updateUser(User user) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER)) {
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getEmail());
-            statement.setString(4, user.getName());
-            statement.setString(5, user.getUserImage());
-            statement.setInt(6, user.getBalance());
-            statement.setInt(7, Integer.parseInt(user.getRole()));
+            prepareUserStatement(user, statement);
             statement.setInt(8, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -152,13 +141,29 @@ public class UserDaoImpl implements IUserDao {
     @Override
     public boolean deleteUser(User user) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_USER)) {
-            statement.setInt(1, user.getId());
+            User userToBeDeleted = findUserByLogin(user.getLogin());
+            statement.setInt(1, userToBeDeleted.getId());
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | DataNotFoundException e) {
             logger.error(e);
             return false;
         }
+
         return true;
+    }
+
+    /**
+     * UTILITY METHOD
+     * create preparedStatement for user insert/update operations
+     */
+    private void prepareUserStatement(User user, PreparedStatement statement) throws SQLException {
+        statement.setString(1, user.getLogin());
+        statement.setString(2, user.getPassword());
+        statement.setString(3, user.getEmail());
+        statement.setString(4, user.getName());
+        statement.setString(5, user.getUserImage());
+        statement.setInt(6, user.getBalance());
+        statement.setInt(7, Integer.parseInt(user.getRole()));
     }
 
     /**
@@ -173,6 +178,7 @@ public class UserDaoImpl implements IUserDao {
         user.setPassword(rs.getString("pass"));
         user.setEmail(rs.getString("email"));
         user.setName(rs.getString("first_name"));
+        user.setUserImage(rs.getString("user_image"));
         user.setBalance(Integer.parseInt(rs.getString("balance")));
         user.setRole(rs.getString("user_role_id"));
 

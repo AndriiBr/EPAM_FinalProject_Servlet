@@ -8,8 +8,8 @@ public class User implements Serializable {
     private String login;
     private String password;
     private String email;
-    private String name = "no name";
-    private String userImage = "no image";
+    private String name;
+    private String userImage;
     private int balance;
     private String role;
 
@@ -19,6 +19,8 @@ public class User implements Serializable {
         this.login = login;
         this.password = password;
         this.email = email;
+        this.name = "no name";
+        this.userImage = "no image";
         this.balance = 0;
         this.role = "2";
     }

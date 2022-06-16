@@ -24,7 +24,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
-@DisplayName("Service layer")
+@DisplayName("[Unit] Service layer")
 @Feature("Service layer")
 class UserEditionServiceTest {
 
