@@ -20,10 +20,13 @@ public class UserEditionService implements IUserEditionService {
     private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
     private IUserEditionDao userEditionDao;
+    private IUserDao userDao;
 
     public UserEditionService() {
         try {
             daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
+            userEditionDao = daoFactory.getUserEditionDao();
+            userDao = daoFactory.getUserDao();
         } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
             logger.error(e);
         }
@@ -33,7 +36,6 @@ public class UserEditionService implements IUserEditionService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            userEditionDao = daoFactory.getUserEditionDao();
             numberOfRows = userEditionDao.getNumberOfRows();
             return numberOfRows;
         } catch (DataNotFoundException e) {
@@ -49,7 +51,6 @@ public class UserEditionService implements IUserEditionService {
         List<UserEdition> userEditionList;
         try {
             daoFactory.getConnection();
-            userEditionDao = daoFactory.getUserEditionDao();
             userEditionList = userEditionDao.findAllUserEdition();
             return userEditionList;
         } catch (DataNotFoundException e) {
@@ -66,7 +67,6 @@ public class UserEditionService implements IUserEditionService {
 
         try {
             daoFactory.getConnection();
-            userEditionDao = daoFactory.getUserEditionDao();
             userEditionList = userEditionDao.findAllUserEditionByUser(user);
             return userEditionList;
         } catch (DataNotFoundException e) {
@@ -83,7 +83,6 @@ public class UserEditionService implements IUserEditionService {
 
         try {
             daoFactory.getConnection();
-            userEditionDao = daoFactory.getUserEditionDao();
             userEditionList = userEditionDao.findAllUserEditionByUserIdEditionId(user, edition);
             return userEditionList;
         } catch (DataNotFoundException e) {
@@ -101,8 +100,6 @@ public class UserEditionService implements IUserEditionService {
 
         try {
             daoFactory.beginTransaction();
-            userEditionDao = daoFactory.getUserEditionDao();
-            IUserDao userDao = daoFactory.getUserDao();
             firstOperationResult = userDao.updateUser(user);
             secondOperationResult = userEditionDao.insertUserEdition(user, edition);
             if (firstOperationResult && secondOperationResult) {
@@ -124,7 +121,6 @@ public class UserEditionService implements IUserEditionService {
 
         try {
             daoFactory.beginTransaction();
-            userEditionDao = daoFactory.getUserEditionDao();
             operationResult = userEditionDao.deleteUserEdition(user, edition);
             if (operationResult) {
                 daoFactory.commitTransaction();
@@ -145,7 +141,6 @@ public class UserEditionService implements IUserEditionService {
 
         try {
             daoFactory.beginTransaction();
-            userEditionDao = daoFactory.getUserEditionDao();
             operationResult = userEditionDao.deleteUserEditionByEdition(edition);
             if (operationResult) {
                 daoFactory.commitTransaction();
@@ -166,7 +161,6 @@ public class UserEditionService implements IUserEditionService {
 
         try {
             daoFactory.beginTransaction();
-            userEditionDao = daoFactory.getUserEditionDao();
             operationResult = userEditionDao.deleteUserEditionByUser(user);
             if (operationResult) {
                 daoFactory.commitTransaction();

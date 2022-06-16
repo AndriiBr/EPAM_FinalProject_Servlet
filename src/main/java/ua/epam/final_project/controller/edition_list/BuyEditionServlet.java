@@ -80,7 +80,7 @@ public class BuyEditionServlet extends HttpServlet {
         IUserEditionService userEditionService = ServiceFactory.getUserEditionService();
 
         try {
-            User  user = userService.findUserByLogin(login);
+            User user = userService.findUserByLogin(login);
             Edition edition = editionService.findEditionById(editionId);
             if (userEditionService.insertUserEdition(user, edition)) {
                 resp.sendRedirect(BUY_EDITION_SUCCESS_URL);
