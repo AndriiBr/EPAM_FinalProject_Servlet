@@ -128,7 +128,7 @@ class UserEditionServiceTest {
     }
 
     @Test
-    @DisplayName("[Exception] Get All user-edition pairs from DB by user/edition ids")
+    @DisplayName("[UnknownUserEditionPairException] Get All user-edition pairs from DB by user/edition ids")
     @Story("UserEdition service")
     void findAllUserEditionByUserIdEditionId_Exception() throws DataNotFoundException {
         Mockito.when(userEditionDao.findAllUserEditionByUserIdEditionId(any(), any()))
