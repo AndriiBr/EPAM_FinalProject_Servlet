@@ -56,7 +56,7 @@ public class RoleDaoImpl implements IRoleDao {
 
     @Override
     public Role findRoleById(int id) throws DataNotFoundException {
-        Role role = new Role();
+        Role role = null;
 
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ROLE_BY_ID)) {
             statement.setInt(1, id);

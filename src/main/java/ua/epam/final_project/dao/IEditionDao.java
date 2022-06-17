@@ -58,6 +58,14 @@ public interface IEditionDao {
     List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws DataNotFoundException;
 
     /**
+     * Get edition from DB by title
+     * @param title - edition title
+     * @return edition entity
+     * @throws DataNotFoundException if nothing was found in Db
+     */
+    Edition findEditionByTitle(String title) throws DataNotFoundException;
+
+    /**
      * Gets edition entity from DB by id
      * @param id edition unique id
      * @return edition entity

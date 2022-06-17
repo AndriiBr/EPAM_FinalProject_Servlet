@@ -44,11 +44,12 @@ public final class SQLConstant {
             "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ? ORDER BY %s LIMIT ? offset ?";
     public static final String SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS_ALL_GENRES =
             "SELECT * FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id ORDER BY %s LIMIT ? offset ?";
+    public static final String SQL_FIND_EDITION_BY_TITLE = "SELECT * FROM edition WHERE title_en = ?";
     public static final String SQL_FIND_EDITION_BY_ID = "SELECT * FROM edition WHERE id = ?";
     public static final String SQL_INSERT_EDITION =
-            "INSERT INTO edition (titleEn, titleUa, title_image, genre_id, price) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO edition (title_en, title_ua, title_image, genre_id, price) VALUES (?, ?, ?, ?, ?)";
     public static final String SQL_UPDATE_EDITION =
-            "UPDATE edition SET titleEn = ?, titleUa = ?, title_image = ?, genre_id = ?, price = ? WHERE id = ?;";
+            "UPDATE edition SET title_en = ?, title_ua = ?, title_image = ?, genre_id = ?, price = ? WHERE id = ?;";
     public static final String SQL_DELETE_EDITION = "DELETE FROM edition WHERE id = ?";
 
     //SQL requests for UserEditionDAO

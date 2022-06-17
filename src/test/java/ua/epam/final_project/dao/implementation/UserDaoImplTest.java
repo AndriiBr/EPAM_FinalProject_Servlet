@@ -49,47 +49,36 @@ class UserDaoImplTest {
     @DisplayName("Find all users from DB")
     @Story("UserDao")
     void findAllUsers() throws DataNotFoundException {
-        List<User> usersFromDb = userDao.findAllUsers();
-
-        assertTrue(usersFromDb.size() > 0);
+        assertTrue(userDao.findAllUsers().size() > 0);
     }
 
     @Test
     @DisplayName("Find users from DB with pagination")
     @Story("UserDao")
     void findAllUsersFromTo() throws DataNotFoundException {
-        List<User> limitedUserList = userDao.findAllUsersFromTo(3, 1);
-
-        assertEquals(3, limitedUserList.size());
+        assertEquals(3, userDao.findAllUsersFromTo(3, 1).size());
     }
 
     @Test
     @DisplayName("[Success] Find user from DB using correct login/password")
     @Story("UserDao")
     void findUserByLoginPassword_Success() throws DataNotFoundException {
-        User user = userDao.findUserByLoginPassword("user2", "Pass1234");
-
-        assertNotNull(user);
+        assertNotNull(userDao.findUserByLoginPassword("user2", "Pass1234"));
     }
 
     @Test
     @DisplayName("[Fail] Find user from DB using wrong login/password")
     @Story("UserDao")
     void findUserByLoginPassword_Fail_() throws DataNotFoundException {
-        User user1 = userDao.findUserByLoginPassword("user99test", "Pass1234");
-        User user2 = userDao.findUserByLoginPassword("admin", "IncorrectPass");
-
-        assertNull(user1);
-        assertNull(user2);
+        assertNull(userDao.findUserByLoginPassword("user99test", "Pass1234"));
+        assertNull(userDao.findUserByLoginPassword("admin", "IncorrectPass"));
     }
 
     @Test
     @DisplayName("Find single user from DB by login")
     @Story("UserDao")
     void findUserByLogin() throws DataNotFoundException {
-        User user = userDao.findUserByLogin("admin");
-
-        assertNotNull(user);
+        assertNotNull(userDao.findUserByLogin("admin"));
     }
 
     @Test
@@ -111,6 +100,9 @@ class UserDaoImplTest {
     }
 
     @Test
+    @DisplayName("Update user in DB")
+    @Story("UserDao")
+    @Description("Check each field after update with provided user")
     void updateUser() throws DataNotFoundException {
         User userOriginal = new User("user5", "Test1234", "user5@gmail.com");
         userDao.insertUser(userOriginal);
@@ -130,6 +122,8 @@ class UserDaoImplTest {
     }
 
     @Test
+    @DisplayName("Delete user from DB")
+    @Story("UserDao")
     void deleteUser() throws DataNotFoundException {
         User user = new User("user6", "Pass1234", "user6@email.com");
         userDao.insertUser(user);

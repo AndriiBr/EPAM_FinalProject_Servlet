@@ -11,6 +11,16 @@ public class Edition implements Serializable {
     private int genreId;
     private int price;
 
+    public Edition() {}
+
+    public Edition(String titleEn, String titleUa, int genreId) {
+        this.titleEn = titleEn;
+        this.titleUa = titleUa;
+        this.genreId = genreId;
+        this.imagePath = "";
+        this.price = 0;
+    }
+
     public int getId() {
         return id;
     }

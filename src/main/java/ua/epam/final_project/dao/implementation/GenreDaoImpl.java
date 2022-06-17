@@ -55,7 +55,7 @@ public class GenreDaoImpl implements IGenreDao {
 
     @Override
     public Genre findGenreById(int id) throws DataNotFoundException {
-        Genre genre = new Genre();
+        Genre genre = null;
 
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_GENRE_BY_ID)) {
             statement.setInt(1, id);

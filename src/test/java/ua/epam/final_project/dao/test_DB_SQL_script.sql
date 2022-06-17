@@ -26,8 +26,8 @@ create table edition
 create table user_role
 (
     id      bigint,
-    role_En varchar(25),
-    role_Ua varchar(25),
+    role_En varchar(255),
+    role_Ua varchar(255),
     primary key (id)
 );
 
@@ -58,7 +58,7 @@ VALUES (2, 'user', 'користувач');
 insert into genre (id, name_en, name_ua)
 values (1, 'genre1', 'genre1');
 insert into genre (id, name_en, name_ua)
-values (2, 'genre1', 'genre1');
+values (2, 'genre2', 'genre2');
 
 insert into usr (username, pass, email, first_name, user_image, balance, user_role_id)
 VALUES ('admin', 'Pass1234', 'admin@gmail.com', 'Andrii', '', 1000, 1);
@@ -91,6 +91,6 @@ insert into user_edition (user_id, edition_id) VALUES (1, 6);
 insert into user_edition (user_id, edition_id) VALUES (1, 7);
 insert into user_edition (user_id, edition_id) VALUES (2, 1);
 insert into user_edition (user_id, edition_id) VALUES (2, 2);
-insert into user_edition (user_id, edition_id) VALUES (2, 3);
+insert into user_edition (user_id, edition_id) VALUES (2, 7);
 
 

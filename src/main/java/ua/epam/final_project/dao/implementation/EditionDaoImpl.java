@@ -14,6 +14,7 @@ import java.util.List;
 import static ua.epam.final_project.dao.SQLConstant.*;
 
 public class EditionDaoImpl implements IEditionDao {
+
     private static final Logger logger = LogManager.getLogger(EditionDaoImpl.class);
     private final Connection connection;
 
@@ -27,7 +28,7 @@ public class EditionDaoImpl implements IEditionDao {
         String genre = genreFilter;
         String sqlPattern;
 
-        if (genre == null || genre.equals("0")) {
+        if (genre == null || genre.equals("0") || genre.equals("")) {
             genre = "all";
         }
 
@@ -66,7 +67,7 @@ public class EditionDaoImpl implements IEditionDao {
         String genre = genreFilter;
         String sqlPattern;
 
-        if (genre == null || genre.equals("0")) {
+        if (genre == null || genre.equals("0") || genre.equals("")) {
             genre = "all";
         }
 
@@ -136,7 +137,7 @@ public class EditionDaoImpl implements IEditionDao {
         if (order == null || order.equals("")) {
             order = "id";
         }
-        if (genre == null || genre.equals("0")) {
+        if (genre == null || genre.equals("0") || genre.equals("")) {
             genre = "all";
         }
 
@@ -184,7 +185,7 @@ public class EditionDaoImpl implements IEditionDao {
         if (order == null || order.equals("")) {
             order = "id";
         }
-        if (genre == null || genre.equals("0")) {
+        if (genre == null || genre.equals("0") || genre.equals("")) {
             genre = "all";
         }
 
@@ -233,6 +234,23 @@ public class EditionDaoImpl implements IEditionDao {
     }
 
     @Override
+    public Edition findEditionByTitle(String title) throws DataNotFoundException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITION_BY_TITLE)) {
+            statement.setString(1, title);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return extractEdition(rs);
+                }
+            }
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DataNotFoundException();
+        }
+        return null;
+    }
+
+    @Override
     public Edition findEditionById(int id) throws DataNotFoundException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_EDITION_BY_ID)) {
             statement.setInt(1, id);
@@ -253,6 +271,9 @@ public class EditionDaoImpl implements IEditionDao {
     @Override
     public boolean insertNewEdition(Edition edition) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_EDITION)) {
+            if(findEditionByTitle(edition.getTitleEn()) != null) {
+                return false;
+            }
             statement.setString(1, edition.getTitleEn());
             statement.setString(2, edition.getTitleUa());
             //insert path to image into DB
@@ -260,7 +281,7 @@ public class EditionDaoImpl implements IEditionDao {
             statement.setInt(4, edition.getGenreId());
             statement.setInt(5, edition.getPrice());
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | DataNotFoundException e) {
             logger.error(e);
             return false;
         }
@@ -287,12 +308,14 @@ public class EditionDaoImpl implements IEditionDao {
     @Override
     public boolean deleteEdition(Edition edition) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_EDITION)) {
-            statement.setInt(1, edition.getId());
+            Edition editionToBeDeleted = findEditionByTitle(edition.getTitleEn());
+            statement.setInt(1, editionToBeDeleted.getId());
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | DataNotFoundException e) {
             logger.error(e);
             return false;
         }
+
         return true;
     }
 
