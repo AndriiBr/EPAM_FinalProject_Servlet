@@ -1,6 +1,6 @@
 package ua.epam.final_project.service;
 
-import ua.epam.final_project.dao.IUserDao;
+import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.UnknownUserException;
 import ua.epam.final_project.entity.User;
 
@@ -20,7 +20,7 @@ public interface IUserService {
      * @return list of users
      * @throws UnknownUserException if nothing return from request to DB.
      */
-    List<User> findAllUsers() throws UnknownUserException;
+    List<UserDto> findAllUsers() throws UnknownUserException;
 
     /**
      * Get limited number of users from DB
@@ -29,42 +29,42 @@ public interface IUserService {
      * @return list of users
      * @throws UnknownUserException if nothing return from request to DB.
      */
-    List<User> findAllUsersFromTo(int recordsPerPage, int page) throws UnknownUserException;
+    List<UserDto> findAllUsersFromTo(int recordsPerPage, int page) throws UnknownUserException;
 
     /**
      * Get a user with a username and password match
      * @param login user login
      * @param password password
-     * @return user entity
+     * @return userDto entity
      * @throws UnknownUserException if nothing return from request to DB.
      */
-    User findUserByLoginPassword(String login, String password) throws UnknownUserException;
+    UserDto findUserByLoginPassword(String login, String password) throws UnknownUserException;
 
     /**
      * Get a user by login match
      * @param login user login
      * @return user entity
      */
-    User findUserByLogin(String login) throws UnknownUserException;
+    UserDto findUserByLogin(String login) throws UnknownUserException;
 
     /**
      * Insert new user into DB
-     * @param user user entity
+     * @param userDto userDto entity
      * @return TRUE - if operation was success. FALSE - if not.
      */
-    boolean insertUser(User user);
+    boolean insertUser(UserDto userDto);
 
     /**
      * Update user in DB
-     * @param user user entity
+     * @param userDto userDto entity
      * @return TRUE - if operation was success. FALSE - if not.
      */
-    boolean updateUser(User user);
+    boolean updateUser(UserDto userDto);
 
     /**
      * Delete user from DB
-     * @param user user entity
+     * @param userDto userDto entity
      * @return TRUE - if operation was success. FALSE - if not.
      */
-    boolean deleteUser(User user);
+    boolean deleteUser(UserDto userDto);
 }

@@ -78,7 +78,7 @@ public class UserDaoImpl implements IUserDao {
     public User findUserByLoginPassword(String login, String password) throws DataNotFoundException {
         User user = null;
 
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_LOGIN_PASSWORD);) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_LOGIN_PASSWORD)) {
             statement.setString(1, login);
             statement.setString(2, password);
             ResultSet rs = statement.executeQuery();
@@ -128,10 +128,16 @@ public class UserDaoImpl implements IUserDao {
     @Override
     public boolean updateUser(User user) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER)) {
+            User userTobeUpdated = findUserByLogin(user.getLogin());
+
+            if (user.getPassword() == null  || user.getPassword().length() < 1) {
+                user.setPassword(userTobeUpdated.getPassword());
+            }
+
             prepareUserStatement(user, statement);
             statement.setInt(8, user.getId());
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | DataNotFoundException e) {
             logger.error(e);
             return false;
         }

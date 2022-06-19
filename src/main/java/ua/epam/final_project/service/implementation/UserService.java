@@ -6,11 +6,14 @@ import ua.epam.final_project.dao.DaoFactory;
 import ua.epam.final_project.dao.DataBaseSelector;
 import ua.epam.final_project.dao.IUserDao;
 import ua.epam.final_project.dao.IUserEditionDao;
+import ua.epam.final_project.entity.dto.UserDto;
+import ua.epam.final_project.entity.dto.UserDtoMapper;
 import ua.epam.final_project.exception.*;
 import ua.epam.final_project.service.IUserService;
 import ua.epam.final_project.entity.User;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserService implements IUserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
@@ -46,11 +49,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> findAllUsers() throws UnknownUserException {
-        List<User> userList;
+    public List<UserDto> findAllUsers() throws UnknownUserException {
+        List<UserDto> userList;
         try {
             daoFactory.getConnection();
-            userList = userDao.findAllUsers();
+            userList = userDao.findAllUsers()
+                    .stream()
+                    .map(UserDtoMapper::convertEntityIntoDto)
+                    .collect(Collectors.toList());
             return userList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -61,11 +67,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> findAllUsersFromTo(int recordsPerPage, int page) throws UnknownUserException {
-        List<User> userList;
+    public List<UserDto> findAllUsersFromTo(int recordsPerPage, int page) throws UnknownUserException {
+        List<UserDto> userList;
         try {
             daoFactory.getConnection();
-            userList = userDao.findAllUsersFromTo(recordsPerPage, page);
+            userList = userDao.findAllUsersFromTo(recordsPerPage, page)
+                    .stream()
+                    .map(UserDtoMapper::convertEntityIntoDto)
+                    .collect(Collectors.toList());
             return userList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -76,12 +85,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User findUserByLoginPassword(String login, String password) throws UnknownUserException {
-        User user;
+    public UserDto findUserByLoginPassword(String login, String password) throws UnknownUserException {
         try {
             daoFactory.getConnection();
-            user = userDao.findUserByLoginPassword(login, password);
-            return user;
+            return UserDtoMapper.convertEntityIntoDto(userDao.findUserByLoginPassword(login, password));
         } catch (DataNotFoundException e) {
             logger.error(e);
             throw new UnknownUserException();
@@ -91,12 +98,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User findUserByLogin(String login) throws UnknownUserException {
-        User user;
+    public UserDto findUserByLogin(String login) throws UnknownUserException {
         try {
             daoFactory.getConnection();
-            user = userDao.findUserByLogin(login);
-            return user;
+            return UserDtoMapper.convertEntityIntoDto(userDao.findUserByLogin(login));
         } catch (DataNotFoundException e) {
             logger.error(e);
             throw new UnknownUserException();
@@ -106,11 +111,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean insertUser(User user) {
+    public boolean insertUser(UserDto userDto) {
         boolean operationResult;
 
         try {
             daoFactory.beginTransaction();
+            User user = UserDtoMapper.convertDtoIntoEntity(userDto);
             operationResult = userDao.insertUser(user);
             if (operationResult) {
                 daoFactory.commitTransaction();
@@ -126,11 +132,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUser(UserDto userDto) {
         boolean operationResult;
 
         try {
             daoFactory.beginTransaction();
+            User user = UserDtoMapper.convertDtoIntoEntity(userDto);
             operationResult = userDao.updateUser(user);
             if (operationResult) {
                 daoFactory.commitTransaction();
@@ -146,12 +153,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean deleteUser(User user) {
+    public boolean deleteUser(UserDto userDto) {
         boolean firstOperationResult;
         boolean secondOperationResult;
 
         try {
             daoFactory.beginTransaction();
+            User user = UserDtoMapper.convertDtoIntoEntity(userDto);
             firstOperationResult = userEditionDao.deleteUserEditionByUser(user);
             secondOperationResult = userDao.deleteUser(user);
             if (firstOperationResult && secondOperationResult) {

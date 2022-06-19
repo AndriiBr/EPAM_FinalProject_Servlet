@@ -1,0 +1,23 @@
+{
+  "name": "epam_finalproject_servlet",
+  "version": "1.0.0",
+  "description": "Завдання:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndriiBr/EPAM_FinalProject_Servlet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndriiBr/EPAM_FinalProject_Servlet/issues"
+  },
+  "homepage": "https://github.com/AndriiBr/EPAM_FinalProject_Servlet#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}

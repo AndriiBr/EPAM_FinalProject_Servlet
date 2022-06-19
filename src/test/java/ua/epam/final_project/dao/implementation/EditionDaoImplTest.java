@@ -143,7 +143,7 @@ class EditionDaoImplTest {
     @DisplayName("[Success] Insert new edition in DB")
     @Story("EditionDao")
     void insertNewEdition_Success() {
-        Edition edition = new Edition("testEdition", "тестоваНазва", 1);
+        Edition edition = new Edition("testEdition", "тестоваНазва", "textEn1", "textUa1", 1);
 
         assertTrue(editionDao.insertNewEdition(edition));
     }
@@ -163,7 +163,7 @@ class EditionDaoImplTest {
     @Story("EditionDao")
     @Description("Check each field after update with provided edition")
     void updateEdition() throws DataNotFoundException {
-        Edition originalEdition = new Edition("newEditionEn", "newEditionUa", 1);
+        Edition originalEdition = new Edition("newEditionEn", "newEditionUa", "textEn1", "textUa1", 1);
         editionDao.insertNewEdition(originalEdition);
 
         Edition updatedEdition = prepareUpdatedEdition(originalEdition.getTitleEn());
@@ -182,7 +182,7 @@ class EditionDaoImplTest {
     @DisplayName("Delete edition from DB")
     @Story("EditionDao")
     void deleteEdition() throws DataNotFoundException {
-        Edition edition = new Edition("EditionToBeDeletedEn", "EditionToBeDeletedUa", 2);
+        Edition edition = new Edition("EditionToBeDeletedEn", "EditionToBeDeletedUa", "textEn1", "textUa1", 2);
         editionDao.insertNewEdition(edition);
 
         assertNotNull(editionDao.findEditionByTitle(edition.getTitleEn()));
@@ -195,6 +195,8 @@ class EditionDaoImplTest {
         Edition updatedEdition = editionDao.findEditionByTitle(titleEn);
         updatedEdition.setTitleEn("EnEn");
         updatedEdition.setTitleUa("UaUa");
+        updatedEdition.setTextEn("TeEn");
+        updatedEdition.setTextUa("TeUa");
         updatedEdition.setImagePath("ImageTest");
         updatedEdition.setGenreId(2);
         updatedEdition.setPrice(9999);

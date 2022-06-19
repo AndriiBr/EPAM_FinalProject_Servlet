@@ -2,3 +2,5 @@
 /allure-results/
 /.allure/
 /.idea/
+/static_content/
+/node_modules/

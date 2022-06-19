@@ -7,7 +7,6 @@
 <%-- Deprecated --%>
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="localization/locale" />
-<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
 
 <!DOCTYPE html>
 <html lang="${language}">
@@ -35,7 +34,7 @@
 <%--        <th id="title">${requestScope.localization.getString("edition_list.text.title")}</th>--%>
         <th id="title">
             <form action="${pageContext.request.contextPath}/edition_list" method="get">
-                <input id="titleFilter" name="sortFilter" hidden value="${language == 'ua' ? 'titleUa' : 'titleEn'}">
+                <input id="titleFilter" name="sortFilter" hidden value="${language == 'ua' ? 'title_ua' : 'title_en'}">
                 <button onclick="this.form.submit()">${requestScope.localization.getString("edition_list.text.title")}</button>
             </form>
         </th>

@@ -2,10 +2,9 @@ package ua.epam.final_project.service.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
-import ua.epam.final_project.dao.IEditionDao;
-import ua.epam.final_project.dao.IUserEditionDao;
+import ua.epam.final_project.dao.*;
+import ua.epam.final_project.entity.dto.UserDto;
+import ua.epam.final_project.entity.dto.UserDtoMapper;
 import ua.epam.final_project.exception.*;
 import ua.epam.final_project.service.IEditionService;
 import ua.epam.final_project.entity.Edition;
@@ -19,12 +18,14 @@ public class EditionService implements IEditionService {
 
     private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
+    private IUserDao userDao;
     private IEditionDao editionDao;
     private IUserEditionDao userEditionDao;
 
     public EditionService() {
         try {
             daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
+            userDao = daoFactory.getUserDao();
             editionDao = daoFactory.getEditionDao();
             userEditionDao = daoFactory.getUserEditionDao();
         } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
@@ -48,10 +49,11 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public Integer getNumberOfEditions(User user, boolean has, String genreFilter) throws UnknownEditionException {
+    public Integer getNumberOfEditions(UserDto userDto, boolean has, String genreFilter) throws UnknownEditionException {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
+            User user = UserDtoMapper.convertDtoIntoEntity(userDto);
             numberOfRows = editionDao.getNumberOfEditions(user, has, genreFilter);
             return numberOfRows;
         } catch (DataNotFoundException e) {
@@ -93,10 +95,11 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException {
+    public List<Edition> findAllEditionsFromTo(UserDto userDto, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
+            User user = UserDtoMapper.convertDtoIntoEntity(userDto);
             editionList = editionDao.findAllEditionsFromTo(user, has, recordsPerPage, page, genreFilter, orderBy);
             return editionList;
         } catch (DataNotFoundException e) {

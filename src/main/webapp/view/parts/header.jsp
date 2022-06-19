@@ -28,6 +28,15 @@
             <a href="${pageContext.request.contextPath}/">${requestScope.localization.getString("main.text.main_page")}</a>
         </div>
     </div>
+    <div class="ml-3">
+        <% if (session.getAttribute("login") != null) { %>
+        <a href="http://localhost:8080/cabinet">${sessionScope.login}: ${requestScope.localization.getString("main.link.cabinet")}</a><br/>
+        <a href="http://localhost:8080/logout">${requestScope.localization.getString("main.link.logout")}</a><br/>
+        <% } else { %>
+        <a href="http://localhost:8080/login">${requestScope.localization.getString("main.link.login")}</a><br/>
+        <% } %>
+    </div>
+
     <div class="language_switch">
         <div class="lang_frame">
             <form name="lang_switch" method="get">

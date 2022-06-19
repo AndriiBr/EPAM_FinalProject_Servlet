@@ -6,6 +6,7 @@ import ua.epam.final_project.util.localization.LocalizationFactory;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class LocalizationFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(LocalizationFilter.class);
 
     private static final String LOCALIZATION = "localization";
-    private static final String LANGUAGE = "language";
+    private static final String LOCALE = "locale";
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -29,14 +30,16 @@ public class LocalizationFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
-        String sessionAttributeLang = (String) session.getAttribute(LANGUAGE);
-        String reqParameterLang = req.getParameter(LANGUAGE);
+        String sessionAttributeLang = (String) session.getAttribute(LOCALE);
+        String reqParameterLang = req.getParameter(LOCALE);
 
         if (reqParameterLang != null) {
             if (reqParameterLang.equals("en")) {
                 req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("en"));
-            } else {
+                session.setAttribute(LOCALE, "en");
+            } else if (reqParameterLang.equals("ua")){
                 req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("ua"));
+                session.setAttribute(LOCALE, "ua");
             }
         } else if (sessionAttributeLang != null) {
             if (sessionAttributeLang.equals("en")) {
@@ -45,7 +48,7 @@ public class LocalizationFilter implements Filter {
                 req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("ua"));
             }
         } else {
-            session.setAttribute(LANGUAGE, "ua");
+            session.setAttribute(LOCALE, "ua");
             req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("ua"));
         }
 

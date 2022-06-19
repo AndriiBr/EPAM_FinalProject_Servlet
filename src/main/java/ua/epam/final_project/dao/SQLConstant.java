@@ -47,9 +47,9 @@ public final class SQLConstant {
     public static final String SQL_FIND_EDITION_BY_TITLE = "SELECT * FROM edition WHERE title_en = ?";
     public static final String SQL_FIND_EDITION_BY_ID = "SELECT * FROM edition WHERE id = ?";
     public static final String SQL_INSERT_EDITION =
-            "INSERT INTO edition (title_en, title_ua, title_image, genre_id, price) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO edition (title_en, title_ua, text_en, text_ua, title_image, genre_id, price) VALUES (?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_UPDATE_EDITION =
-            "UPDATE edition SET title_en = ?, title_ua = ?, title_image = ?, genre_id = ?, price = ? WHERE id = ?;";
+            "UPDATE edition SET title_en = ?, title_ua = ?, text_en = ?, text_ua = ?, title_image = ?, genre_id = ?, price = ? WHERE id = ?;";
     public static final String SQL_DELETE_EDITION = "DELETE FROM edition WHERE id = ?";
 
     //SQL requests for UserEditionDAO

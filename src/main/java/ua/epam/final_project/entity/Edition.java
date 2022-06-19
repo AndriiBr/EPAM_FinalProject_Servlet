@@ -7,15 +7,19 @@ public class Edition implements Serializable {
     private int id;
     private String titleEn;
     private String titleUa;
+    private String textEn;
+    private String textUa;
     private String imagePath;
     private int genreId;
     private int price;
 
     public Edition() {}
 
-    public Edition(String titleEn, String titleUa, int genreId) {
+    public Edition(String titleEn, String titleUa, String textEn, String textUa, int genreId) {
         this.titleEn = titleEn;
         this.titleUa = titleUa;
+        this.textEn = textEn;
+        this.textUa = textUa;
         this.genreId = genreId;
         this.imagePath = "";
         this.price = 0;
@@ -43,6 +47,22 @@ public class Edition implements Serializable {
 
     public void setTitleUa(String titleUa) {
         this.titleUa = titleUa;
+    }
+
+    public String getTextEn() {
+        return textEn;
+    }
+
+    public void setTextEn(String textEn) {
+        this.textEn = textEn;
+    }
+
+    public String getTextUa() {
+        return textUa;
+    }
+
+    public void setTextUa(String textUa) {
+        this.textUa = textUa;
     }
 
     public String getImagePath() {

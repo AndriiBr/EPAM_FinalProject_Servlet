@@ -1,8 +1,8 @@
 package ua.epam.final_project.service;
 
+import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.UnknownUserEditionPairException;
 import ua.epam.final_project.entity.Edition;
-import ua.epam.final_project.entity.User;
 import ua.epam.final_project.entity.UserEdition;
 
 import java.util.List;
@@ -25,36 +25,36 @@ public interface IUserEditionService {
 
     /**
      * Gets a list of all user-edition pairs for provided user only
-     * @param user user entity
+     * @param userDto userDto entity
      * @return list of user-edition pairs
      * @throws UnknownUserEditionPairException if nothing was found in Db
      */
-    List<UserEdition> findAllUserEditionByUser(User user) throws UnknownUserEditionPairException;
+    List<UserEdition> findAllUserEditionByUser(UserDto userDto) throws UnknownUserEditionPairException;
 
     /**
      * Gets a list of user-edition pairs for provided user and edition combunation
-     * @param user user entity
+     * @param userDto userDto entity
      * @param edition edition entity
      * @return list of user-edition pairs
      * @throws UnknownUserEditionPairException if nothing was found in Db
      */
-    List<UserEdition> findAllUserEditionByUserIdEditionId(User user, Edition edition) throws UnknownUserEditionPairException;
+    List<UserEdition> findAllUserEditionByUserIdEditionId(UserDto userDto, Edition edition) throws UnknownUserEditionPairException;
 
     /**
      * Inserts new user-edition pair into DB
-     * @param user user entity
+     * @param userDto userDto entity
      * @param edition edition entity
      * @return TRUE - if operation was success. FALSE - if not
      */
-    boolean insertUserEdition(User user, Edition edition) ;
+    boolean insertUserEdition(UserDto userDto, Edition edition) ;
 
     /**
      * Deletes user-edition pair from DB. (Unsubscribe user from edition)
-     * @param user - user entity
+     * @param userDto - userDto entity
      * @param edition - edition entity
      * @return TRUE - if operation was success. FALSE - if not
      */
-    boolean deleteUserEdition(User user, Edition edition);
+    boolean deleteUserEdition(UserDto userDto, Edition edition);
 
     /**
      * Deletes user-edition pair by Edition from DB. (Unsubscribe user from edition)
@@ -65,9 +65,8 @@ public interface IUserEditionService {
 
     /**
      * Deletes user-edition pair by User from DB. (Unsubscribe user from edition)
-     * @param user - user entity
+     * @param userDto - userDto entity
      * @return TRUE - if operation was success. FALSE - if not
      */
-    boolean deleteUserEditionByUser(User user);
-
+    boolean deleteUserEditionByUser(UserDto userDto);
 }

@@ -1,5 +1,6 @@
 package ua.epam.final_project.dao;
 
+import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.entity.Edition;
 import ua.epam.final_project.entity.User;

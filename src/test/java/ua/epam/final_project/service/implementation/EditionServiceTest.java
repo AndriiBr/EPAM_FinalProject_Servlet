@@ -13,6 +13,8 @@ import ua.epam.final_project.dao.IEditionDao;
 import ua.epam.final_project.dao.IUserEditionDao;
 import ua.epam.final_project.entity.Edition;
 import ua.epam.final_project.entity.User;
+import ua.epam.final_project.entity.dto.UserDto;
+import ua.epam.final_project.entity.dto.UserDtoMapper;
 import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.exception.UnknownEditionException;
 import ua.epam.final_project.service.IEditionService;
@@ -36,7 +38,7 @@ class EditionServiceTest {
     private IUserEditionDao userEditionDao;
 
     private final IEditionService editionService;
-    private final User user;
+    private final UserDto userDto;
     private final Edition edition;
     private final List<Edition> userList;
 
@@ -44,7 +46,8 @@ class EditionServiceTest {
         MockitoAnnotations.openMocks(this);
         editionService = ServiceFactory.getEditionService();
 
-        user = new User("Herald", "1234", "herald@gmail.com");
+        User user = new User("Herald", "1234", "herald@gmail.com");
+        userDto = UserDtoMapper.convertEntityIntoDto(user);
         edition = new Edition();
         userList = Arrays.asList(new Edition(), new Edition(), new Edition());
 
@@ -87,7 +90,7 @@ class EditionServiceTest {
         Mockito.when(editionDao.getNumberOfEditions(any(), anyBoolean(), any()))
                 .thenReturn(88);
 
-        assertEquals(88, editionService.getNumberOfEditions(user, true,"science"));
+        assertEquals(88, editionService.getNumberOfEditions(userDto, true,"science"));
     }
 
     @Test
@@ -99,7 +102,7 @@ class EditionServiceTest {
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownEditionException.class, () ->
-                editionService.getNumberOfEditions(user, true,"science"));
+                editionService.getNumberOfEditions(userDto, true,"science"));
     }
 
     @Test
@@ -154,7 +157,7 @@ class EditionServiceTest {
                 .thenReturn(userList);
 
         assertEquals(3, editionService
-                .findAllEditionsFromTo(user, true,5, 1, "science", "").size());
+                .findAllEditionsFromTo(userDto, true,5, 1, "science", "").size());
     }
 
     @Test
@@ -167,7 +170,7 @@ class EditionServiceTest {
 
         assertThrows(UnknownEditionException.class, () -> 
                 editionService
-                        .findAllEditionsFromTo(user, true,5, 1, "science", ""));
+                        .findAllEditionsFromTo(userDto, true,5, 1, "science", ""));
     }
     
 

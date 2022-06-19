@@ -12,6 +12,7 @@ import ua.epam.final_project.dao.IUserEditionDao;
 import ua.epam.final_project.entity.Edition;
 import ua.epam.final_project.entity.User;
 import ua.epam.final_project.entity.UserEdition;
+import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.exception.UnknownUserEditionPairException;
 import ua.epam.final_project.service.IUserEditionService;
@@ -35,14 +36,14 @@ class UserEditionServiceTest {
     private IUserDao userDao;
 
     private final IUserEditionService userEditionService;
-    private final User user;
+    private final UserDto userDto;
     private final Edition edition;
     private final List<UserEdition> userEditionList;
 
     UserEditionServiceTest() throws NoSuchFieldException, IllegalAccessException {
         MockitoAnnotations.openMocks(this);
         userEditionService = ServiceFactory.getUserEditionService();
-        this.user = new User();
+        this.userDto = new UserDto(new User());
         this.edition = new Edition();
         this.userEditionList = Arrays.asList(new UserEdition(), new UserEdition());
 
@@ -103,7 +104,7 @@ class UserEditionServiceTest {
         Mockito.when(userEditionDao.findAllUserEditionByUser(any()))
                 .thenReturn(userEditionList);
 
-        assertEquals(2, userEditionService.findAllUserEditionByUser(user).size());
+        assertEquals(2, userEditionService.findAllUserEditionByUser(userDto).size());
     }
 
     @Test
@@ -114,7 +115,7 @@ class UserEditionServiceTest {
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownUserEditionPairException.class, () ->
-                userEditionService.findAllUserEditionByUser(user));
+                userEditionService.findAllUserEditionByUser(userDto));
     }
 
     @Test
@@ -124,7 +125,7 @@ class UserEditionServiceTest {
         Mockito.when(userEditionDao.findAllUserEditionByUserIdEditionId(any(), any()))
                 .thenReturn(userEditionList);
 
-        assertEquals(2, userEditionService.findAllUserEditionByUserIdEditionId(user, edition).size());
+        assertEquals(2, userEditionService.findAllUserEditionByUserIdEditionId(userDto, edition).size());
     }
 
     @Test
@@ -135,7 +136,7 @@ class UserEditionServiceTest {
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownUserEditionPairException.class, () ->
-                userEditionService.findAllUserEditionByUserIdEditionId(user, edition));
+                userEditionService.findAllUserEditionByUserIdEditionId(userDto, edition));
     }
 
     @Test
@@ -146,7 +147,7 @@ class UserEditionServiceTest {
         Mockito.when(userEditionDao.insertUserEdition(any(), any()))
                 .thenReturn(true);
 
-        assertTrue(userEditionService.insertUserEdition(user, edition));
+        assertTrue(userEditionService.insertUserEdition(userDto, edition));
     }
 
     @Test
@@ -157,7 +158,7 @@ class UserEditionServiceTest {
         Mockito.when(userEditionDao.insertUserEdition(any(), any()))
                 .thenReturn(true);
 
-        assertFalse(userEditionService.insertUserEdition(user, edition));
+        assertFalse(userEditionService.insertUserEdition(userDto, edition));
     }
 
     @Test
@@ -167,7 +168,7 @@ class UserEditionServiceTest {
         Mockito.when(userEditionDao.deleteUserEdition(any(), any()))
                 .thenReturn(true);
 
-        assertTrue(userEditionService.deleteUserEdition(user, edition));
+        assertTrue(userEditionService.deleteUserEdition(userDto, edition));
     }
 
     @Test
@@ -177,7 +178,7 @@ class UserEditionServiceTest {
         Mockito.when(userEditionDao.deleteUserEdition(any(), any()))
                 .thenReturn(false);
 
-        assertFalse(userEditionService.deleteUserEdition(user, edition));
+        assertFalse(userEditionService.deleteUserEdition(userDto, edition));
     }
 
     @Test
@@ -207,7 +208,7 @@ class UserEditionServiceTest {
         Mockito.when(userEditionDao.deleteUserEditionByUser(any()))
                 .thenReturn(true);
 
-        assertTrue(userEditionService.deleteUserEditionByUser(user));
+        assertTrue(userEditionService.deleteUserEditionByUser(userDto));
     }
 
     @Test
@@ -217,6 +218,6 @@ class UserEditionServiceTest {
         Mockito.when(userEditionDao.deleteUserEditionByUser(any()))
                 .thenReturn(false);
 
-        assertFalse(userEditionService.deleteUserEditionByUser(user));
+        assertFalse(userEditionService.deleteUserEditionByUser(userDto));
     }
 }

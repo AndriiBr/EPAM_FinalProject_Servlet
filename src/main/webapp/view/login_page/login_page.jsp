@@ -45,7 +45,7 @@
         <form name="login_form" class="log-in" method="post" action="" >
 
             <%-- Command --%>
-<%--            <input type="hidden" name="command" value="login" />--%>
+            <input type="hidden" name="command" value="login" />
 
             <!-- Login -->
             <div class="field login">

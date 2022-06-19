@@ -3,33 +3,27 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="language"
        value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
-       scope="session" />
+       scope="session"/>
 <%-- Deprecated --%>
-<fmt:setLocale value="${language}" />
-<fmt:setBundle basename="localization/locale" />
-<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
+<fmt:setLocale value="${language}"/>
+
 
 <!DOCTYPE html>
 <html lang="${language}">
 <head>
     <title>Main page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
-          type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main_page/main_page_style.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
-<body>
-<jsp:include page="/view/parts/header.jsp"/><br/>
+<body style="background-color: hsl(0, 0%, 94%)">
 
-<a href="http://localhost:8080/about">${requestScope.localization.getString("main.link.about_us")}</a><br/>
-<a href="http://localhost:8080/edition_list">${requestScope.localization.getString("main.link.edition_list")}</a><br/>
+<jsp:include page="/view/parts/navbar.jsp"/>
+<jsp:include page="/view/parts/editionList.jsp"/>
 
-<% if (session.getAttribute("login") != null) { %>
-<a href="http://localhost:8080/cabinet">${sessionScope.login}: ${requestScope.localization.getString("main.link.cabinet")}</a><br/>
-<a href="http://localhost:8080/logout">${requestScope.localization.getString("main.link.logout")}</a><br/>
-<% } else { %>
-<a href="http://localhost:8080/login">${requestScope.localization.getString("main.link.login")}</a><br/>
-<% } %>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
 </body>
 </html>

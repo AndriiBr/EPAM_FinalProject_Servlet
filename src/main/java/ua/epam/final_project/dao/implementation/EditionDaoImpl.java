@@ -274,12 +274,7 @@ public class EditionDaoImpl implements IEditionDao {
             if(findEditionByTitle(edition.getTitleEn()) != null) {
                 return false;
             }
-            statement.setString(1, edition.getTitleEn());
-            statement.setString(2, edition.getTitleUa());
-            //insert path to image into DB
-            statement.setString(3, edition.getImagePath());
-            statement.setInt(4, edition.getGenreId());
-            statement.setInt(5, edition.getPrice());
+            prepareStatement(edition, statement);
             statement.executeUpdate();
         } catch (SQLException | DataNotFoundException e) {
             logger.error(e);
@@ -291,12 +286,8 @@ public class EditionDaoImpl implements IEditionDao {
     @Override
     public boolean updateEdition(Edition edition) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_EDITION)) {
-            statement.setString(1, edition.getTitleEn());
-            statement.setString(2, edition.getTitleUa());
-            statement.setString(3, edition.getImagePath());
-            statement.setInt(4, edition.getGenreId());
-            statement.setInt(5, edition.getPrice());
-            statement.setInt(6, edition.getId());
+            prepareStatement(edition, statement);
+            statement.setInt(8, edition.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
@@ -321,6 +312,20 @@ public class EditionDaoImpl implements IEditionDao {
 
     /**
      * UTILITY METHOD
+     * prepare statement before execution
+     */
+    private void prepareStatement(Edition edition, PreparedStatement statement) throws SQLException {
+        statement.setString(1, edition.getTitleEn());
+        statement.setString(2, edition.getTitleUa());
+        statement.setString(3, edition.getTextEn());
+        statement.setString(4, edition.getTextUa());
+        statement.setString(5, edition.getImagePath());
+        statement.setInt(6, edition.getGenreId());
+        statement.setInt(7, edition.getPrice());
+    }
+
+    /**
+     * UTILITY METHOD
      * create Edition entity according to data from database
      */
     private Edition extractEdition(ResultSet rs) throws SQLException {
@@ -329,6 +334,8 @@ public class EditionDaoImpl implements IEditionDao {
         edition.setId(rs.getInt("id"));
         edition.setTitleEn(rs.getString("title_en"));
         edition.setTitleUa(rs.getString("title_ua"));
+        edition.setTextEn(rs.getString("text_en"));
+        edition.setTextUa(rs.getString("text_ua"));
         edition.setImagePath(rs.getString("title_image"));
         edition.setGenreId(rs.getInt("genre_id"));
         edition.setPrice(rs.getInt("price"));

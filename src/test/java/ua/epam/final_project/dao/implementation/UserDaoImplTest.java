@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import ua.epam.final_project.dao.IUserDao;
 import ua.epam.final_project.dao.TestSQLConnectionProvider;
 import ua.epam.final_project.entity.User;
+import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.DataNotFoundException;
 
 import java.sql.Connection;
@@ -113,7 +114,6 @@ class UserDaoImplTest {
         User userFinal = userDao.findUserByLogin(userUpdated.getLogin());
 
         assertEquals(userUpdated.getLogin(), userFinal.getLogin());
-        assertEquals(userUpdated.getPassword(), userFinal.getPassword());
         assertEquals(userUpdated.getEmail(), userFinal.getEmail());
         assertEquals(userUpdated.getName(), userFinal.getName());
         assertEquals(userUpdated.getUserImage(), userFinal.getUserImage());

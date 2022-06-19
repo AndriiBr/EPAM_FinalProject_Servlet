@@ -12,6 +12,8 @@ import org.mockito.MockitoAnnotations;
 import ua.epam.final_project.dao.IUserDao;
 import ua.epam.final_project.dao.IUserEditionDao;
 import ua.epam.final_project.entity.User;
+import ua.epam.final_project.entity.dto.UserDto;
+import ua.epam.final_project.entity.dto.UserDtoMapper;
 import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.exception.UnknownUserException;
 import ua.epam.final_project.service.IUserService;
@@ -35,6 +37,7 @@ class UserServiceTest {
 
     private final IUserService userService;
     private final User user;
+    private final UserDto userDto;
 
 
     UserServiceTest() throws NoSuchFieldException, IllegalAccessException {
@@ -42,6 +45,7 @@ class UserServiceTest {
         userService = ServiceFactory.getUserService();
 
         user = new User("test_login", "test_pass", "test_email");
+        userDto = UserDtoMapper.convertEntityIntoDto(user);
 
         Field userDaoField = userService.getClass().getDeclaredField("userDao");
         userDaoField.setAccessible(true);
@@ -120,10 +124,9 @@ class UserServiceTest {
         Mockito.when(userDao.findUserByLoginPassword(any(), any()))
                 .thenReturn(user);
 
-        User userFromService = userService.findUserByLoginPassword("test_login", "test_pass");
+        UserDto userFromService = userService.findUserByLoginPassword("test_login", "test_pass");
         Assertions.assertNotNull(userFromService);
         assertEquals("test_login", userFromService.getLogin());
-        assertEquals("test_pass", userFromService.getPassword());
     }
 
     @Test
@@ -150,9 +153,9 @@ class UserServiceTest {
     @DisplayName("[Null] find user by wrong login")
     @Story("User service")
     @Description("Returns null if the user with this login was not found in the DB")
-    void findUserByLogin_return_null() throws UnknownUserException {
-        Mockito.when(userService.findUserByLogin("test"))
-                .thenReturn(new User());
+    void findUserByLogin_return_null() throws UnknownUserException, DataNotFoundException {
+        Mockito.when(userDao.findUserByLogin("Howard"))
+                .thenReturn(null);
 
         assertNull(userService.findUserByLogin("Howard"));
     }
@@ -164,7 +167,7 @@ class UserServiceTest {
         Mockito.when(userDao.insertUser(any()))
                 .thenReturn(true);
 
-        assertTrue(userService.insertUser(user));
+        assertTrue(userService.insertUser(userDto));
     }
 
     @Test
@@ -174,7 +177,7 @@ class UserServiceTest {
         Mockito.when(userDao.insertUser(any()))
                 .thenReturn(false);
 
-        Assertions.assertFalse(userService.insertUser(user));
+        Assertions.assertFalse(userService.insertUser(userDto));
     }
 
     @Test
@@ -184,7 +187,7 @@ class UserServiceTest {
         Mockito.when(userDao.updateUser(any()))
                 .thenReturn(true);
 
-        assertTrue(userService.updateUser(user));
+        assertTrue(userService.updateUser(userDto));
     }
 
     @Test
@@ -194,7 +197,7 @@ class UserServiceTest {
         Mockito.when(userDao.updateUser(any()))
                 .thenReturn(false);
 
-        Assertions.assertFalse(userService.updateUser(user));
+        Assertions.assertFalse(userService.updateUser(userDto));
     }
 
     @Test
@@ -206,7 +209,7 @@ class UserServiceTest {
         Mockito.when(userDao.deleteUser(any()))
                 .thenReturn(true);
 
-        assertTrue(userService.deleteUser(user));
+        assertTrue(userService.deleteUser(new UserDto(user)));
     }
 
     @Test
@@ -217,6 +220,6 @@ class UserServiceTest {
         Mockito.when(userDao.deleteUser(any()))
                 .thenReturn(true);
 
-        Assertions.assertFalse(userService.deleteUser(user));
+        Assertions.assertFalse(userService.deleteUser(new UserDto(user)));
     }
 }

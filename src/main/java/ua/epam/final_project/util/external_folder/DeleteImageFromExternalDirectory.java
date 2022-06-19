@@ -2,7 +2,6 @@ package ua.epam.final_project.util.external_folder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.controller.login.UserRegistrationServlet;
 
 import java.io.IOException;
 import java.nio.file.Files;

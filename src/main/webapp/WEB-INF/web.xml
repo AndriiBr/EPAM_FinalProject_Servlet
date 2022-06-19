@@ -9,7 +9,6 @@
     <welcome-file>/view/main_page/main_page.jsp</welcome-file>
   </welcome-file-list>
 
-
   <!-- *ERROR PAGE* -->
   <error-page>
     <error-code>404</error-code>
@@ -17,7 +16,17 @@
   </error-page>
 
 
-  <!-- *SERVLETS* -->
+   *SERVLETS*
+   *Controller
+  <servlet>
+    <servlet-name>mainControllerServlet</servlet-name>
+    <servlet-class>ua.epam.final_project.controller.MainController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mainControllerServlet</servlet-name>
+    <url-pattern>/main/*</url-pattern>
+  </servlet-mapping>
+
   <!--About us-->
   <servlet>
     <servlet-name>about_us</servlet-name>
