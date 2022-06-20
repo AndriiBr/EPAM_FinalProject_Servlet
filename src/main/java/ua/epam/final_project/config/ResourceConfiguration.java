@@ -4,11 +4,19 @@ import java.util.ResourceBundle;
 
 public class ResourceConfiguration {
 
+    private static ResourceConfiguration configurationInstance;
     private final ResourceBundle pages;
 
 
-    public ResourceConfiguration() {
+    private ResourceConfiguration() {
         pages = ResourceBundle.getBundle("pages");
+    }
+
+    public static ResourceConfiguration getInstance() {
+        if (configurationInstance == null) {
+            return new ResourceConfiguration();
+        }
+        return configurationInstance;
     }
 
     public String getPage(String pageName) {

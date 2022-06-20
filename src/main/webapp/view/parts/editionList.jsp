@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="language"
-       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       value="${not empty param.language ? param.language : not empty language ? language : sessionScope.locale}"
        scope="session"/>
 
 <fmt:setLocale value="${language}"/>
@@ -28,7 +28,7 @@
                     <fmt:message key="edition_list.title" bundle="${locale}"/>
                 </th>
 
-                <th class="text-center" scope="col" id="genres">
+                <th class="col-2 text-center" scope="col" id="genres">
                     <form action="${pageContext.request.contextPath}/edition_list" method="get">
                         <select id="genreFilter" name="genreFilter" onchange="this.form.submit()">
                             <option value="0" ${requestScope.genreFilter == '0' ? 'selected' : ''} >*</option>
@@ -56,7 +56,7 @@
                 </th>
 
                 <%--            <% if (role.equals("1") || role.equals("2")) {%>--%>
-                <th class="text-center fs-5" scope="col" id="buy">
+                <th class=" col-2 text-center fs-5" scope="col" id="buy">
                     <fmt:message key="edition_list.buy" bundle="${locale}"/>
                 </th>
                 <%--            <%}%>--%>
@@ -125,7 +125,7 @@
                         Available only for registered users and admin--%>
                         <%--                <% if (role.equals("1") || role.equals("2")) {%>--%>
                     <td class="text-center">
-                        <button class="btn btn-primary btn-sm"
+                        <button class="btn btn-primary btn-sm fw-bold"
                                 onclick="document.getElementById('${edition.id}').style.display='block'">
                             <fmt:message key="edition_list.buy" bundle="${locale}"/>
                         </button>
@@ -175,41 +175,6 @@
         </table>
     </div>
 </div>
-
-<%--For displaying Previous link except 1st page --%>
-<c:if test="${requestScope.currentPage != 1}">
-    <td>
-        <a href="http://localhost:8080/edition_list?page=${requestScope.currentPage - 1}">
-            <fmt:message key="edition_list.previous" bundle="${locale}"/>
-        </a>
-    </td>
-</c:if>
-
-<%--For displaying Page numbers--%>
-<table border="1" cellpadding="5" cellspacing="5">
-    <tr>
-        <c:forEach begin="1" end="${requestScope.noOfPages}" var="i">
-            <c:choose>
-                <c:when test="${requestScope.currentPage eq i}">
-                    <td>${i}</td>
-                </c:when>
-                <c:otherwise>
-                    <td><a href="http://localhost:8080/edition_list?page=${i}">${i}</a></td>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-    </tr>
-</table>
-
-<%--For displaying Next link --%>
-<c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
-    <td>
-        <a href="http://localhost:8080/edition_list?page=${requestScope.currentPage + 1}">
-            <fmt:message key="edition_list.next" bundle="${locale}"/>
-        </a>
-    </td>
-</c:if>
-
 </body>
 </html>
 

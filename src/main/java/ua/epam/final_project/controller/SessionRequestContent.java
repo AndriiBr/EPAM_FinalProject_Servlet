@@ -19,6 +19,7 @@ public class SessionRequestContent {
 
     /**
      * Constructor extract attributes and parameters from provided HttpServletRequest
+     *
      * @param req - HttpServletRequest
      */
     public SessionRequestContent(HttpServletRequest req) {
@@ -30,15 +31,17 @@ public class SessionRequestContent {
 
     /**
      * Extract request parameters from current request
+     *
      * @param req - HttpServletRequest
      * @return a map with request parameters.
      */
     private Map<String, String[]> extractRequestParameters(HttpServletRequest req) {
-        return req.getParameterMap();
+        return new HashMap<>(req.getParameterMap());
     }
 
     /**
      * Extract request attributes from current request
+     *
      * @param req - HttpServletRequest
      * @return a map with request attributes.
      */
@@ -56,6 +59,7 @@ public class SessionRequestContent {
 
     /**
      * Extract session attributes from current session
+     *
      * @param req - HttpServletRequest
      * @return a map with session attributes. Or an empty map if no session exists.
      */
@@ -76,6 +80,7 @@ public class SessionRequestContent {
 
     /**
      * Extract locale from current session
+     *
      * @param req - HttpServletRequest
      * @return Locale
      */

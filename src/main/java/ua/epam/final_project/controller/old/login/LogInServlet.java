@@ -6,7 +6,6 @@ import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.UnknownUserException;
 import ua.epam.final_project.service.IUserService;
 import ua.epam.final_project.service.ServiceFactory;
-import ua.epam.final_project.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +18,7 @@ import java.io.IOException;
 import static ua.epam.final_project.util.JSPPathConstant.*;
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(name = "login", urlPatterns = LOGIN_URL)
+//@WebServlet(name = "login", urlPatterns = LOGIN_URL)
 public class LogInServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(LogInServlet.class);
 

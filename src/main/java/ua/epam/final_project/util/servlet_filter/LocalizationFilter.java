@@ -5,22 +5,19 @@ import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.util.localization.LocalizationFactory;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "localization filter", urlPatterns = "/*")
 public class LocalizationFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(LocalizationFilter.class);
 
     private static final String LOCALIZATION = "localization";
-    private static final String LOCALE = "locale";
+    private static final String LOCALE = "language";
 
     @Override
     public void init(FilterConfig filterConfig) {
-        logger.info( "The filter: {} has begun its work", LocalizationFilter.class);
+        logger.info("The filter: {} has begun its work", LocalizationFilter.class);
     }
 
     @Override
@@ -30,6 +27,7 @@ public class LocalizationFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
+
         String sessionAttributeLang = (String) session.getAttribute(LOCALE);
         String reqParameterLang = req.getParameter(LOCALE);
 
@@ -37,7 +35,7 @@ public class LocalizationFilter implements Filter {
             if (reqParameterLang.equals("en")) {
                 req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("en"));
                 session.setAttribute(LOCALE, "en");
-            } else if (reqParameterLang.equals("ua")){
+            } else if (reqParameterLang.equals("ua")) {
                 req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("ua"));
                 session.setAttribute(LOCALE, "ua");
             }
@@ -57,6 +55,6 @@ public class LocalizationFilter implements Filter {
 
     @Override
     public void destroy() {
-        logger.info( "The filter: {} has finished its work", LocalizationFilter.class);
+        logger.info("The filter: {} has finished its work", LocalizationFilter.class);
     }
 }

@@ -1,9 +1,10 @@
 package ua.epam.final_project.controller.command;
 
-import ua.epam.final_project.controller.command.implementation.CommandOpenMainPage;
-import ua.epam.final_project.controller.command.implementation.UnknownCommand;
+import ua.epam.final_project.controller.command.implementation.OpenLoginPageCommand;
+import ua.epam.final_project.controller.command.implementation.OpenMainPageCommand;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,8 @@ public class CommandResolver {
      * Hidden private constructor
      */
     private CommandResolver(){
-        commandList.put("main", new CommandOpenMainPage());
+        commandList.put("main", new OpenMainPageCommand());
+        commandList.put("login", new OpenLoginPageCommand());
     }
 
     /**
@@ -28,10 +30,26 @@ public class CommandResolver {
      * @return command entity
      */
     public ICommand getCommand(HttpServletRequest req) {
-        ICommand command = commandList.get(req.getParameter("command"));
-        if (command == null) {
-            command = new CommandOpenMainPage();
+        HttpSession session = req.getSession();
+        CommandHistory commandHistory = (CommandHistory) session.getAttribute("commandHistory");
+
+        if (commandHistory == null) {
+            commandHistory = new CommandHistory();
+            commandHistory.addNewCommand("main");
+            session.setAttribute("commandHistory", commandHistory);
         }
+
+        String reqCommand = req.getParameter("command");
+
+        if (reqCommand == null) {
+            reqCommand = commandHistory.getLastCommand();
+        }
+
+        ICommand command = commandList.get(reqCommand);
+        if (command == null) {
+            throw new RuntimeException();
+        }
+        commandHistory.addNewCommand(reqCommand);
 
         return command;
     }

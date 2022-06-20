@@ -11,7 +11,7 @@ public class LanguageResourceBundleEN implements Serializable {
 
     public static synchronized ResourceBundle getInstance() {
         if (resourceBundle == null) {
-            resourceBundle = CustomPropertiesLoader.extractPropertyFile("localization/locale_en.properties");
+            resourceBundle = CustomPropertiesLoader.extractPropertyFile("localization/locale.properties");
         }
         return resourceBundle;
     }
