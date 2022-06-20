@@ -17,13 +17,12 @@ import ua.epam.final_project.service.ServiceFactory;
 
 import java.util.List;
 
-public class OpenMainPageCommand implements ICommand {
+public class OpenShopListPageCommand implements ICommand {
 
-    private static final Logger logger = LogManager.getLogger(OpenMainPageCommand.class);
+    private static final Logger logger = LogManager.getLogger(OpenShopListPageCommand.class);
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
-        ResourceConfiguration configuration = ResourceConfiguration.getInstance();
         ExecutionResult result = new ExecutionResult();
         result.setDirection(Direction.FORWARD);
 
@@ -41,7 +40,7 @@ public class OpenMainPageCommand implements ICommand {
             logger.error(e);
         }
 
-        result.setPage(configuration.getPage("main"));
+        result.setPage(ResourceConfiguration.getInstance().getPage("shop.edition_list"));
 
         return result;
     }

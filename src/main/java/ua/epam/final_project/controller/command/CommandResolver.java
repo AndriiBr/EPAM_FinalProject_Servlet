@@ -1,10 +1,11 @@
 package ua.epam.final_project.controller.command;
 
 import ua.epam.final_project.controller.command.implementation.OpenLoginPageCommand;
-import ua.epam.final_project.controller.command.implementation.OpenMainPageCommand;
+import ua.epam.final_project.controller.command.implementation.OpenShopListPageCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,38 +21,71 @@ public class CommandResolver {
      * Hidden private constructor
      */
     private CommandResolver(){
-        commandList.put("main", new OpenMainPageCommand());
-        commandList.put("login", new OpenLoginPageCommand());
+        commandList.put("shop/list", new OpenShopListPageCommand());
+        commandList.put("auth/portal", new OpenLoginPageCommand());
+        commandList.put("auth/portal_post", new OpenLoginPageCommand());
     }
 
     /**
      * Get requested command from the list of commands
-     * @param req - HttpServletRequest with parameter 'command'
-     * @return command entity
+     * @param req - HttpServletRequest
+     * @return Command entity
      */
-    public ICommand getCommand(HttpServletRequest req) {
+    public ICommand initGetCommand(HttpServletRequest req) {
+        String reqCommand = extractGetCommand(req);
+
+        return handleCommand(req, reqCommand);
+    }
+
+    public ICommand initPostCommand(HttpServletRequest req) {
+        String reqCommand = extractPostCommand(req);
+
+        return handleCommand(req, reqCommand);
+    }
+
+    /**
+     *
+     * @param req - HttpServletrequest
+     * @param reqCommand - command code
+     * @return Command entity
+     */
+    private ICommand handleCommand(HttpServletRequest req, String reqCommand) {
         HttpSession session = req.getSession();
         CommandHistory commandHistory = (CommandHistory) session.getAttribute("commandHistory");
 
         if (commandHistory == null) {
             commandHistory = new CommandHistory();
-            commandHistory.addNewCommand("main");
-            session.setAttribute("commandHistory", commandHistory);
-        }
-
-        String reqCommand = req.getParameter("command");
-
-        if (reqCommand == null) {
-            reqCommand = commandHistory.getLastCommand();
         }
 
         ICommand command = commandList.get(reqCommand);
         if (command == null) {
             throw new RuntimeException();
         }
+
         commandHistory.addNewCommand(reqCommand);
+        session.setAttribute("commandHistory", commandHistory);
 
         return command;
+    }
+
+    /**
+     * Extract GET command from requestUrl
+     * @param req - HttpServletRequest
+     * @return String command name
+     */
+    private String extractGetCommand (HttpServletRequest req) {
+        String[] path = req.getRequestURL().toString().split("/");
+        return path[path.length - 2] + "/" + path[path.length - 1];
+    }
+
+    /**
+     * Extract POST command from requestUrl
+     * @param req - HttpServletRequest
+     * @return String command name
+     */
+    private String extractPostCommand (HttpServletRequest req) {
+        String[] path = req.getRequestURL().toString().split("/");
+        return path[path.length - 2] + "/" + path[path.length - 1] + "_post";
     }
 
     /**

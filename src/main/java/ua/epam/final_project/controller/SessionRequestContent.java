@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -15,7 +14,6 @@ public class SessionRequestContent {
     private final Map<String, Object> reqAttributes;
     private final Map<String, String[]> reqParameters;
     private final Map<String, Object> sessionAttributes;
-    private final Locale locale;
 
     /**
      * Constructor extract attributes and parameters from provided HttpServletRequest
@@ -26,7 +24,6 @@ public class SessionRequestContent {
         reqAttributes = extractRequestAttributes(req);
         reqParameters = extractRequestParameters(req);
         sessionAttributes = extractSessionAttributes(req);
-        locale = extractLocale(req);
     }
 
     /**
@@ -78,23 +75,6 @@ public class SessionRequestContent {
         return attributes;
     }
 
-    /**
-     * Extract locale from current session
-     *
-     * @param req - HttpServletRequest
-     * @return Locale
-     */
-    private Locale extractLocale(HttpServletRequest req) {
-        HttpSession session = req.getSession();
-        Locale currentLocale;
-        if (session.getAttribute("locale") != null) {
-            currentLocale = new Locale((String) session.getAttribute("locale"));
-        } else {
-            currentLocale = Locale.ENGLISH;
-        }
-        return currentLocale;
-    }
-
     public Map<String, Object> getReqAttributes() {
         return reqAttributes;
     }
@@ -103,11 +83,7 @@ public class SessionRequestContent {
         return reqParameters;
     }
 
-    public Map<String, Object> extractSessionAttributes() {
+    public Map<String, Object> getSessionAttributes() {
         return sessionAttributes;
-    }
-
-    public Locale getLocale() {
-        return locale;
     }
 }

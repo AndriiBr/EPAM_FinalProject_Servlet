@@ -10,11 +10,13 @@ import java.util.Enumeration;
 
 import static ua.epam.final_project.util.UrlLayoutConstants.*;
 
-@WebServlet(name = "logout", urlPatterns = LOGOUT_URL)
+@WebServlet(name = "logout", urlPatterns = LOGOUT_URL )
 public class LogOutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+
         final HttpSession session = req.getSession();
         final String currentRole = (String) session.getAttribute("role");
 

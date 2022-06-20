@@ -12,15 +12,10 @@
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <form class="navbar-brand" method="get" action="main">
-                <input type="hidden" name="command" value="main"/>
-                <input type="image"
-                       src="${pageContext.request.contextPath}/img/empty_title_placeholder/app-logo.png"
-                       alt="Logo"
-                       width="45"/>
-                <%--                                <img src="${pageContext.request.contextPath}/img/empty_title_placeholder/app-logo.png" alt="Logo"--%>
-                <%--                                     width="45">--%>
-            </form>
+            <a class="navbar-brand" href="#">
+                <img src="${pageContext.request.contextPath}/img/empty_title_placeholder/app-logo.png" alt="Logo"
+                     width="45">
+            </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
@@ -31,13 +26,9 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <form class="nav-link active" method="get" action="main">
-                            <input type="hidden" name="command" value="main"/>
-                            <input type="submit" value="<fmt:message key="navbar.main" bundle="${navbar}"/>">
-                            <a class="nav-link active" type="submit" aria-current="page" href="#">
-                                <fmt:message key="navbar.main" bundle="${navbar}"/>
-                            </a>
-                        </form>
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <fmt:message key="navbar.main" bundle="${navbar}"/>
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -46,7 +37,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="#" onclick="">
+                                <a class="dropdown-item" href="#">
                                     <fmt:message key="navbar.user_settings" bundle="${navbar}"/>
                                 </a>
                             </li>
@@ -98,7 +89,7 @@
                                 </a>
                             </c:when>
                             <c:otherwise>
-                                <form class="login_menu" method="get" action="login">
+                                <form class="login_menu" method="post" action="login">
                                     <input type="hidden" name="command" value="login"/>
                                     <button class="btn btn-dark" type="submit">
                                         <fmt:message key="navbar.log-in" bundle="${navbar}"/>
