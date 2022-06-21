@@ -23,6 +23,7 @@ public class CommandResolver {
         commandList.put("shop/list", new OpenShopListPageCommand());
         commandList.put("auth/login", new OpenLoginPageCommand());
         commandList.put("auth/login_post", new SignInCommand());
+        commandList.put("auth/logout", new SignOutCommand());
         commandList.put("login/success", new OpenLoginSuccessPageCommand());
         commandList.put("login/fail", new OpenLoginFailPageCommand());
         commandList.put("error/unknown_error", new UnknownErrorCommand());
@@ -61,9 +62,11 @@ public class CommandResolver {
 
         ICommand command = commandList.get(reqCommand);
         if (command == null) {
-            //ToDo
-            //Put error command here
-            throw new RuntimeException();
+            return new UnknownErrorCommand();
+        }
+
+        if (!Security.getInstance().checkSecurity(req, command)) {
+            return new UnknownErrorCommand();
         }
 
         commandHistory.addNewCommand(reqCommand);

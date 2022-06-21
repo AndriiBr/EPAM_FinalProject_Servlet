@@ -3,6 +3,7 @@ package ua.epam.final_project.controller.command.implementation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.config.ResourceConfiguration;
+import ua.epam.final_project.controller.command.AccessLevel;
 import ua.epam.final_project.controller.command.ICommand;
 import ua.epam.final_project.controller.util.Direction;
 import ua.epam.final_project.controller.util.ExecutionResult;
@@ -11,6 +12,10 @@ import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.UnknownUserException;
 import ua.epam.final_project.service.IUserService;
 import ua.epam.final_project.service.ServiceFactory;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class SignInCommand implements ICommand {
 
@@ -42,6 +47,11 @@ public class SignInCommand implements ICommand {
         }
 
         return result;
+    }
+
+    @Override
+    public List<AccessLevel> getAccessLevelList() {
+        return Collections.singletonList(AccessLevel.GUEST);
     }
 
     private boolean validateLoginPassword(String login, String password) {

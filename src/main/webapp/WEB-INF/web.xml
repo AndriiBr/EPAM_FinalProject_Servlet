@@ -15,34 +15,21 @@
     <location>/view/error_page/error_404_page.jsp</location>
   </error-page>
 
-
-  <!--   *SERVLETS*-->
-  <!--   *Controller-->
-<!--  <servlet>-->
-<!--    <servlet-name>mainControllerServlet</servlet-name>-->
-<!--    <servlet-class>ua.epam.final_project.controller.MainController</servlet-class>-->
-<!--  </servlet>-->
-<!--  <servlet-mapping>-->
-<!--    <servlet-name>mainControllerServlet</servlet-name>-->
-<!--    <url-pattern>/main/*</url-pattern>-->
-<!--  </servlet-mapping>-->
-
-  <!--About us-->
-<!--  <servlet>-->
-<!--    <servlet-name>about_us</servlet-name>-->
-<!--    <jsp-file>/view/about_page/about_us_page.jsp</jsp-file>-->
-<!--  </servlet>-->
-<!--  <servlet-mapping>-->
-<!--    <servlet-name>about_us</servlet-name>-->
-<!--    <url-pattern>/about</url-pattern>-->
-<!--  </servlet-mapping>-->
-
   <filter>
     <filter-name>localeFilter</filter-name>
     <filter-class>ua.epam.final_project.util.servlet_filter.LocalizationFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>localeFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>noCacheFilter</filter-name>
+    <filter-class>ua.epam.final_project.util.servlet_filter.NoCacheFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>noCacheFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 

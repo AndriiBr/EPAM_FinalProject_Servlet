@@ -10,14 +10,16 @@ import ua.epam.final_project.controller.util.SessionRequestContent;
 import java.util.Arrays;
 import java.util.List;
 
-public class OpenLoginSuccessPageCommand implements ICommand {
+public class SignOutCommand implements ICommand {
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
-        result.setDirection(Direction.FORWARD);
+        result.setDirection(Direction.REDIRECT);
 
-        result.setPage(ResourceConfiguration.getInstance().getPage("auth.login.success"));
+        result.invalidateSession();
+
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("shop.edition_list"));
 
         return result;
     }

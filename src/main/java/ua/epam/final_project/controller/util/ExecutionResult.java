@@ -1,7 +1,6 @@
 package ua.epam.final_project.controller.util;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,6 +20,7 @@ public class ExecutionResult {
         requestAttributes = content.getReqAttributes();
         requestParameters = content.getReqParameters();
         sessionAttributes = content.getSessionAttributes();
+        isInvalidated = false;
     }
 
     public void addRequestAttribute(String key, Object value) {

@@ -29,6 +29,10 @@ public class CommandHandler {
         ExecutionResult result = command.execute(content);
         result.updateRequest(req);
 
+        if (result.isInvalidated()) {
+            req.getSession(false).invalidate();
+        }
+
         if (result.getDirection() == Direction.FORWARD) {
             req.getRequestDispatcher(result.getPage()).forward(req, resp);
         } else if (result.getDirection() == Direction.REDIRECT) {

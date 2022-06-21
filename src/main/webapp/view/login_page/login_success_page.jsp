@@ -34,9 +34,13 @@
 
                 <div class="d-flex align-items-center justify-content-center h-custom-4 px-5 ms-xl-4 mt-2 mb-5 pb-5 pt-2 pt-xl-0 mt-xl-n5">
                     <div class="message_success">
-                        <fmt:message key="auth.message.success_login" bundle="${auth}"/>
-                        <div class="user_message">
-                            ${sessionScope.user.login}
+                        <h3>
+                            <fmt:message key="auth.message.success_login" bundle="${auth}"/>
+                        </h3>
+                        <div class="d-flex justify-content-center user_message">
+                            <h3>
+                                ${sessionScope.user.login}
+                            </h3>
                         </div>
                     </div>
                 </div>
@@ -49,21 +53,6 @@
         </div>
     </div>
 </section>
-
-<div class="wrapper fadeInDown">
-    <div id="formContent">
-        <div class="fadeIn first">
-            <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon"
-                 alt="User Icon"/>
-        </div>
-
-
-        <div id="formFooter">
-            <a class="underlineHover"
-               href="http://localhost:8080/">${requestScope.localization.getString("main.text.main_page")}</a>
-        </div>
-    </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"

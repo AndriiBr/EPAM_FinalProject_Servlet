@@ -3,6 +3,7 @@ package ua.epam.final_project.controller.command.implementation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.config.ResourceConfiguration;
+import ua.epam.final_project.controller.command.AccessLevel;
 import ua.epam.final_project.controller.util.Direction;
 import ua.epam.final_project.controller.util.ExecutionResult;
 import ua.epam.final_project.controller.util.SessionRequestContent;
@@ -43,5 +44,10 @@ public class OpenShopListPageCommand implements ICommand {
         result.setPage(ResourceConfiguration.getInstance().getPage("shop.edition_list"));
 
         return result;
+    }
+
+    @Override
+    public List<AccessLevel> getAccessLevelList() {
+        return null;
     }
 }
