@@ -10,7 +10,7 @@ public class OpenLoginPageCommand implements ICommand {
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
-        ExecutionResult result = new ExecutionResult();
+        ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.FORWARD);
 
         result.setPage(ResourceConfiguration.getInstance().getPage("auth.login"));

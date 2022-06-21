@@ -18,31 +18,33 @@ public class SignInCommand implements ICommand {
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
-        ExecutionResult result = new ExecutionResult();
+        ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
         IUserService userService = ServiceFactory.getUserService();
-        
-        String login = content.getReqParameters().get("login")[0];
-        String password = content.getReqParameters().get("password")[0];
 
-        if (login == null || password == null) {
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("auth.login.fail"));
-            return result;
-        }
+        //Set result as failed before all validation will be done
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("auth.login.fail"));
+
+        String login = content.getReqParameters().get("login");
+        String password = content.getReqParameters().get("password");
+        boolean validation = validateLoginPassword(login, password);
 
         try {
-            UserDto userDto = userService.findUserByLoginPassword(login, password);
-            if (userDto != null) {
-                content.getSessionAttributes().put("user", userDto);
+            if (validation) {
+                UserDto userDto = userService.findUserByLoginPassword(login, password);
+                if (userDto != null) {
+                    result.addSessionAttribute("user", userDto);
+                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("auth.login.success"));
+                }
             }
-
         } catch (UnknownUserException e) {
             logger.warn(e);
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("auth.login.fail"));
         }
 
-        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("auth.login.success"));
-
         return result;
+    }
+
+    private boolean validateLoginPassword(String login, String password) {
+        return login != null && password != null && !login.equals("") && !password.equals("");
     }
 }

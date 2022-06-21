@@ -12,12 +12,11 @@ import java.util.Map;
 public class SessionRequestContent {
 
     private final Map<String, Object> reqAttributes;
-    private final Map<String, String[]> reqParameters;
+    private final Map<String, String> reqParameters;
     private final Map<String, Object> sessionAttributes;
 
     /**
      * Constructor extract attributes and parameters from provided HttpServletRequest
-     *
      * @param req - HttpServletRequest
      */
     public SessionRequestContent(HttpServletRequest req) {
@@ -28,17 +27,18 @@ public class SessionRequestContent {
 
     /**
      * Extract request parameters from current request
-     *
      * @param req - HttpServletRequest
      * @return a map with request parameters.
      */
-    private Map<String, String[]> extractRequestParameters(HttpServletRequest req) {
-        return new HashMap<>(req.getParameterMap());
+    private Map<String, String> extractRequestParameters(HttpServletRequest req) {
+        Map<String, String> buffer = new HashMap<>();
+        req.getParameterMap().forEach((key, val) -> buffer.put(key, val[0]));
+
+        return buffer;
     }
 
     /**
      * Extract request attributes from current request
-     *
      * @param req - HttpServletRequest
      * @return a map with request attributes.
      */
@@ -56,7 +56,6 @@ public class SessionRequestContent {
 
     /**
      * Extract session attributes from current session
-     *
      * @param req - HttpServletRequest
      * @return a map with session attributes. Or an empty map if no session exists.
      */
@@ -79,7 +78,7 @@ public class SessionRequestContent {
         return reqAttributes;
     }
 
-    public Map<String, String[]> getReqParameters() {
+    public Map<String, String> getReqParameters() {
         return reqParameters;
     }
 

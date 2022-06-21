@@ -13,15 +13,21 @@ public class ExecutionResult {
     private String redirectUrl;
     private Direction direction;
     private boolean isInvalidated;
-    private final Map<String, Object> requestAttributes = new HashMap<>();
-    private final Map<String, Object> requestParameters = new HashMap<>();
-    private final Map<String, Object> sessionAttributes = new HashMap<>();
+    private final Map<String, Object> requestAttributes;
+    private final Map<String, String> requestParameters;
+    private final Map<String, Object> sessionAttributes;
+
+    public ExecutionResult(SessionRequestContent content) {
+        requestAttributes = content.getReqAttributes();
+        requestParameters = content.getReqParameters();
+        sessionAttributes = content.getSessionAttributes();
+    }
 
     public void addRequestAttribute(String key, Object value) {
         requestAttributes.put(key, value);
     }
 
-    public void addRequestParameter(String key, Object value) {
+    public void addRequestParameter(String key, String value) {
         requestParameters.put(key, value);
     }
 
@@ -36,7 +42,7 @@ public class ExecutionResult {
 
     public void addUrlParameters() {
         requestParameters.forEach((key, value) ->
-                page = page.concat(key).concat("=").concat((String) value).concat("&"));
+                redirectUrl = redirectUrl.concat(key).concat("=").concat(value).concat("&"));
     }
 
     public String getPage() {

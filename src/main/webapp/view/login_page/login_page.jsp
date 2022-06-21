@@ -26,7 +26,6 @@
 </head>
 <body scroll="no" style="overflow: hidden">
 <jsp:include page="/view/parts/navbar.jsp"/>
-<br/>
 
 <section class="vh-100">
     <div class="container-fluid">
