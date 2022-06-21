@@ -3,33 +3,31 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="language"
        value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
-       scope="session" />
-<%-- Deprecated --%>
-<fmt:setLocale value="${language}" />
-<fmt:setBundle basename="localization/locale" />
-<%-- A custom property loader was used to work with Cyrillic (UTF-8 format) --%>
+       scope="session"/>
+
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="localization/user/userLocale" var="user"/>
+
 
 <!DOCTYPE html>
 <html lang="${language}">
 <head>
     <title>Wallet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/background.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/frame_structure_style.css"
           type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/fade_in_animation.css"
           type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/input_form_style.css"
-          type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/cabinet_page/wallet_page/wallet_page_style.css"
           type="text/css">
 </head>
-<body>
-<jsp:include page="/view/parts/header.jsp"/><br/>
-
-<%
-    int balance = (Integer) session.getAttribute("balance");
-%>
+<body style="background-color: hsl(0, 0%, 94%)">
+<jsp:include page="/view/parts/navbar.jsp"/>
+<br/>
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -40,7 +38,7 @@
                  alt="User Icon"/><br/>
             <div class="fadeIn second">
                 <div class="wallet-header">
-                    ${requestScope.localization.getString("wallet.text.hello")} ${sessionScope.login}!
+                    <fmt:message key="user.hello" bundle="${user}"/> ${sessionScope.user.login}!
                 </div>
             </div>
         </div>
@@ -48,24 +46,42 @@
         <!-- Balance bar -->
         <div class="fadeIn third">
             <div class="balance-area">
-                <label id="balance">${requestScope.localization.getString("wallet.text.balance")} </label><br/>
-                <div class="fadeIn fourth">
+                <label id="balance">
+                    <fmt:message key="user.wallet.balance" bundle="${user}"/>
+                </label>
+                <div class="fadeIn fourth mb-4">
                     <div class="balance-bar">
-                        <%= balance%> ${requestScope.localization.getString("wallet.label.uah")}
+                        ${sessionScope.user.balance} <fmt:message key="user.wallet.currency.uah" bundle="${user}"/>
                     </div>
                 </div>
             </div>
         </div>
 
-        <form method="post">
-            <input type="submit" class="fadeIn fifth" value="${requestScope.localization.getString("wallet.button.top_up")}"/>
-        </form>
+        <div class="fadeIn fourth">
+            <c:if test="${sessionScope.user.role eq '3' or sessionScope.user.role eq '2'}">
+                <div class="faiIn fifth d-flex justify-content-center pt-1 mb-4">
+                    <a class="btn btn-info btn-lg btn-block"
+                       href="${pageContext.request.contextPath}/user/wallet/top_up">
+                        <fmt:message key="user.wallet.top_up" bundle="${user}"/>
+                    </a>
+                </div>
+            </c:if>
+        </div>
 
         <div id="formFooter">
-            <a class="underlineHover" href="http://localhost:8080/cabinet">${requestScope.localization.getString("wallet.link.cabinet")}</a>
+            <div class="fadeIn fifth">
+                <div class="d-flex justify-content-center pb-lg-2 user_wallet">
+                    <a class="link-info" href="${pageContext.request.contextPath}/shop/list">
+                        <fmt:message key="user.main_page" bundle="${user}"/>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
 </body>
 </html>

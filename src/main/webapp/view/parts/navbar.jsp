@@ -25,40 +25,63 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
-                            <fmt:message key="navbar.main" bundle="${navbar}"/>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <fmt:message key="navbar.cabinet" bundle="${navbar}"/>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <fmt:message key="navbar.user_settings" bundle="${navbar}"/>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <fmt:message key="navbar.subscriptions" bundle="${navbar}"/>
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <fmt:message key="navbar.wallet" bundle="${navbar}"/>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li>
+                    <%--                    <li class="nav-item">--%>
+                    <%--                        <a class="nav-link active" aria-current="page" href="#">--%>
+                    <%--                            <fmt:message key="navbar.main" bundle="${navbar}"/>--%>
+                    <%--                        </a>--%>
+                    <%--                    </li>--%>
+                    <c:if test="${not empty sessionScope.user}">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <fmt:message key="navbar.cabinet" bundle="${navbar}"/>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <fmt:message key="navbar.user_settings" bundle="${navbar}"/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <fmt:message key="navbar.subscriptions" bundle="${navbar}"/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/wallet">
+                                        <fmt:message key="navbar.wallet" bundle="${navbar}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </c:if>
+
+                    <c:if test="${sessionScope.user.role eq '3'}">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <fmt:message key="navbar.admin_console" bundle="${navbar}"/>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <fmt:message key="navbar.edition_list" bundle="${navbar}"/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <fmt:message key="navbar.user_list" bundle="${navbar}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </c:if>
+                    <%--                    <li class="nav-item">--%>
+                    <%--                        <a class="nav-link disabled">Disabled</a>--%>
+                    <%--                    </li>--%>
                 </ul>
 
                 <form class="d-flex" role="search">
@@ -77,9 +100,9 @@
                         <c:choose>
                         <c:when test="${not empty sessionScope.user}">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            ${sessionScope.user.name}
+                                ${sessionScope.user.login}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>

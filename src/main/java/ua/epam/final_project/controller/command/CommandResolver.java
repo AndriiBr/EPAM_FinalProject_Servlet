@@ -31,6 +31,9 @@ public class CommandResolver {
         commandList.put("auth/registration_post", new SignUpCommand());
         commandList.put("registration/success", new OpenRegistrationSuccessPageCommand());
         commandList.put("registration/fail", new OpenRegistrationFailPageCommand());
+        commandList.put("user/wallet", new OpenWalletPageCommand());
+        commandList.put("wallet/top_up", new OpenWalletTopUpPageCommand());
+        commandList.put("wallet/top_up_post", new TopUpBalanceCommand());
     }
 
     /**

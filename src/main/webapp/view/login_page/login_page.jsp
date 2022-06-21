@@ -71,7 +71,7 @@
                         </div>
 
                         <p class="d-flex justify-content-center small mb-4 pb-lg-2">
-                            <a class="text-muted" href="#!">
+                            <a class="text-muted" href="/show_error/error">
                                 <fmt:message key="auth.forgot" bundle="${auth}"/>
                             </a>
                         </p>

@@ -8,12 +8,7 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="localization/locale" var="locale"/>
 
-<%--<%--%>
-<%--    String role = "";--%>
-<%--    if (session.getAttribute("role") != null) {--%>
-<%--        role = (String) session.getAttribute("role");--%>
-<%--    }--%>
-<%--%>--%>
+
 <div class="container my-5 py-3">
     <div class="shadow p-3 mb-5 bg-body rounded">
         <table class="table table-hover align-middle mb-0 bg-white">
@@ -167,7 +162,6 @@
                             </div>
                         </td>
                     </c:if>
-
                 </tr>
             </c:forEach>
             </tbody>
