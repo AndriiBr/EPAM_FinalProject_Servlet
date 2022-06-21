@@ -1,7 +1,7 @@
 package ua.epam.final_project.controller.command;
 
-import ua.epam.final_project.controller.ExecutionResult;
-import ua.epam.final_project.controller.SessionRequestContent;
+import ua.epam.final_project.controller.util.ExecutionResult;
+import ua.epam.final_project.controller.util.SessionRequestContent;
 
 /**
  * Interface for all commands

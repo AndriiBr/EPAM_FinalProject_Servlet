@@ -6,10 +6,12 @@ public class ResourceConfiguration {
 
     private static ResourceConfiguration configurationInstance;
     private final ResourceBundle pages;
+    private final ResourceBundle urls;
 
 
     private ResourceConfiguration() {
         pages = ResourceBundle.getBundle("pages");
+        urls = ResourceBundle.getBundle("urls");
     }
 
     public static ResourceConfiguration getInstance() {
@@ -21,5 +23,9 @@ public class ResourceConfiguration {
 
     public String getPage(String pageName) {
         return pages.getString(pageName);
+    }
+
+    public String getUrl(String urlName) {
+        return urls.getString(urlName);
     }
 }

@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller;
+package ua.epam.final_project.controller.util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

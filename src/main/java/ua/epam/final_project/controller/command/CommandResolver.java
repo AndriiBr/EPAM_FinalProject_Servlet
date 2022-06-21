@@ -1,7 +1,6 @@
 package ua.epam.final_project.controller.command;
 
-import ua.epam.final_project.controller.command.implementation.OpenLoginPageCommand;
-import ua.epam.final_project.controller.command.implementation.OpenShopListPageCommand;
+import ua.epam.final_project.controller.command.implementation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,8 +21,11 @@ public class CommandResolver {
      */
     private CommandResolver(){
         commandList.put("shop/list", new OpenShopListPageCommand());
-        commandList.put("auth/portal", new OpenLoginPageCommand());
-        commandList.put("auth/portal_post", new OpenLoginPageCommand());
+        commandList.put("auth/login", new OpenLoginPageCommand());
+        commandList.put("auth/login_post", new SignInCommand());
+        commandList.put("login/success", new OpenLoginSuccessPageCommand());
+        commandList.put("login/fail", new OpenLoginFailPageCommand());
+        commandList.put("error/unknown_error", new UnknownErrorCommand());
     }
 
     /**
@@ -45,7 +47,7 @@ public class CommandResolver {
 
     /**
      *
-     * @param req - HttpServletrequest
+     * @param req - HttpServletRequest
      * @param reqCommand - command code
      * @return Command entity
      */
@@ -59,6 +61,8 @@ public class CommandResolver {
 
         ICommand command = commandList.get(reqCommand);
         if (command == null) {
+            //ToDo
+            //Put error command here
             throw new RuntimeException();
         }
 

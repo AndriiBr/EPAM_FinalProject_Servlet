@@ -12,7 +12,7 @@
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/shop/list">
                 <img src="${pageContext.request.contextPath}/img/empty_title_placeholder/app-logo.png" alt="Logo"
                      width="45">
             </a>
@@ -73,7 +73,7 @@
                 <%--                    </select>--%>
                 <%--                </form>--%>
 
-                <select class="d-flex btn btn-dark" id="language" name="language"
+                <select class="d-flex mx-1 btn btn-dark" id="language" name="language"
                         onchange="changeLang(this.options[selectedIndex].value)">
                     <option value="ua" ${language == 'ua' ? 'selected' : ''}>UA</option>
                     <option value="en" ${language == 'en' ? 'selected' : ''}>EN</option>
@@ -84,14 +84,15 @@
                     <li class="nav-item">
                         <c:choose>
                             <c:when test="${not empty sessionScope.user}">
-                                <a class="nav-link" href="http://localhost:8080/logout">
-                                    <fmt:message key="navbar.log-out" bundle="${navbar}"/>
-                                </a>
+                                <form class="login_menu" method="get" action="${pageContext.request.contextPath}/auth/logout">
+                                    <button class="mx-1 btn btn-dark" type="submit">
+                                        <fmt:message key="navbar.log-out" bundle="${navbar}"/>
+                                    </button>
+                                </form>
                             </c:when>
                             <c:otherwise>
-                                <form class="login_menu" method="post" action="login">
-                                    <input type="hidden" name="command" value="login"/>
-                                    <button class="btn btn-dark" type="submit">
+                                <form class="login_menu" method="get" action="${pageContext.request.contextPath}/auth/login">
+                                    <button class="mx-1 btn btn-dark" type="submit">
                                         <fmt:message key="navbar.log-in" bundle="${navbar}"/>
                                     </button>
                                 </form>
@@ -107,7 +108,6 @@
 <script>
     const changeLang = (languageCode) => {
         document.documentElement.setAttribute("lang", languageCode);
-        // window.location.href += "?language=" + languageCode;
         window.location.href = URL_add_parameter(window.location.href, "language", languageCode);
         // location.reload();
     };

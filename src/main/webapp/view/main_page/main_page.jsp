@@ -4,9 +4,7 @@
 <c:set var="language"
        value="${not empty param.lang ? param.lang : not empty language ? language : sessionScope.locale}"
        scope="session"/>
-<%-- Deprecated --%>
 <fmt:setLocale value="${language}"/>
-
 
 <!DOCTYPE html>
 <html lang="${language}">

@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller;
+package ua.epam.final_project.controller.util;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -10,6 +10,7 @@ import java.util.Map;
 public class ExecutionResult {
 
     private String page;
+    private String redirectUrl;
     private Direction direction;
     private boolean isInvalidated;
     private final Map<String, Object> requestAttributes = new HashMap<>();
@@ -44,6 +45,14 @@ public class ExecutionResult {
 
     public void setPage(String page) {
         this.page = page;
+    }
+
+    public String getRedirectUrl() {
+        return redirectUrl;
+    }
+
+    public void setRedirectUrl(String redirectUrl) {
+        this.redirectUrl = redirectUrl;
     }
 
     public Direction getDirection() {

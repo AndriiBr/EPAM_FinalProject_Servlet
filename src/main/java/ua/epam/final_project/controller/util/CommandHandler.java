@@ -1,8 +1,5 @@
-package ua.epam.final_project.controller;
+package ua.epam.final_project.controller.util;
 
-import ua.epam.final_project.controller.Direction;
-import ua.epam.final_project.controller.ExecutionResult;
-import ua.epam.final_project.controller.SessionRequestContent;
 import ua.epam.final_project.controller.command.CommandResolver;
 import ua.epam.final_project.controller.command.ICommand;
 
@@ -35,7 +32,7 @@ public class CommandHandler {
         if (result.getDirection() == Direction.FORWARD) {
             req.getRequestDispatcher(result.getPage()).forward(req, resp);
         } else if (result.getDirection() == Direction.REDIRECT) {
-            resp.sendRedirect(result.getPage());
+            resp.sendRedirect(result.getRedirectUrl());
         }
     }
 }
