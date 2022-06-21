@@ -1,9 +1,9 @@
 insert into user_role (id, role_en, role_ua)
 VALUES (0, 'banned', 'заблокований');
 insert into user_role (id, role_en, role_ua)
-VALUES (1, 'admin', 'адміністратор');
-insert into user_role (id, role_en, role_ua)
 VALUES (2, 'user', 'користувач');
+insert into user_role (id, role_en, role_ua)
+VALUES (3, 'admin', 'адміністратор');
 
 insert into genre (name_en, name_ua)
 values ('fantasy', 'фентезі');
@@ -128,7 +128,7 @@ values ('Nature',
         280);
 
 insert into usr (username, pass, email, first_name, user_image, balance, user_role_id)
-VALUES ('admin', 'Pass1234', 'admin@gmail.com', 'Andrii', 'no image', 1100, 1);
+VALUES ('admin', 'Pass1234', 'admin@gmail.com', 'Andrii', 'no image', 1100, 3);
 insert into usr (username, pass, email, first_name, user_image, balance, user_role_id)
 VALUES ('user1', 'Pass1234', 'user1@gmail.com', 'Diana', 'no image', 1200, 2);
 insert into usr (username, pass, email, first_name, user_image, balance, user_role_id)

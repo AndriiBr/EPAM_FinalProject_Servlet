@@ -54,11 +54,11 @@
                     <fmt:message key="edition_list.price" bundle="${locale}"/>
                 </th>
 
-                <%--            <% if (role.equals("1") || role.equals("2")) {%>--%>
-                <th class=" col-2 text-center fs-5" scope="col" id="buy">
-                    <fmt:message key="edition_list.buy" bundle="${locale}"/>
-                </th>
-                <%--            <%}%>--%>
+                <c:if test="${sessionScope.user != null}">
+                    <th class=" col-2 text-center fs-5" scope="col" id="buy">
+                        <fmt:message key="edition_list.buy" bundle="${locale}"/>
+                    </th>
+                </c:if>
             </tr>
             </thead>
 
@@ -120,54 +120,54 @@
                                 ${edition.price}
                         </div>
                     </td>
-                        <%--Buy button.
-                        Available only for registered users and admin--%>
-                        <%--                <% if (role.equals("1") || role.equals("2")) {%>--%>
-                    <td class="text-center">
-                        <button class="btn btn-primary btn-sm fw-bold"
-                                onclick="document.getElementById('${edition.id}').style.display='block'">
-                            <fmt:message key="edition_list.buy" bundle="${locale}"/>
-                        </button>
 
-                        <div id="${edition.id}" class="modal">
+                    <c:if test="${sessionScope.user.role eq '3' or sessionScope.user.role eq '2'}">
+                        <td class="text-center">
+                            <button class="btn btn-primary btn-sm fw-bold"
+                                    onclick="document.getElementById('${edition.id}').style.display='block'">
+                                <fmt:message key="edition_list.buy" bundle="${locale}"/>
+                            </button>
+
+                            <div id="${edition.id}" class="modal">
                     <span onclick="document.getElementById('${edition.id}').style.display='none'" class="close"
                           title="Close Modal">×</span>
-                            <form class="modal-content"
-                                  action="${pageContext.request.contextPath}/edition_list/buy_edition" method="get">
-                                <div class="container">
-                                    <h1>
-                                        <c:choose>
-                                            <c:when test="${language == 'ua'}">
-                                                <c:out value="${edition.titleUa}"/>
-                                            </c:when>
-                                            <c:when test="${language == 'en'}">
-                                                <c:out value="${edition.titleEn}"/>
-                                            </c:when>
-                                        </c:choose>
-                                    </h1>
-                                    <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
-                                         onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
+                                <form class="modal-content"
+                                      action="${pageContext.request.contextPath}/edition_list/buy_edition" method="get">
+                                    <div class="container">
+                                        <h1>
+                                            <c:choose>
+                                                <c:when test="${language == 'ua'}">
+                                                    <c:out value="${edition.titleUa}"/>
+                                                </c:when>
+                                                <c:when test="${language == 'en'}">
+                                                    <c:out value="${edition.titleEn}"/>
+                                                </c:when>
+                                            </c:choose>
+                                        </h1>
+                                        <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
+                                             onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
 
-                                    <p>
-                                        <fmt:message key="edition_list.buy_this" bundle="${locale}"/>
-                                    </p>
+                                        <p>
+                                            <fmt:message key="edition_list.buy_this" bundle="${locale}"/>
+                                        </p>
 
-                                    <div class="clearfix">
-                                        <button type="button"
-                                                onclick="document.getElementById('${edition.id}').style.display='none'"
-                                                class="cancel">
-                                            <fmt:message key="edition_list.cancel" bundle="${locale}"/>
-                                        </button>
-                                        <button type="submit" name="buy_edition_id" value="${edition.id}"
-                                                class="buy-btn">
-                                            <fmt:message key="edition_list.buy" bundle="${locale}"/>
-                                        </button>
+                                        <div class="clearfix">
+                                            <button type="button"
+                                                    onclick="document.getElementById('${edition.id}').style.display='none'"
+                                                    class="cancel">
+                                                <fmt:message key="edition_list.cancel" bundle="${locale}"/>
+                                            </button>
+                                            <button type="submit" name="buy_edition_id" value="${edition.id}"
+                                                    class="buy-btn">
+                                                <fmt:message key="edition_list.buy" bundle="${locale}"/>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                    </td>
-                        <%--                <%}%>--%>
+                                </form>
+                            </div>
+                        </td>
+                    </c:if>
+
                 </tr>
             </c:forEach>
             </tbody>

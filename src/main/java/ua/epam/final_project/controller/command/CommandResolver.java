@@ -1,10 +1,10 @@
 package ua.epam.final_project.controller.command;
 
 import ua.epam.final_project.controller.command.implementation.*;
+import ua.epam.final_project.controller.command.security.SecurityChecker;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +27,10 @@ public class CommandResolver {
         commandList.put("login/success", new OpenLoginSuccessPageCommand());
         commandList.put("login/fail", new OpenLoginFailPageCommand());
         commandList.put("error/unknown_error", new UnknownErrorCommand());
+        commandList.put("auth/registration", new OpenRegistrationPageCommand());
+        commandList.put("auth/registration_post", new SignUpCommand());
+        commandList.put("registration/success", new OpenRegistrationSuccessPageCommand());
+        commandList.put("registration/fail", new OpenRegistrationFailPageCommand());
     }
 
     /**
@@ -65,7 +69,7 @@ public class CommandResolver {
             return new UnknownErrorCommand();
         }
 
-        if (!Security.getInstance().checkSecurity(req, command)) {
+        if (!SecurityChecker.getInstance().checkSecurity(req, command)) {
             return new UnknownErrorCommand();
         }
 

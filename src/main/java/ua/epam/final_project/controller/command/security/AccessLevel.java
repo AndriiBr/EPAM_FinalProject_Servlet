@@ -1,4 +1,4 @@
-package ua.epam.final_project.controller.command;
+package ua.epam.final_project.controller.command.security;
 
 public enum AccessLevel {
     ADMIN (3),

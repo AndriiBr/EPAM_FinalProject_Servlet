@@ -4,7 +4,7 @@
 <c:set var="language"
        value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
        scope="session"/>
-<%-- Deprecated --%>
+
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="localization/authentication/authLocale" var="auth"/>
 
@@ -18,6 +18,7 @@
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login_page/auth_style.css"
           type="text/css">
+
 </head>
 <body>
 <jsp:include page="/view/parts/navbar.jsp"/>
@@ -34,13 +35,18 @@
 
                 <div class="d-flex align-items-center justify-content-center h-custom-4 px-5 ms-xl-4 mt-2 mb-5 pb-5 pt-2 pt-xl-0 mt-xl-n5">
                     <div class="message_success">
-                        <h3>
-                            <fmt:message key="auth.message.success_login" bundle="${auth}"/>
-                        </h3>
+                        <h4>
+                            <fmt:message key="auth.message.login_success" bundle="${auth}"/>
+                        </h4>
                         <div class="d-flex justify-content-center user_message">
                             <h3>
                                 ${sessionScope.user.login}
                             </h3>
+                        </div>
+                        <div class="d-flex justify-content-center user_message">
+                            <a class="link-info" href="${pageContext.request.contextPath}/shop/list">
+                                <fmt:message key="auth.main_page" bundle="${auth}"/>
+                            </a>
                         </div>
                     </div>
                 </div>

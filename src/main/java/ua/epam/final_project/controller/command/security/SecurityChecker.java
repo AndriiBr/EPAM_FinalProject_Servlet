@@ -1,22 +1,23 @@
-package ua.epam.final_project.controller.command;
+package ua.epam.final_project.controller.command.security;
 
 
+import ua.epam.final_project.controller.command.ICommand;
 import ua.epam.final_project.entity.dto.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class Security {
+public class SecurityChecker {
 
-    private static Security security;
+    private static SecurityChecker securityChecker;
 
-    private Security(){}
+    private SecurityChecker(){}
 
-    public static synchronized Security getInstance() {
-        if (security == null) {
-            security = new  Security();
+    public static synchronized SecurityChecker getInstance() {
+        if (securityChecker == null) {
+            securityChecker = new SecurityChecker();
         }
-        return security;
+        return securityChecker;
     }
 
     /**

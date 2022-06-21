@@ -21,8 +21,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general_css_modules/error_markers_style.css"
           type="text/css">
 
-    <%--    Font CDN Link for Icons--%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body scroll="no" style="overflow: hidden">
 <jsp:include page="/view/parts/navbar.jsp"/>
@@ -34,7 +32,7 @@
                 <div class="d-flex align-items-center justify-content-center mt-5 pt-5 px-5 ms-xl-4 mb-0">
                     <img class="mt-0" src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png"
                          alt="Logo"
-                         width="170">
+                         width="140">
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center h-custom-4 px-5 ms-xl-4 mt-2 mb-5 pb-5 pt-2 pt-xl-0 mt-xl-n5">
@@ -42,7 +40,7 @@
                     <form style="width: 25rem;" name="login_form" class="log-in" method="post" action="">
 
                         <h3 class="d-flex justify-content-center fw-normal mb-3 pb-3" style="letter-spacing: 1px;">
-                            <fmt:message key="auth.login" bundle="${auth}"/>
+                            <fmt:message key="auth.login.form" bundle="${auth}"/>
                         </h3>
 
                         <div class="field login">
@@ -50,10 +48,7 @@
                                 <div class="form-outline mb-4">
                                     <input type="text" id="login" name="login" class="form-control form-control-lg"
                                            placeholder="<fmt:message key="auth.username" bundle="${auth}"/>"/>
-                                    <%--                            <label class="form-label" for="login">--%>
-                                    <%--                                <fmt:message key="auth.username" bundle="${auth}"/>--%>
-                                    <%--                            </label>--%>
-                                    <div class="error error-text">Error message</div>
+                                    <div class="error error-text"></div>
                                 </div>
                             </div>
                         </div>
@@ -64,10 +59,7 @@
                                     <input type="password" id="password" class="form-control form-control-lg"
                                            name="password"
                                            placeholder="<fmt:message key="auth.password" bundle="${auth}"/>"/>
-                                    <%--                            <label class="form-label" for="password">--%>
-                                    <%--                                <fmt:message key="auth.password" bundle="${auth}"/>--%>
-                                    <%--                            </label>--%>
-                                    <div class="error error-text">Error message</div>
+                                    <div class="error error-text"></div>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +77,7 @@
                         </p>
                         <p class="d-flex justify-content-center">
                             <fmt:message key="auth.no_account" bundle="${auth}"/>
-                            <a href="#!" class="mx-2 link-info">
+                            <a href="${pageContext.request.contextPath}/auth/registration" class="mx-2 link-info">
                                 <fmt:message key="auth.registration" bundle="${auth}"/>
                             </a>
                         </p>

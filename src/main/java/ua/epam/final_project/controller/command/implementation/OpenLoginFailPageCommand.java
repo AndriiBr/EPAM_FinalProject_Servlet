@@ -1,13 +1,12 @@
 package ua.epam.final_project.controller.command.implementation;
 
 import ua.epam.final_project.config.ResourceConfiguration;
-import ua.epam.final_project.controller.command.AccessLevel;
+import ua.epam.final_project.controller.command.security.AccessLevel;
 import ua.epam.final_project.controller.command.ICommand;
 import ua.epam.final_project.controller.util.Direction;
 import ua.epam.final_project.controller.util.ExecutionResult;
 import ua.epam.final_project.controller.util.SessionRequestContent;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

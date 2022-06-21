@@ -13,6 +13,7 @@ public class UserDto {
     private int balance;
     private String role;
 
+    public UserDto() {}
     /**
      * Create UserDto based on User entity
      * @param user - user entity

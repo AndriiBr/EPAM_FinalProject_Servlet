@@ -66,38 +66,38 @@
                     <button class="btn btn-dark" type="submit">Search</button>
                 </form>
 
-                <%--                <form class="d-flex" name="lang_switch" method="get">--%>
-                <%--                    <select class="btn btn-dark" id="language" name="language" onchange="submit()">--%>
-                <%--                        <option value="ua" ${language == 'ua' ? 'selected' : ''}>UA</option>--%>
-                <%--                        <option value="en" ${language == 'en' ? 'selected' : ''}>EN</option>--%>
-                <%--                    </select>--%>
-                <%--                </form>--%>
-
                 <select class="d-flex mx-1 btn btn-dark" id="language" name="language"
                         onchange="changeLang(this.options[selectedIndex].value)">
                     <option value="ua" ${language == 'ua' ? 'selected' : ''}>UA</option>
                     <option value="en" ${language == 'en' ? 'selected' : ''}>EN</option>
                 </select>
 
-
                 <ul class="navbar-nav me-2 mb-2 mb-lg-0">
                     <li class="nav-item">
                         <c:choose>
-                            <c:when test="${not empty sessionScope.user}">
-                                <form class="login_menu" method="get" action="${pageContext.request.contextPath}/auth/logout">
-                                    <button class="mx-1 btn btn-dark" type="submit">
-                                        <fmt:message key="navbar.log-out" bundle="${navbar}"/>
-                                    </button>
-                                </form>
-                            </c:when>
-                            <c:otherwise>
-                                <form class="login_menu" method="get" action="${pageContext.request.contextPath}/auth/login">
-                                    <button class="mx-1 btn btn-dark" type="submit">
-                                        <fmt:message key="navbar.log-in" bundle="${navbar}"/>
-                                    </button>
-                                </form>
-                            </c:otherwise>
-                        </c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            ${sessionScope.user.name}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/auth/logout">
+                                    <fmt:message key="navbar.log-out" bundle="${navbar}"/>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    </c:when>
+                    <c:otherwise>
+                        <form class="login_menu" method="get" action="${pageContext.request.contextPath}/auth/login">
+                            <button class="mx-1 btn btn-dark" type="submit">
+                                <fmt:message key="navbar.log-in" bundle="${navbar}"/>
+                            </button>
+                        </form>
+                    </c:otherwise>
+                    </c:choose>
                     </li>
                 </ul>
             </div>
@@ -105,37 +105,4 @@
     </nav>
 </div>
 
-<script>
-    const changeLang = (languageCode) => {
-        document.documentElement.setAttribute("lang", languageCode);
-        window.location.href = URL_add_parameter(window.location.href, "language", languageCode);
-        // location.reload();
-    };
-
-    function URL_add_parameter(url, param, value) {
-        const hash = {};
-        const parser = document.createElement('a');
-
-        parser.href = url;
-
-        const parameters = parser.search.split(/\?|&/);
-
-        for (let i = 0; i < parameters.length; i++) {
-            if (!parameters[i])
-                continue;
-
-            const ary = parameters[i].split('=');
-            hash[ary[0]] = ary[1];
-        }
-
-        hash[param] = value;
-
-        const list = [];
-        Object.keys(hash).forEach(function (key) {
-            list.push(key + '=' + hash[key]);
-        });
-
-        parser.search = '?' + list.join('&');
-        return parser.href;
-    }
-</script>
+<script src="${pageContext.request.contextPath}/js/navbar/langSetter.js"></script>
