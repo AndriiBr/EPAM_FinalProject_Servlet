@@ -9,7 +9,7 @@
 <fmt:setBundle basename="localization/locale" var="locale"/>
 
 
-<div class="container my-5 py-3">
+<div class="container mt-5 pt-5 mb-1 pb-1">
     <div class="shadow p-3 mb-5 bg-body rounded">
         <table class="table table-hover align-middle mb-0 bg-white">
             <thead class="bg-light">
@@ -19,23 +19,26 @@
                 </th>
 
                 <th class="col-5 text-center fs-5" scope="col" id="title">
-                    <fmt:message key="edition_list.title" bundle="${locale}"/>
+                    <a class="nav-link" onclick="executeUrlParameter('orderBy', 'title')">
+                        <fmt:message key="edition_list.title" bundle="${locale}"/>
+                    </a>
                 </th>
 
                 <th class="col-2 text-center" scope="col" id="genres">
-                    <form action="${pageContext.request.contextPath}/edition_list" method="get">
-                        <select id="genreFilter" name="genreFilter" onchange="this.form.submit()">
-                            <option value="0" ${requestScope.genreFilter == '0' ? 'selected' : ''} >*</option>
+                    <form action="${pageContext.request.contextPath}/shop/list" method="get">
+                        <select id="genreFilter" name="genreFilter"
+                                onchange="executeUrlParameter('genreFilter', this.options[selectedIndex].value)">
+                            <option value="0" ${requestScope.genreFilter eq '0' ? 'selected' : ''} >*</option>
                             <c:forEach items="${requestScope.genresList}" var="genre">
                                 <c:set var="genreId" value="${genre.id}"/>
                                 <c:choose>
                                     <c:when test="${language == 'ua'}">
-                                        <option value="${genreId}" ${sessionScope.genreFilter == genreId ? 'selected' : ''}>
+                                        <option value="${genreId}" ${requestScope.genreFilter eq genreId ? 'selected' : ''}>
                                                 ${genre.genreUa}
                                         </option>
                                     </c:when>
                                     <c:when test="${language == 'en'}">
-                                        <option value="${genreId}" ${sessionScope.genreFilter == genreId ? 'selected' : ''}>
+                                        <option value="${genreId}" ${requestScope.genreFilter eq genreId ? 'selected' : ''}>
                                                 ${genre.genreEn}
                                         </option>
                                     </c:when>
@@ -45,8 +48,10 @@
                     </form>
                 </th>
 
-                <th class="text-center fs-5" scope="col" id="price">
-                    <fmt:message key="edition_list.price" bundle="${locale}"/>
+                <th class="nav-item text-center fs-5" scope="col" id="price">
+                    <a class="nav-link" onclick="executeUrlParameter('orderBy', 'price')">
+                        <fmt:message key="edition_list.price" bundle="${locale}"/>
+                    </a>
                 </th>
 
                 <c:if test="${sessionScope.user != null}">
@@ -168,6 +173,7 @@
         </table>
     </div>
 </div>
-</body>
-</html>
+
+<script src="${pageContext.request.contextPath}/js/addUrlParameter.js"></script>
+
 

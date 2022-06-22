@@ -17,6 +17,7 @@ public class EditionDaoImpl implements IEditionDao {
 
     private static final Logger logger = LogManager.getLogger(EditionDaoImpl.class);
     private final Connection connection;
+    private static final String ROW_COUNT = "rowcount";
 
     public EditionDaoImpl(Connection connection) {
         this.connection = connection;
@@ -38,7 +39,7 @@ public class EditionDaoImpl implements IEditionDao {
                 ResultSet rs = statement.executeQuery(sqlPattern);
 
                 if (rs.next()) {
-                    numberOfRows = rs.getInt("rowcount");
+                    numberOfRows = rs.getInt(ROW_COUNT);
                 }
             } catch (SQLException e) {
                 logger.error(e);
@@ -51,7 +52,7 @@ public class EditionDaoImpl implements IEditionDao {
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) {
-                    numberOfRows = rs.getInt("rowcount");
+                    numberOfRows = rs.getInt(ROW_COUNT);
                 }
             } catch (SQLException e) {
                 logger.error(e);
@@ -82,7 +83,7 @@ public class EditionDaoImpl implements IEditionDao {
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) {
-                    numberOfEditions = rs.getInt("rowcount");
+                    numberOfEditions = rs.getInt(ROW_COUNT);
                 }
             } catch (SQLException e) {
                 logger.error(e);
@@ -101,7 +102,7 @@ public class EditionDaoImpl implements IEditionDao {
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) {
-                    numberOfEditions = rs.getInt("rowcount");
+                    numberOfEditions = rs.getInt(ROW_COUNT);
                 }
             } catch (SQLException e) {
                 logger.error(e);
@@ -124,6 +125,29 @@ public class EditionDaoImpl implements IEditionDao {
             logger.error(e);
             throw new DataNotFoundException();
         }
+        return editionList;
+    }
+
+    @Override
+    public List<Edition> findAllEditionsByName(String field, String name) throws DataNotFoundException {
+        List<Edition> editionList = new ArrayList<>();
+
+        String flexName = "%".concat(name).concat("%");
+        String sqlPattern = String.format(SQL_FIND_ALL_EDITIONS_BY_NAME, field);
+
+        try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
+            statement.setString(1, flexName);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                editionList.add(extractEdition(rs));
+            }
+
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DataNotFoundException();
+        }
+
         return editionList;
     }
 

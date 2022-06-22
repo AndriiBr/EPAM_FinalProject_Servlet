@@ -1,6 +1,7 @@
 package ua.epam.final_project.service;
 
 import ua.epam.final_project.entity.dto.UserDto;
+import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.exception.UnknownEditionException;
 import ua.epam.final_project.entity.Edition;
 
@@ -30,6 +31,14 @@ public interface IEditionService {
      * @throws UnknownEditionException if nothing was found in Db
      */
     List<Edition> findAllEditions() throws UnknownEditionException;
+
+    /**
+     * Find editions in DB by part on title name
+     * @param field - field where try to find coincidence
+     * @param name - word to search
+     * @return list of editions
+     */
+    List<Edition> findAllEditionsByName(String field, String name) throws UnknownEditionException;
 
     /**
      * Get a list of editions retrieved from the database

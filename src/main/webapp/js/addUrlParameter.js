@@ -1,7 +1,6 @@
-const changeLang = (languageCode) => {
-    document.documentElement.setAttribute("lang", languageCode);
-    window.location.href = URL_add_parameter(window.location.href, "language", languageCode);
-    // location.reload();
+const executeUrlParameter = (key, value) => {
+    // document.documentElement.setAttribute("lang", languageCode);
+    window.location.href = URL_add_parameter(window.location.href, key, value);
 };
 
 function URL_add_parameter(url, param, value) {
@@ -12,11 +11,11 @@ function URL_add_parameter(url, param, value) {
 
     const parameters = parser.search.split(/\?|&/);
 
-    for (let i = 0; i < parameters.length; i++) {
-        if (!parameters[i])
+    for (const element of parameters) {
+        if (!element)
             continue;
 
-        const ary = parameters[i].split('=');
+        const ary = element.split('=');
         hash[ary[0]] = ary[1];
     }
 

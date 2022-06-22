@@ -10,7 +10,7 @@
 <fmt:setBundle basename="localization/locale" var="locale"/>
 
 <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center py-4">
+    <ul class="pagination justify-content-center mb-4 pb-4">
         <li class="page-item disabled">
             <a class="page-link">Previous</a>
         </li>

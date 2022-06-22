@@ -31,6 +31,7 @@ public final class SQLConstant {
     public static final String SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS_ALL_GENRES =
             "SELECT COUNT(*) AS rowcount FROM edition WHERE id IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = genre_id";
     public static final String SQL_FIND_ALL_EDITIONS = "SELECT * FROM edition";
+    public static final String SQL_FIND_ALL_EDITIONS_BY_NAME = "SELECT * FROM edition WHERE %s like ?";
         //Get list of edition with genre filter and without genre filter
     public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO = "SELECT * FROM edition WHERE genre_id = ? ORDER BY %s LIMIT ? OFFSET ?";
     public static final String SQL_FIND_EDITIONS_ORDER_BY_FROM_TO_ALL_GENRES = "SELECT * FROM edition WHERE genre_id = genre_id ORDER BY %s LIMIT ? OFFSET ?";

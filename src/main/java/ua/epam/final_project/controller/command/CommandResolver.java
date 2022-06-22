@@ -21,6 +21,7 @@ public class CommandResolver {
      */
     private CommandResolver(){
         commandList.put("shop/list", new OpenShopListPageCommand());
+        commandList.put("shop/list_post", new SearchShopListCommand());
         commandList.put("auth/login", new OpenLoginPageCommand());
         commandList.put("auth/login_post", new SignInCommand());
         commandList.put("auth/logout", new SignOutCommand());

@@ -80,6 +80,21 @@ public class EditionService implements IEditionService {
     }
 
     @Override
+    public List<Edition> findAllEditionsByName(String field, String name) throws UnknownEditionException {
+        List<Edition> editionList;
+        try {
+            daoFactory.getConnection();
+            editionList = editionDao.findAllEditionsByName(field, name);
+            return editionList;
+        } catch (DataNotFoundException e) {
+            logger.error(e);
+            throw new UnknownEditionException();
+        } finally {
+            daoFactory.releaseConnection();
+        }
+    }
+
+    @Override
     public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException {
         List<Edition> editionList;
         try {

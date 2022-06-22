@@ -36,6 +36,15 @@ public interface IEditionDao {
     List<Edition> findAllEditions() throws DataNotFoundException;
 
     /**
+     * Find editions in DB by part on title name
+     * @param field - field where try to find coincidence
+     * @param name - word to search
+     * @return list of editions
+     * @throws DataNotFoundException if nothing was found in Db
+     */
+    List<Edition> findAllEditionsByName(String field, String name) throws DataNotFoundException;
+
+    /**
      * Gets a list of editions retrieved from the database
      * @param recordsPerPage - the number of items to be unloaded from DB
      * @param page - start point to load from
