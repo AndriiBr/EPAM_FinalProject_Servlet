@@ -16,11 +16,14 @@ import ua.epam.final_project.service.IEditionService;
 import ua.epam.final_project.service.IGenreService;
 import ua.epam.final_project.service.ServiceFactory;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class SearchShopListCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(SearchShopListCommand.class);
+    private static final String CURRENT_PAGE = "currentPage";
+    private static final String RECORDS_PER_PAGE = "recordsPerPage";
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
@@ -28,18 +31,28 @@ public class SearchShopListCommand implements ICommand {
         result.setDirection(Direction.FORWARD);
         result.setPage(ResourceConfiguration.getInstance().getPage("shop.edition_list"));
 
+        int totalEditionsNumber;
+        int recordsPerPage = extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
+        int currentPage = extractValueFromRequest(content, CURRENT_PAGE, 1);
+        String searchName = new String(
+                content
+                        .getReqParameters()
+                        .get("search")
+                        .getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        String field = extractFieldWhereToSearch(content);
+
         IEditionService editionService = ServiceFactory.getEditionService();
         IGenreService genreService = ServiceFactory.getGenreService();
-
-        String searchName = content.getReqParameters().get("search");
-        String field = extractFieldWhereToSearch(content);
 
         try {
             List<Edition> editionList;
             editionList = editionService.findAllEditionsByName(field, searchName);
+            totalEditionsNumber = editionList.size();
             List<Genre> genreList = genreService.findAllGenres();
             result.addRequestAttribute("editionList", editionList);
             result.addRequestAttribute("genresList", genreList);
+            result.addRequestAttribute(CURRENT_PAGE, currentPage);
+            result.addRequestAttribute("numberOfPages", (int)Math.ceil((double) totalEditionsNumber / recordsPerPage ));
         } catch (UnknownEditionException | UnknownGenreException e) {
             logger.error(e);
         }
@@ -56,5 +69,19 @@ public class SearchShopListCommand implements ICommand {
         String lang = (String) content.getSessionAttributes().get("language");
 
         return "title_".concat(lang);
+    }
+
+    private int extractValueFromRequest(SessionRequestContent content, String key, int defaultValue) {
+        int result;
+
+        if (content.getReqParameters().get(key) != null) {
+            result = Integer.parseInt(content.getReqParameters().get(key));
+        } else if (content.getReqAttributes().get(key) != null) {
+            result = Integer.parseInt((String) content.getReqAttributes().get(key));
+        } else {
+            result = defaultValue;
+        }
+
+        return result;
     }
 }

@@ -137,3 +137,5 @@ insert into usr (username, pass, email, first_name, user_image, balance, user_ro
 VALUES ('user3', 'Pass1234', 'user3@gmail.com', 'Alexandra', 'no image', 1400, 2);
 insert into usr (username, pass, email, user_image, balance, user_role_id)
 VALUES ('user4', 'Pass1234', 'user4@gmail.com', 'no image', 1500, 2);
+
+insert into user_edition(user_id, edition_id) VALUES (1, 1);

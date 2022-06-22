@@ -8,7 +8,6 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="localization/locale" var="locale"/>
 
-
 <div class="container mt-5 pt-5 mb-1 pb-1">
     <div class="shadow p-3 mb-5 bg-body rounded">
         <table class="table table-hover align-middle mb-0 bg-white">

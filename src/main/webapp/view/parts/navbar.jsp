@@ -85,8 +85,8 @@
                     <%--                    </li>--%>
                 </ul>
 
-                <form class="d-flex search_form" method="get"
-                      onsubmit="URL_add_parameter('search', document.getElementById('search').value)">
+                <form class="d-flex search_form" method="post"
+                      onsubmit="executeUrlParameter('search', document.getElementById('search').value)">
                     <input class="form-control me-2" type="text" id="search" name="search"
                            placeholder="<fmt:message key="navbar.search_msg" bundle="${navbar}"/>" aria-label="Search">
                     <button class="btn btn-dark" type="submit">

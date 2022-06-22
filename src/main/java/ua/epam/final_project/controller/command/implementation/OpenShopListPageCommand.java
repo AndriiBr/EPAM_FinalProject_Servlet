@@ -27,7 +27,6 @@ public class OpenShopListPageCommand implements ICommand {
     private static final String CURRENT_PAGE = "currentPage";
     private static final String GENRE_FILTER = "genreFilter";
     private static final String ORDER_BY = "orderBy";
-    private static final String SEARCH = "search";
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
@@ -39,8 +38,6 @@ public class OpenShopListPageCommand implements ICommand {
         int currentPage = extractValueFromRequest(content, CURRENT_PAGE, 1);
         String genreFilter = extractValueFromRequest(content, GENRE_FILTER, "");
         String orderBy = extractValueFromRequest(content, ORDER_BY, "");
-        String searchName = content.getReqParameters().get(SEARCH);
-        String field = extractFieldWhereToSearch(content);
 
         IEditionService editionService = ServiceFactory.getEditionService();
         IGenreService genreService = ServiceFactory.getGenreService();
@@ -60,7 +57,8 @@ public class OpenShopListPageCommand implements ICommand {
             List<Genre> genreList = genreService.findAllGenres();
             result.addRequestAttribute("editionList", editionList);
             result.addRequestAttribute("genresList", genreList);
-            result.addRequestAttribute("totalEditionsNumber", totalEditionsNumber);
+            result.addRequestAttribute(CURRENT_PAGE, currentPage);
+            result.addRequestAttribute("numberOfPages", (int)Math.ceil((double) totalEditionsNumber / recordsPerPage ));
             result.addRequestAttribute(GENRE_FILTER, genreFilter);
             result.addRequestAttribute(ORDER_BY, orderBy);
         } catch (UnknownEditionException e) {

@@ -11,46 +11,50 @@
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center mb-4 pb-4">
-        <li class="page-item disabled">
-            <a class="page-link">Previous</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item"><a class="page-link" href="#">6</a></li>
-        <li class="page-item"><a class="page-link" href="#">7</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-        </li>
+        <c:choose>
+            <c:when test="${requestScope.currentPage eq '1'}">
+                <li class="page-item disabled">
+                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">Previous</button>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item">
+                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">Previous</button>
+                </li>
+            </c:otherwise>
+        </c:choose>
+
+        <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
+            <c:choose>
+                <c:when test="${requestScope.currentPage eq i}">
+                    <li class="page-item active">
+                        <button class="page-link" onclick="executeUrlParameter('currentPage', ${i})">${i}</button>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <button class="page-link" onclick="executeUrlParameter('currentPage', ${i})">${i}</button>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+
+        <c:choose>
+            <c:when test="${requestScope.currentPage ne requestScope.numberOfPages}">
+                <li class="page-item">
+                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">Next</button>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item  disabled">
+                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">Next</button>
+                </li>
+            </c:otherwise>
+        </c:choose>
     </ul>
 </nav>
 
-<%--For displaying Previous link except 1st page --%>
-<%--<c:if test="${requestScope.currentPage != 1}">--%>
-<%--    <td>--%>
-<%--        <a href="http://localhost:8080/edition_list?page=${requestScope.currentPage - 1}">--%>
-<%--            <fmt:message key="edition_list.previous" bundle="${locale}"/>--%>
-<%--        </a>--%>
-<%--    </td>--%>
-<%--</c:if>--%>
-
-<%--&lt;%&ndash;For displaying Page numbers&ndash;%&gt;--%>
-<%--<table border="1" cellpadding="5" cellspacing="5">--%>
-<%--    <tr>--%>
-<%--        <c:forEach begin="1" end="${requestScope.noOfPages}" var="i">--%>
-<%--            <c:choose>--%>
-<%--                <c:when test="${requestScope.currentPage eq i}">--%>
-<%--                    <td>${i}</td>--%>
-<%--                </c:when>--%>
-<%--                <c:otherwise>--%>
-<%--                    <td><a href="http://localhost:8080/edition_list?page=${i}">${i}</a></td>--%>
-<%--                </c:otherwise>--%>
-<%--            </c:choose>--%>
-<%--        </c:forEach>--%>
-<%--    </tr>--%>
-<%--</table>--%>
+<script src="${pageContext.request.contextPath}/js/addUrlParameter.js"></script>
 
 <%--&lt;%&ndash;For displaying Next link &ndash;%&gt;--%>
 <%--<c:if test="${requestScope.currentPage lt requestScope.noOfPages}">--%>

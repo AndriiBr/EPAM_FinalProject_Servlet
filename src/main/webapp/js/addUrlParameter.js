@@ -1,5 +1,4 @@
 const executeUrlParameter = (key, value) => {
-    // document.documentElement.setAttribute("lang", languageCode);
     window.location.href = URL_add_parameter(window.location.href, key, value);
 };
 
