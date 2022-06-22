@@ -14,12 +14,16 @@
         <c:choose>
             <c:when test="${requestScope.currentPage eq '1'}">
                 <li class="page-item disabled">
-                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">Previous</button>
+                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">
+                        <fmt:message key="edition_list.previous" bundle="${locale}"/>
+                    </button>
                 </li>
             </c:when>
             <c:otherwise>
                 <li class="page-item">
-                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">Previous</button>
+                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">
+                        <fmt:message key="edition_list.previous" bundle="${locale}"/>
+                    </button>
                 </li>
             </c:otherwise>
         </c:choose>
@@ -42,12 +46,16 @@
         <c:choose>
             <c:when test="${requestScope.currentPage ne requestScope.numberOfPages}">
                 <li class="page-item">
-                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">Next</button>
+                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">
+                        <fmt:message key="edition_list.next" bundle="${locale}"/>
+                    </button>
                 </li>
             </c:when>
             <c:otherwise>
                 <li class="page-item  disabled">
-                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">Next</button>
+                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">
+                        <fmt:message key="edition_list.next" bundle="${locale}"/>
+                    </button>
                 </li>
             </c:otherwise>
         </c:choose>
@@ -55,12 +63,3 @@
 </nav>
 
 <script src="${pageContext.request.contextPath}/js/addUrlParameter.js"></script>
-
-<%--&lt;%&ndash;For displaying Next link &ndash;%&gt;--%>
-<%--<c:if test="${requestScope.currentPage lt requestScope.noOfPages}">--%>
-<%--    <td>--%>
-<%--        <a href="http://localhost:8080/edition_list?page=${requestScope.currentPage + 1}">--%>
-<%--            <fmt:message key="edition_list.next" bundle="${locale}"/>--%>
-<%--        </a>--%>
-<%--    </td>--%>
-<%--</c:if>--%>

@@ -55,7 +55,7 @@
 
                 <c:if test="${sessionScope.user != null}">
                     <th class=" col-2 text-center fs-5" scope="col" id="buy">
-                        <fmt:message key="edition_list.buy" bundle="${locale}"/>
+                        <fmt:message key="edition_list.unsubscribe" bundle="${locale}"/>
                     </th>
                 </c:if>
             </tr>
@@ -120,51 +120,51 @@
                         </div>
                     </td>
 
-                    <c:if test="${sessionScope.user.role eq '3' or sessionScope.user.role eq '2'}">
-                        <td class="text-center">
-                            <button class="btn btn-primary btn-sm fw-bold"
-                                    onclick="document.getElementById('${edition.id}').style.display='block'">
-                                <fmt:message key="edition_list.buy" bundle="${locale}"/>
-                            </button>
+                        <%-- Unsubscribe button --%>
+                    <td class="text-center">
+                        <button class="btn btn-danger btn-sm fw-bold"
+                                onclick="document.getElementById('${edition.id}').style.display='block'">
+                            <fmt:message key="edition_list.unsubscribe" bundle="${locale}"/>
+                        </button>
 
-                            <div id="${edition.id}" class="modal">
-                    <span onclick="document.getElementById('${edition.id}').style.display='none'" class="close"
-                          title="Close Modal">×</span>
-                                <form class="modal-content"
-                                      action="${pageContext.request.contextPath}/shop/list/buy" method="get">
-                                    <div class="container">
-                                        <h1>
-                                            <c:choose>
-                                                <c:when test="${language == 'ua'}">
-                                                    <c:out value="${edition.titleUa}"/>
-                                                </c:when>
-                                                <c:when test="${language == 'en'}">
-                                                    <c:out value="${edition.titleEn}"/>
-                                                </c:when>
-                                            </c:choose>
-                                        </h1>
-                                        <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
-                                             onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
-                                        <p>
-                                            <fmt:message key="edition_list.message.buy_this" bundle="${locale}"/>
-                                        </p>
+                        <div id="${edition.id}" class="modal">
+                            <span onclick="document.getElementById('${edition.id}').style.display='none'"
+                                class="close" title="Close Modal">×</span>
+                            <form class="modal-content"
+                                  action="${pageContext.request.contextPath}/user/subscriptions/unsubscribe"
+                                  method="post">
+                                <div class="container">
+                                    <h1>
+                                        <c:choose>
+                                            <c:when test="${language == 'ua'}">
+                                                <c:out value="${edition.titleUa}"/>
+                                            </c:when>
+                                            <c:when test="${language == 'en'}">
+                                                <c:out value="${edition.titleEn}"/>
+                                            </c:when>
+                                        </c:choose>
+                                    </h1>
+                                    <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
+                                         onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
+                                    <p>
+                                        <fmt:message key="edition_list.message.unsubscribe" bundle="${locale}"/>
+                                    </p>
 
-                                        <div class="clearfix">
-                                            <button type="button"
-                                                    onclick="document.getElementById('${edition.id}').style.display='none'"
-                                                    class="cancel">
-                                                <fmt:message key="edition_list.cancel" bundle="${locale}"/>
-                                            </button>
-                                            <button type="submit" name="buy_edition_id" value="${edition.id}"
-                                                    class="buy-btn">
-                                                <fmt:message key="edition_list.buy" bundle="${locale}"/>
-                                            </button>
-                                        </div>
+                                    <div class="clearfix">
+                                        <button type="button"
+                                                onclick="document.getElementById('${edition.id}').style.display='none'"
+                                                class="cancel">
+                                            <fmt:message key="edition_list.cancel" bundle="${locale}"/>
+                                        </button>
+                                        <button type="submit" name="edition_id" value="${edition.id}"
+                                                class="delete-btn">
+                                            <fmt:message key="edition_list.unsubscribe" bundle="${locale}"/>
+                                        </button>
                                     </div>
-                                </form>
-                            </div>
-                        </td>
-                    </c:if>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

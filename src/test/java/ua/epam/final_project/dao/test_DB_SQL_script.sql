@@ -1,7 +1,7 @@
-drop table if exists usr_edition cascade ;
+drop table if exists user_edition cascade ;
 drop table if exists usr cascade ;
 drop table if exists edition cascade ;
-drop table if exists usr_role cascade ;
+drop table if exists user_role cascade ;
 drop table if exists genre cascade ;
 
 create table genre

@@ -35,6 +35,9 @@ public class CommandResolver {
         commandList.put("user/wallet", new OpenWalletPageCommand());
         commandList.put("wallet/top_up", new OpenWalletTopUpPageCommand());
         commandList.put("wallet/top_up_post", new TopUpBalanceCommand());
+        commandList.put("user/subscriptions", new OpenUserSubscriptionsPageCommand());
+        commandList.put("list/buy", new OpenEditionBuyPageCommand());
+        commandList.put("list/buy_post", new BuyEditionCommand());
     }
 
     /**

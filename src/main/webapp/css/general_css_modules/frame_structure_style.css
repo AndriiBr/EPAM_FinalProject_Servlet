@@ -65,10 +65,10 @@ h2 {
     outline: none;
 }
 
-#icon {
-    padding-top: 10px;
-    width:35%;
-}
+/*#icon {*/
+/*    padding-top: 10px;*/
+/*    width:25%;*/
+/*}*/
 
 .message_error, .message_success, .user_message {
     font-family: 'Poppins', sans-serif;

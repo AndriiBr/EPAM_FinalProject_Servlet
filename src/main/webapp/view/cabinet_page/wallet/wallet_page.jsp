@@ -35,7 +35,7 @@
         <!-- Icon -->
         <div class="fadeIn first">
             <img src="${pageContext.request.contextPath}/img/login_page/login_screen_user_logo.png" id="icon"
-                 alt="User Icon"/><br/>
+                 alt="User Icon" width="180"/>
             <div class="fadeIn second">
                 <div class="wallet-header">
                     <fmt:message key="user.hello" bundle="${user}"/> ${sessionScope.user.login}!

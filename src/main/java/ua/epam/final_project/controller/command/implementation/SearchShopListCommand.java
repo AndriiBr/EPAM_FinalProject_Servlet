@@ -7,6 +7,7 @@ import ua.epam.final_project.controller.command.ICommand;
 import ua.epam.final_project.controller.command.security.AccessLevel;
 import ua.epam.final_project.controller.util.Direction;
 import ua.epam.final_project.controller.util.ExecutionResult;
+import ua.epam.final_project.controller.util.RequestValueExtractor;
 import ua.epam.final_project.controller.util.SessionRequestContent;
 import ua.epam.final_project.entity.Edition;
 import ua.epam.final_project.entity.Genre;
@@ -32,8 +33,8 @@ public class SearchShopListCommand implements ICommand {
         result.setPage(ResourceConfiguration.getInstance().getPage("shop.edition_list"));
 
         int totalEditionsNumber;
-        int recordsPerPage = extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
-        int currentPage = extractValueFromRequest(content, CURRENT_PAGE, 1);
+        int recordsPerPage = RequestValueExtractor.extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
+        int currentPage = RequestValueExtractor.extractValueFromRequest(content, CURRENT_PAGE, 1);
         String searchName = new String(
                 content
                         .getReqParameters()
@@ -69,19 +70,5 @@ public class SearchShopListCommand implements ICommand {
         String lang = (String) content.getSessionAttributes().get("language");
 
         return "title_".concat(lang);
-    }
-
-    private int extractValueFromRequest(SessionRequestContent content, String key, int defaultValue) {
-        int result;
-
-        if (content.getReqParameters().get(key) != null) {
-            result = Integer.parseInt(content.getReqParameters().get(key));
-        } else if (content.getReqAttributes().get(key) != null) {
-            result = Integer.parseInt((String) content.getReqAttributes().get(key));
-        } else {
-            result = defaultValue;
-        }
-
-        return result;
     }
 }

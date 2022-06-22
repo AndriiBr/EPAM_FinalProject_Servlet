@@ -44,7 +44,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/user/subscriptions">
                                         <fmt:message key="navbar.subscriptions" bundle="${navbar}"/>
                                     </a>
                                 </li>

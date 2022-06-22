@@ -23,8 +23,6 @@ public final class JSPPathConstant {
     public static final String BUY_EDITION_FAILURE_PAGE = "/view/edition_page/buy_edition_failure_page.jsp";
     public static final String USER_ALREADY_HAS_THIS_EDITION_PAGE = "/view/edition_page/user_already_has_this_edition.jsp";
 
-    public static final String CABINET_PAGE = "/view/cabinet_page/cabinet.jsp";
-
     public static final String ADMIN_CONSOLE_PAGE = "/view/cabinet_page/admin_console/admin_console.jsp";
     public static final String ADMIN_EDITION_LIST_PAGE = "/view/cabinet_page/admin_console/global_edition_list_page/global_edition_list_page.jsp";
     public static final String ADD_NEW_EDITION_PAGE = "/view/cabinet_page/admin_console/global_edition_list_page/add_new_edition_form.jsp";
