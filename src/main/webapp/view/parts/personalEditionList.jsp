@@ -25,7 +25,7 @@
 
                 <th class="col-2 text-center" scope="col" id="genres">
                     <form action="${pageContext.request.contextPath}/shop/list" method="get">
-                        <select id="genreFilter" name="genreFilter"
+                        <select class="form-select" id="genreFilter" name="genreFilter"
                                 onchange="executeUrlParameter('genreFilter', this.options[selectedIndex].value)">
                             <option value="0" ${requestScope.genreFilter eq '0' ? 'selected' : ''} >*</option>
                             <c:forEach items="${requestScope.genresList}" var="genre">

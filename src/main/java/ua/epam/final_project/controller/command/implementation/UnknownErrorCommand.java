@@ -1,7 +1,5 @@
 package ua.epam.final_project.controller.command.implementation;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.config.ResourceConfiguration;
 import ua.epam.final_project.controller.command.security.AccessLevel;
 import ua.epam.final_project.controller.command.ICommand;
@@ -13,14 +11,12 @@ import java.util.List;
 
 public class UnknownErrorCommand implements ICommand {
 
-    private static final Logger logger = LogManager.getLogger(UnknownErrorCommand.class);
-
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.FORWARD);
 
-        result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
+        result.setPage(ResourceConfiguration.getInstance().getPage("error.404"));
         return result;
     }
 

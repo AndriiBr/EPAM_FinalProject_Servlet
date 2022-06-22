@@ -39,7 +39,7 @@ public class OpenUserSubscriptionsPageCommand implements ICommand {
         String genreFilter = RequestValueExtractor.extractValueFromRequest(content, GENRE_FILTER, "");
         String orderBy = RequestValueExtractor.extractValueFromRequest(content, ORDER_BY, "");
         int totalEditionsNumber = 0;
-        int recordsPerPage = RequestValueExtractor.extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
+        int recordsPerPage = RequestValueExtractor.extractValueFromRequest(content, RECORDS_PER_PAGE, 4);
         int currentPage = RequestValueExtractor.extractValueFromRequest(content, CURRENT_PAGE, 1);
 
         IEditionService editionService = ServiceFactory.getEditionService();
@@ -67,6 +67,7 @@ public class OpenUserSubscriptionsPageCommand implements ICommand {
             result.addRequestAttribute("numberOfPages", numberOfPages);
             result.addRequestAttribute(GENRE_FILTER, genreFilter);
             result.addRequestAttribute(ORDER_BY, orderBy);
+            result.addRequestAttribute(RECORDS_PER_PAGE, recordsPerPage);
             result.addRequestAttribute("editionList", editionList);
             result.addRequestAttribute("genresList", genreList);
         } catch (UnknownEditionException | UnknownGenreException e) {

@@ -35,7 +35,7 @@ public class OpenShopListPageCommand implements ICommand {
         result.setDirection(Direction.FORWARD);
 
         int totalEditionsNumber;
-        int recordsPerPage = RequestValueExtractor.extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
+        int recordsPerPage = RequestValueExtractor.extractValueFromRequest(content, RECORDS_PER_PAGE, 4);
         int currentPage = RequestValueExtractor.extractValueFromRequest(content, CURRENT_PAGE, 1);
         String genreFilter = RequestValueExtractor.extractValueFromRequest(content, GENRE_FILTER, "");
         String orderBy = RequestValueExtractor.extractValueFromRequest(content, ORDER_BY, "");
@@ -66,6 +66,7 @@ public class OpenShopListPageCommand implements ICommand {
             result.addRequestAttribute("genresList", genreList);
             result.addRequestAttribute(CURRENT_PAGE, currentPage);
             result.addRequestAttribute("numberOfPages", numberOfPages);
+            result.addRequestAttribute(RECORDS_PER_PAGE, recordsPerPage);
             result.addRequestAttribute(GENRE_FILTER, genreFilter);
             result.addRequestAttribute(ORDER_BY, orderBy);
         } catch (UnknownEditionException | UnknownGenreException e) {

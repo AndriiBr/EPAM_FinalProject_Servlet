@@ -41,10 +41,9 @@
             <p class="text-center mb-2 mt-4 fw-bold fs-3"><fmt:message key="error.message.oops" bundle="${error}"/></p>
             <p class="text-center mb-0 fs-5"><fmt:message key="error.message.something_go_wrong" bundle="${error}"/></p>
             <p class="text-center mb-4 fs-5"><fmt:message key="error.message.working_on_it" bundle="${error}"/></p>
-
         </a>
 
-        <!-- Remind Password -->
+        <!-- Main Page -->
         <div id="formFooter">
             <div class="fadeIn third">
                 <div class="d-flex justify-content-center pb-lg-2 user_wallet">

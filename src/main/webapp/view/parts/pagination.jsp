@@ -9,57 +9,93 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="localization/locale" var="locale"/>
 
+<div class="container my-0 py-0">
 <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center mb-4 pb-4">
-        <c:choose>
-            <c:when test="${requestScope.currentPage eq '1'}">
-                <li class="page-item disabled">
-                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">
-                        <fmt:message key="edition_list.previous" bundle="${locale}"/>
-                    </button>
-                </li>
-            </c:when>
-            <c:otherwise>
+    <div class="row">
+        <div class="col">
+            <ul class="pagination justify-content-start mb-5 mt-2">
                 <li class="page-item">
-                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">
-                        <fmt:message key="edition_list.previous" bundle="${locale}"/>
-                    </button>
+                    <button class="page-link disabled disabled">Elements</button>
                 </li>
-            </c:otherwise>
-        </c:choose>
 
-        <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
-            <c:choose>
-                <c:when test="${requestScope.currentPage eq i}">
-                    <li class="page-item active">
-                        <button class="page-link" onclick="executeUrlParameter('currentPage', ${i})">${i}</button>
-                    </li>
-                </c:when>
-                <c:otherwise>
-                    <li class="page-item">
-                        <button class="page-link" onclick="executeUrlParameter('currentPage', ${i})">${i}</button>
-                    </li>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
+                <c:forEach begin="3" end="5" var="r">
+                    <c:choose>
+                        <c:when test="${requestScope.recordsPerPage eq r}">
+                            <li class="page-item active">
+                                <button class="page-link" onclick="executeUrlParameter('recordsPerPage', ${r})">${r}</button>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <button class="page-link" onclick="executeUrlParameter('recordsPerPage', ${r})">${r}</button>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
 
-        <c:choose>
-            <c:when test="${requestScope.currentPage ne requestScope.numberOfPages}">
-                <li class="page-item">
-                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">
-                        <fmt:message key="edition_list.next" bundle="${locale}"/>
-                    </button>
-                </li>
-            </c:when>
-            <c:otherwise>
-                <li class="page-item  disabled">
-                    <button class="page-link" onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">
-                        <fmt:message key="edition_list.next" bundle="${locale}"/>
-                    </button>
-                </li>
-            </c:otherwise>
-        </c:choose>
-    </ul>
+            </ul>
+        </div>
+        <div class="col">
+            <ul class="pagination justify-content-center mb-2 pb-2">
+                <c:choose>
+                    <c:when test="${requestScope.currentPage eq '1'}">
+                        <li class="page-item disabled">
+                            <button class="page-link"
+                                    onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">
+                                <fmt:message key="edition_list.previous" bundle="${locale}"/>
+                            </button>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item">
+                            <button class="page-link"
+                                    onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">
+                                <fmt:message key="edition_list.previous" bundle="${locale}"/>
+                            </button>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+
+                <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
+                    <c:choose>
+                        <c:when test="${requestScope.currentPage eq i}">
+                            <li class="page-item active">
+                                <button class="page-link"
+                                        onclick="executeUrlParameter('currentPage', ${i})">${i}</button>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <button class="page-link"
+                                        onclick="executeUrlParameter('currentPage', ${i})">${i}</button>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <c:choose>
+                    <c:when test="${requestScope.currentPage ne requestScope.numberOfPages}">
+                        <li class="page-item">
+                            <button class="page-link"
+                                    onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">
+                                <fmt:message key="edition_list.next" bundle="${locale}"/>
+                            </button>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item  disabled">
+                            <button class="page-link"
+                                    onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">
+                                <fmt:message key="edition_list.next" bundle="${locale}"/>
+                            </button>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
+        <div class="col"></div>
+    </div>
 </nav>
+</div>
 
 <script src="${pageContext.request.contextPath}/js/addUrlParameter.js"></script>
