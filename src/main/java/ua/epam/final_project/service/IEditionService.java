@@ -14,7 +14,7 @@ public interface IEditionService {
      * @return number of rows
      * @throws UnknownEditionException if nothing was found in Db
      */
-    Integer getNumberOfEditions(String genreFilter) throws UnknownEditionException;
+    Integer getNumberOfEditions(int genreFilter) throws UnknownEditionException;
 
     /**
      * Gets the number of rows in the table "edition" without positions user already has/ not has.
@@ -23,7 +23,7 @@ public interface IEditionService {
      * @return - number of rows
      * @throws UnknownEditionException if nothing was found in Db
      */
-    Integer getNumberOfEditions(UserDto userDto, boolean has, String genreFilter) throws UnknownEditionException;
+    Integer getNumberOfEditions(UserDto userDto, boolean has, int genreFilter) throws UnknownEditionException;
 
     /**
      * Get a list of all editions retrieved from the database
@@ -48,7 +48,7 @@ public interface IEditionService {
      * @return List of editions from DB
      * @throws UnknownEditionException if nothing was found in Db
      */
-    List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException;
+    List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, int genreFilter, String orderBy) throws UnknownEditionException;
 
     /**
      * Get a list of editions retrieved from the database
@@ -60,7 +60,7 @@ public interface IEditionService {
      * @return List of editions from DB
      * @throws UnknownEditionException if nothing was found in Db
      */
-    List<Edition> findAllEditionsFromTo(UserDto userDto, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException;
+    List<Edition> findAllEditionsFromTo(UserDto userDto, boolean has, int recordsPerPage, int page, int genreFilter, String orderBy) throws UnknownEditionException;
 
     /**
      * Get edition entity from DB by id

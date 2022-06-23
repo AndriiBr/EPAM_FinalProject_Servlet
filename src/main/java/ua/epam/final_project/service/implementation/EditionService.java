@@ -18,14 +18,12 @@ public class EditionService implements IEditionService {
 
     private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
     private DaoFactory daoFactory;
-    private IUserDao userDao;
     private IEditionDao editionDao;
     private IUserEditionDao userEditionDao;
 
     public EditionService() {
         try {
             daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
-            userDao = daoFactory.getUserDao();
             editionDao = daoFactory.getEditionDao();
             userEditionDao = daoFactory.getUserEditionDao();
         } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
@@ -34,7 +32,7 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public Integer getNumberOfEditions(String genreFilter) throws UnknownEditionException {
+    public Integer getNumberOfEditions(int genreFilter) throws UnknownEditionException {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
@@ -49,7 +47,7 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public Integer getNumberOfEditions(UserDto userDto, boolean has, String genreFilter) throws UnknownEditionException {
+    public Integer getNumberOfEditions(UserDto userDto, boolean has, int genreFilter) throws UnknownEditionException {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
@@ -95,7 +93,7 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException {
+    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, int genreFilter, String orderBy) throws UnknownEditionException {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
@@ -110,7 +108,7 @@ public class EditionService implements IEditionService {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(UserDto userDto, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws UnknownEditionException {
+    public List<Edition> findAllEditionsFromTo(UserDto userDto, boolean has, int recordsPerPage, int page, int genreFilter, String orderBy) throws UnknownEditionException {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();

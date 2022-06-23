@@ -68,7 +68,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/edition">
                                         <fmt:message key="navbar.edition_list" bundle="${navbar}"/>
                                     </a>
                                 </li>

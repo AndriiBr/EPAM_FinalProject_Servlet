@@ -14,12 +14,12 @@
             <thead class="bg-light">
             <tr>
                 <th class="col-2 text-center fs-5" scope="col" id="title_image">
-                    <fmt:message key="edition_list.magazine" bundle="${locale}"/>
+                    <fmt:message key="edition.magazine" bundle="${locale}"/>
                 </th>
 
                 <th class="col-5 text-center fs-5" scope="col" id="title">
                     <a class="nav-link" onclick="executeUrlParameter('orderBy', 'title')">
-                        <fmt:message key="edition_list.title" bundle="${locale}"/>
+                        <fmt:message key="edition.title" bundle="${locale}"/>
                     </a>
                 </th>
 
@@ -27,7 +27,9 @@
                     <form action="${pageContext.request.contextPath}/shop/list" method="get">
                         <select class="form-select" id="genreFilter" name="genreFilter"
                                 onchange="executeUrlParameter('genreFilter', this.options[selectedIndex].value)">
-                            <option value="0" ${requestScope.genreFilter eq '0' ? 'selected' : ''} >*</option>
+                            <option value="0" ${requestScope.genreFilter eq '0' ? 'selected' : ''} >
+                                <fmt:message key="edition.genre" bundle="${locale}"/>
+                            </option>
                             <c:forEach items="${requestScope.genresList}" var="genre">
                                 <c:set var="genreId" value="${genre.id}"/>
                                 <c:choose>
@@ -49,13 +51,13 @@
 
                 <th class="nav-item text-center fs-5" scope="col" id="price">
                     <a class="nav-link" onclick="executeUrlParameter('orderBy', 'price')">
-                        <fmt:message key="edition_list.price" bundle="${locale}"/>
+                        <fmt:message key="edition.price" bundle="${locale}"/>
                     </a>
                 </th>
 
                 <c:if test="${sessionScope.user != null}">
                     <th class=" col-2 text-center fs-5" scope="col" id="buy">
-                        <fmt:message key="edition_list.unsubscribe" bundle="${locale}"/>
+                        <fmt:message key="edition.unsubscribe" bundle="${locale}"/>
                     </th>
                 </c:if>
             </tr>
@@ -124,16 +126,16 @@
                     <td class="text-center">
                         <button class="btn btn-danger btn-sm fw-bold"
                                 onclick="document.getElementById('${edition.id}').style.display='block'">
-                            <fmt:message key="edition_list.unsubscribe" bundle="${locale}"/>
+                            <fmt:message key="edition.unsubscribe" bundle="${locale}"/>
                         </button>
 
                         <div id="${edition.id}" class="modal">
                             <span onclick="document.getElementById('${edition.id}').style.display='none'"
                                 class="close" title="Close Modal">×</span>
-                            <form class="modal-content"
+                            <form class="container mt-5 pt-5 px-5 mb-1 pb-1"
                                   action="${pageContext.request.contextPath}/user/subscriptions/unsubscribe"
                                   method="post">
-                                <div class="container">
+                                <div class="shadow p-3 mb-5 mx-5 px-5 bg-body rounded">
                                     <h1>
                                         <c:choose>
                                             <c:when test="${language == 'ua'}">
@@ -147,18 +149,18 @@
                                     <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
                                          onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/>
                                     <p>
-                                        <fmt:message key="edition_list.message.unsubscribe" bundle="${locale}"/>
+                                        <fmt:message key="edition.message.unsubscribe" bundle="${locale}"/>
                                     </p>
 
                                     <div class="clearfix">
                                         <button type="button"
                                                 onclick="document.getElementById('${edition.id}').style.display='none'"
-                                                class="cancel">
-                                            <fmt:message key="edition_list.cancel" bundle="${locale}"/>
+                                                class="btn btn-secondary mx-1">
+                                            <fmt:message key="edition.cancel" bundle="${locale}"/>
                                         </button>
                                         <button type="submit" name="edition_id" value="${edition.id}"
-                                                class="delete-btn">
-                                            <fmt:message key="edition_list.unsubscribe" bundle="${locale}"/>
+                                                class="btn btn-danger mx-1">
+                                            <fmt:message key="edition.unsubscribe" bundle="${locale}"/>
                                         </button>
                                     </div>
                                 </div>

@@ -25,7 +25,7 @@
           type="text/css">
 
 </head>
-<body>
+<body >
 <jsp:include page="/view/parts/navbar.jsp"/>
 
 <div class="wrapper fadeInDown">

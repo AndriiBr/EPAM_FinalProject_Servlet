@@ -42,7 +42,7 @@
                         <li class="page-item disabled">
                             <button class="page-link"
                                     onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">
-                                <fmt:message key="edition_list.previous" bundle="${locale}"/>
+                                <fmt:message key="edition.previous" bundle="${locale}"/>
                             </button>
                         </li>
                     </c:when>
@@ -50,7 +50,7 @@
                         <li class="page-item">
                             <button class="page-link"
                                     onclick="executeUrlParameter('currentPage', ${requestScope.currentPage - 1})">
-                                <fmt:message key="edition_list.previous" bundle="${locale}"/>
+                                <fmt:message key="edition.previous" bundle="${locale}"/>
                             </button>
                         </li>
                     </c:otherwise>
@@ -78,7 +78,7 @@
                         <li class="page-item">
                             <button class="page-link"
                                     onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">
-                                <fmt:message key="edition_list.next" bundle="${locale}"/>
+                                <fmt:message key="edition.next" bundle="${locale}"/>
                             </button>
                         </li>
                     </c:when>
@@ -86,7 +86,7 @@
                         <li class="page-item  disabled">
                             <button class="page-link"
                                     onclick="executeUrlParameter('currentPage', ${requestScope.currentPage + 1})">
-                                <fmt:message key="edition_list.next" bundle="${locale}"/>
+                                <fmt:message key="edition.next" bundle="${locale}"/>
                             </button>
                         </li>
                     </c:otherwise>

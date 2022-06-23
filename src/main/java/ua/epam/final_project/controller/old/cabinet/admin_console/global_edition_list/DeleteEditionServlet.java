@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.exception.UnknownEditionException;
 import ua.epam.final_project.service.IEditionService;
 import ua.epam.final_project.service.ServiceFactory;
-import ua.epam.final_project.util.external_folder.DeleteImageFromExternalDirectory;
+import ua.epam.final_project.util.DeleteImageFromExternalDirectory;
 import ua.epam.final_project.entity.Edition;
 
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +38,7 @@ public class DeleteEditionServlet extends HttpServlet {
         try {
             Edition edition = editionService.findEditionById(editionId);
             if (editionService.deleteEdition(edition)) {
-                DeleteImageFromExternalDirectory.delete(getExternalFolderPath(), edition.getImagePath());
+                DeleteImageFromExternalDirectory.delete(edition.getImagePath());
                 resp.sendRedirect(ADMIN_EDITION_LIST_URL);
             } else {
                 resp.sendRedirect(UNKNOWN_ERROR_URL);
@@ -47,23 +47,5 @@ public class DeleteEditionServlet extends HttpServlet {
             logger.warn(e);
             resp.sendRedirect(UNKNOWN_ERROR_URL);
         }
-    }
-
-    private String getExternalFolderPath() {
-        String imageFolderName = "image_folder.properties";
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Properties prop = new Properties();
-
-        String folderPath;
-
-        try (InputStream resourceStream = loader.getResourceAsStream(imageFolderName)) {
-            prop.load(resourceStream);
-            folderPath = prop.getProperty("title_image_folder_path");
-            return folderPath;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

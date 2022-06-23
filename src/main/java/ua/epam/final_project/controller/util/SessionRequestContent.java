@@ -14,6 +14,7 @@ public class SessionRequestContent {
     private final Map<String, Object> reqAttributes;
     private final Map<String, String> reqParameters;
     private final Map<String, Object> sessionAttributes;
+    private final HttpServletRequest req;
 
     /**
      * Constructor extract attributes and parameters from provided HttpServletRequest
@@ -23,6 +24,7 @@ public class SessionRequestContent {
         reqAttributes = extractRequestAttributes(req);
         reqParameters = extractRequestParameters(req);
         sessionAttributes = extractSessionAttributes(req);
+        this.req = req;
     }
 
     /**
@@ -84,5 +86,9 @@ public class SessionRequestContent {
 
     public Map<String, Object> getSessionAttributes() {
         return sessionAttributes;
+    }
+
+    public HttpServletRequest getReq() {
+        return req;
     }
 }

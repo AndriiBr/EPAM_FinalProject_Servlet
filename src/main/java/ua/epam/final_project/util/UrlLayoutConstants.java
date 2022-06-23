@@ -1,5 +1,6 @@
 package ua.epam.final_project.util;
 
+//ToDo Delete Class
 public final class UrlLayoutConstants {
 
     private UrlLayoutConstants() {}

@@ -6,7 +6,7 @@ import ua.epam.final_project.config.ResourceConfiguration;
 import ua.epam.final_project.controller.command.security.AccessLevel;
 import ua.epam.final_project.controller.util.Direction;
 import ua.epam.final_project.controller.util.ExecutionResult;
-import ua.epam.final_project.controller.util.RequestValueExtractor;
+import ua.epam.final_project.util.InputValidator;
 import ua.epam.final_project.controller.util.SessionRequestContent;
 import ua.epam.final_project.controller.command.ICommand;
 import ua.epam.final_project.entity.Edition;
@@ -35,10 +35,10 @@ public class OpenShopListPageCommand implements ICommand {
         result.setDirection(Direction.FORWARD);
 
         int totalEditionsNumber;
-        int recordsPerPage = RequestValueExtractor.extractValueFromRequest(content, RECORDS_PER_PAGE, 4);
-        int currentPage = RequestValueExtractor.extractValueFromRequest(content, CURRENT_PAGE, 1);
-        String genreFilter = RequestValueExtractor.extractValueFromRequest(content, GENRE_FILTER, "");
-        String orderBy = RequestValueExtractor.extractValueFromRequest(content, ORDER_BY, "");
+        int recordsPerPage = InputValidator.extractValueFromRequest(content, RECORDS_PER_PAGE, 4);
+        int currentPage = InputValidator.extractValueFromRequest(content, CURRENT_PAGE, 1);
+        int genreFilter = InputValidator.extractValueFromRequest(content, GENRE_FILTER, 0);
+        String orderBy = InputValidator.extractValueFromRequest(content, ORDER_BY, "");
 
 
         IEditionService editionService = ServiceFactory.getEditionService();
@@ -100,7 +100,7 @@ public class OpenShopListPageCommand implements ICommand {
                                                 UserDto userDto,
                                                 int recordsPerPage,
                                                 int page,
-                                                String genreFilter,
+                                                int genreFilter,
                                                 String orderBy) {
         List<Edition> editions;
 
@@ -127,7 +127,7 @@ public class OpenShopListPageCommand implements ICommand {
     private List<Edition> getEditionListForGuest(IEditionService editionService,
                                                  int recordsPerPage,
                                                  int page,
-                                                 String genreFilter,
+                                                 int genreFilter,
                                                  String orderBy) {
         List<Edition> editions;
 

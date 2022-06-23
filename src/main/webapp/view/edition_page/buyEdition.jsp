@@ -28,18 +28,19 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/cabinet_page/wallet_page/wallet_page_style.css"
           type="text/css">
 </head>
+
 <body>
 <jsp:include page="/view/parts/navbar.jsp"/>
 
 
-<div class="wrapper fadeInDown">
+<div class="wrapper fadeInDown mt-5 pt-5">
     <div id="formContent">
 
         <!-- Icon -->
         <div class="fadeIn first">
             <img class="mt-3" src="${requestScope.edition.imagePath}" id="icon" width="180" alt="User Icon"
                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/img/empty_title_placeholder/No_Image_Placeholder.jpg';"/><br/><br/>
-            <div class="wallet-header">
+            <div class="wallet-header fs-3 mb-3">
                 <c:choose>
                     <c:when test="${language == 'ua'}">
                         <c:out value="${requestScope.edition.titleUa}"/>
@@ -54,8 +55,8 @@
 
         <!-- Price bar -->
         <div class="fadeIn second">
-            <div class="balance-area mt-3">
-                <label id="price">
+            <div class="balance-area mt-2">
+                <label class="fw-bold" id="price">
                     <fmt:message key="edition.buy.edition_price" bundle="${locale}"/>
                 </label><br/>
                 <div class="fadeIn second">
@@ -69,7 +70,7 @@
         <!-- Balance bar -->
         <div class="fadeIn third">
             <div class="balance-area">
-                <label id="balance">
+                <label class="fw-bold" id="balance">
                     <fmt:message key="edition.buy.current_balance" bundle="${locale}"/>
                 </label><br/>
                 <div class="fadeIn third">
@@ -84,7 +85,7 @@
             <c:when test="${requestScope.remainingBalance < 0}">
                 <div class="fadeIn fourth">
                     <div class="balance-area">
-                        <label id="label-not-enough-balance">
+                        <label class="fw-bold" id="label-not-enough-balance">
                             <fmt:message key="edition.buy.remaining_balance" bundle="${locale}"/>
                         </label>
                         <div class="fadeIn fourth">
@@ -117,7 +118,7 @@
                 <div class="fadeIn fifth">
                     <form method="post">
                         <button class="btn btn-info btn-lg btn-block mb-3" type="submit">
-                            <fmt:message key="edition_list.buy" bundle="${locale}"/>
+                            <fmt:message key="edition.buy" bundle="${locale}"/>
                         </button>
                     </form>
                 </div>

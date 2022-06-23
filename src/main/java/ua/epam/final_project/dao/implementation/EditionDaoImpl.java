@@ -24,16 +24,11 @@ public class EditionDaoImpl implements IEditionDao {
     }
 
     @Override
-    public Integer getNumberOfEditions(String genreFilter) throws DataNotFoundException {
+    public Integer getNumberOfEditions(int genreFilter) throws DataNotFoundException {
         int numberOfRows = 0;
-        String genre = genreFilter;
         String sqlPattern;
 
-        if (genre == null || genre.equals("0") || genre.equals("")) {
-            genre = "all";
-        }
-
-        if (genre.equals("all")) {
+        if (genreFilter <= 0) {
             sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_All_GENRES;
             try (Statement statement = connection.createStatement()) {
                 ResultSet rs = statement.executeQuery(sqlPattern);
@@ -48,7 +43,7 @@ public class EditionDaoImpl implements IEditionDao {
         } else {
             sqlPattern = SQL_GET_NUMBER_OF_EDITIONS;
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
-                statement.setInt(1, Integer.parseInt(genre));
+                statement.setInt(1, genreFilter);
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) {
@@ -63,16 +58,11 @@ public class EditionDaoImpl implements IEditionDao {
     }
 
     @Override
-    public Integer getNumberOfEditions(User user, boolean has, String genreFilter) throws DataNotFoundException {
+    public Integer getNumberOfEditions(User user, boolean has, int genreFilter) throws DataNotFoundException {
         int numberOfEditions = 0;
-        String genre = genreFilter;
         String sqlPattern;
 
-        if (genre == null || genre.equals("0") || genre.equals("")) {
-            genre = "all";
-        }
-
-        if (genre.equals("all")) {
+        if (genreFilter <= 0) {
             if (has) {
                 sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_USER_ALREADY_HAS_ALL_GENRES;
             } else {
@@ -98,7 +88,7 @@ public class EditionDaoImpl implements IEditionDao {
             }
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
                 statement.setInt(1, user.getId());
-                statement.setInt(2, Integer.parseInt(genre));
+                statement.setInt(2, genreFilter);
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) {
@@ -152,20 +142,16 @@ public class EditionDaoImpl implements IEditionDao {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, String genreFilter, String orderBy) throws DataNotFoundException {
+    public List<Edition> findAllEditionsFromTo(int recordsPerPage, int page, int genreFilter, String orderBy) throws DataNotFoundException {
         List<Edition> editionList = new ArrayList<>();
         String order = orderBy;
-        String genre = genreFilter;
         String sqlPattern;
 
         if (order == null || order.equals("")) {
             order = "id";
         }
-        if (genre == null || genre.equals("0") || genre.equals("")) {
-            genre = "all";
-        }
 
-        if (genre.equals("all")) {
+        if (genreFilter <= 0) {
             sqlPattern = String.format(SQL_FIND_EDITIONS_ORDER_BY_FROM_TO_ALL_GENRES, order) ;
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
                 statement.setInt(1, recordsPerPage);
@@ -183,7 +169,7 @@ public class EditionDaoImpl implements IEditionDao {
         } else {
             sqlPattern = String.format(SQL_FIND_EDITIONS_ORDER_BY_FROM_TO, order);
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
-                statement.setInt(1, Integer.parseInt(genre));
+                statement.setInt(1, genreFilter);
                 statement.setInt(2, recordsPerPage);
                 statement.setInt(3, (page - 1) * recordsPerPage);
                 ResultSet rs = statement.executeQuery();
@@ -200,20 +186,16 @@ public class EditionDaoImpl implements IEditionDao {
     }
 
     @Override
-    public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy) throws DataNotFoundException {
+    public List<Edition> findAllEditionsFromTo(User user, boolean has, int recordsPerPage, int page, int genreFilter, String orderBy) throws DataNotFoundException {
         List<Edition> editionList = new ArrayList<>();
         String order = orderBy;
-        String genre = genreFilter;
         String sqlPattern;
 
         if (order == null || order.equals("")) {
             order = "id";
         }
-        if (genre == null || genre.equals("0") || genre.equals("")) {
-            genre = "all";
-        }
 
-        if (genre.equals("all")) {
+        if (genreFilter <= 0) {
             if (has) {
                 sqlPattern = String.format(SQL_FIND_EDITIONS_FROM_TO_USER_ALREADY_HAS_ALL_GENRES, order);
             } else {
@@ -242,7 +224,7 @@ public class EditionDaoImpl implements IEditionDao {
 
             try (PreparedStatement statement = connection.prepareStatement(sqlPattern)) {
                 statement.setInt(1, user.getId());
-                statement.setInt(2, Integer.parseInt(genre));
+                statement.setInt(2, genreFilter);
                 statement.setInt(3, recordsPerPage);
                 statement.setInt(4, (page - 1) * recordsPerPage);
                 ResultSet rs = statement.executeQuery();

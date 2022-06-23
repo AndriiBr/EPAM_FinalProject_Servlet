@@ -138,16 +138,10 @@ public class UserEditionDaoImpl implements IUserEditionDao {
     private boolean insertDeleteCombination(User user, Edition edition, String sqlRequest) {
 
         try (PreparedStatement statement = connection.prepareStatement(sqlRequest)) {
-            List<UserEdition> userEditionFromDB = findAllUserEditionByUserIdEditionId(user, edition);
-
-            if (!userEditionFromDB.isEmpty()) {
-                return false;
-            }
-
             statement.setInt(1, user.getId());
             statement.setInt(2, edition.getId());
             statement.executeUpdate();
-        } catch (SQLException | DataNotFoundException e) {
+        } catch (SQLException e) {
             logger.error(e);
             return false;
         }

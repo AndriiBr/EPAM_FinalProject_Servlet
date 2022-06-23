@@ -42,8 +42,8 @@ class EditionDaoImplTest {
     @Story("EditionDao")
     @Description("Method execute SQL query to get total number of editions in DB")
     void getNumberOfEditions() throws DataNotFoundException {
-        assertTrue(editionDao.getNumberOfEditions("") >= 7);
-        assertTrue(editionDao.getNumberOfEditions("1") >= 4);
+        assertTrue(editionDao.getNumberOfEditions(0) >= 7);
+        assertTrue(editionDao.getNumberOfEditions(1) >= 4);
     }
 
     @Test
@@ -53,11 +53,11 @@ class EditionDaoImplTest {
     void getNumberOfEditions_2() throws DataNotFoundException {
         User user = new User();
         user.setId(2);
-        assertEquals(3, editionDao.getNumberOfEditions(user, true, ""));
-        assertEquals(2, editionDao.getNumberOfEditions(user, true, "1"));
+        assertEquals(3, editionDao.getNumberOfEditions(user, true, 0));
+        assertEquals(2, editionDao.getNumberOfEditions(user, true, 1));
 
-        assertTrue(editionDao.getNumberOfEditions(user, false, "") >= 4);
-        assertTrue(editionDao.getNumberOfEditions(user, false, "1") >= 2);
+        assertTrue(editionDao.getNumberOfEditions(user, false, 0) >= 4);
+        assertTrue(editionDao.getNumberOfEditions(user, false, 1) >= 2);
     }
 
     @Test
@@ -76,15 +76,15 @@ class EditionDaoImplTest {
 
         assertEquals(4,
                 editionDao
-                        .findAllEditionsFromTo(4, 1, "", "")
+                        .findAllEditionsFromTo(4, 1, 0, "")
                         .size());
         assertTrue(
                 editionDao
-                        .findAllEditionsFromTo(4, 2, "", "")
+                        .findAllEditionsFromTo(4, 2, 0, "")
                         .size() >= 1);
         assertTrue(
                 editionDao
-                        .findAllEditionsFromTo(4, 1, "2", "")
+                        .findAllEditionsFromTo(4, 1, 2, "")
                         .size() >= 1);
     }
 
@@ -97,15 +97,15 @@ class EditionDaoImplTest {
 
         assertEquals(2,
                 editionDao
-                        .findAllEditionsFromTo(user, true, 2, 1, "", "")
+                        .findAllEditionsFromTo(user, true, 2, 1, 0, "")
                         .size());
         assertEquals(1,
                 editionDao
-                        .findAllEditionsFromTo(user, true, 2, 2, "", "")
+                        .findAllEditionsFromTo(user, true, 2, 2, 0, "")
                         .size());
         assertEquals(3,
                 editionDao
-                        .findAllEditionsFromTo(user, false, 3, 1, "", "")
+                        .findAllEditionsFromTo(user, false, 3, 1, 0, "")
                         .size());
     }
 

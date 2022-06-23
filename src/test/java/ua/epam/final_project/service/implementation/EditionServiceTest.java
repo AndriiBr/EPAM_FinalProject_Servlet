@@ -65,10 +65,10 @@ class EditionServiceTest {
     @Story("Edition service")
     @Description("Method with sorting: 1 param - 'String filter'")
     void getNumberOfEditions() throws DataNotFoundException, UnknownEditionException {
-        Mockito.when(editionDao.getNumberOfEditions(any()))
+        Mockito.when(editionDao.getNumberOfEditions(anyInt()))
                 .thenReturn(99);
 
-        assertEquals(99, editionService.getNumberOfEditions("science"));
+        assertEquals(99, editionService.getNumberOfEditions(77));
     }
 
     @Test
@@ -76,10 +76,10 @@ class EditionServiceTest {
     @Story("Edition service")
     @Description("Method with sorting: 1 param - 'String filter'")
     void getNumberOfEditions_Exception() throws DataNotFoundException {
-        Mockito.when(editionDao.getNumberOfEditions(any()))
+        Mockito.when(editionDao.getNumberOfEditions(anyInt()))
                 .thenThrow(DataNotFoundException.class);
 
-        assertThrows(UnknownEditionException.class, () -> editionService.getNumberOfEditions("test"));
+        assertThrows(UnknownEditionException.class, () -> editionService.getNumberOfEditions(999));
     }
 
     @Test
@@ -87,10 +87,10 @@ class EditionServiceTest {
     @Story("Edition service")
     @Description("Method with sorting: 3 params - 'User user, String filter, boolean has'")
     void getNumberOfEditions_2() throws DataNotFoundException, UnknownEditionException {
-        Mockito.when(editionDao.getNumberOfEditions(any(), anyBoolean(), any()))
+        Mockito.when(editionDao.getNumberOfEditions(any(), anyBoolean(), anyInt()))
                 .thenReturn(88);
 
-        assertEquals(88, editionService.getNumberOfEditions(userDto, true,"science"));
+        assertEquals(88, editionService.getNumberOfEditions(userDto, true,345));
     }
 
     @Test
@@ -98,11 +98,11 @@ class EditionServiceTest {
     @Story("Edition service")
     @Description("Method with sorting: 3 params - 'User user, String filter, boolean has'")
     void getNumberOfEditions_2_Exception() throws DataNotFoundException {
-        Mockito.when(editionDao.getNumberOfEditions(any(), anyBoolean(), any()))
+        Mockito.when(editionDao.getNumberOfEditions(any(), anyBoolean(), anyInt()))
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownEditionException.class, () ->
-                editionService.getNumberOfEditions(userDto, true,"science"));
+                editionService.getNumberOfEditions(userDto, true,435));
     }
 
     @Test
@@ -129,11 +129,11 @@ class EditionServiceTest {
     @Story("Edition service")
     @Description("Method with pagination: 4 params - 'int recordsPerPage, int page, String genreFilter, String orderBy'")
     void findAllEditionsFromTo() throws UnknownEditionException, DataNotFoundException {
-        Mockito.when(editionDao.findAllEditionsFromTo(anyInt(), anyInt(), any(), any()))
+        Mockito.when(editionDao.findAllEditionsFromTo(anyInt(), anyInt(), anyInt(), any()))
                 .thenReturn(userList);
 
         assertEquals(3, editionService
-                .findAllEditionsFromTo(5, 1, "science", "").size());
+                .findAllEditionsFromTo(5, 1, 33, "").size());
     }
 
     @Test
@@ -141,11 +141,11 @@ class EditionServiceTest {
     @Story("Edition service")
     @Description("Method with pagination: 4 params - 'int recordsPerPage, int page, String genreFilter, String orderBy'")
     void findAllEditionsFromTo_Exception() throws  DataNotFoundException {
-        Mockito.when(editionDao.findAllEditionsFromTo(anyInt(), anyInt(), any(), any()))
+        Mockito.when(editionDao.findAllEditionsFromTo(anyInt(), anyInt(), anyInt(), any()))
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownEditionException.class, () ->
-                editionService.findAllEditionsFromTo(5, 1, "science", ""));
+                editionService.findAllEditionsFromTo(5, 1, 333, ""));
     }
 
     @Test
@@ -153,11 +153,11 @@ class EditionServiceTest {
     @Story("Edition service")
     @Description("Method with pagination: 6 params - 'User user, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy'")
     void findAllEditionsFromTo_2() throws UnknownEditionException, DataNotFoundException {
-        Mockito.when(editionDao.findAllEditionsFromTo(any(), anyBoolean(), anyInt(), anyInt(), any(), any()))
+        Mockito.when(editionDao.findAllEditionsFromTo(any(), anyBoolean(), anyInt(), anyInt(), anyInt(), any()))
                 .thenReturn(userList);
 
         assertEquals(3, editionService
-                .findAllEditionsFromTo(userDto, true,5, 1, "science", "").size());
+                .findAllEditionsFromTo(userDto, true,5, 1, 345, "").size());
     }
 
     @Test
@@ -165,12 +165,12 @@ class EditionServiceTest {
     @Story("Edition service")
     @Description("Method with pagination: 6 params - 'User user, boolean has, int recordsPerPage, int page, String genreFilter, String orderBy'")
     void findAllEditionsFromTo_2_Exception() throws DataNotFoundException {
-        Mockito.when(editionDao.findAllEditionsFromTo(any(), anyBoolean(), anyInt(), anyInt(), any(), any()))
+        Mockito.when(editionDao.findAllEditionsFromTo(any(), anyBoolean(), anyInt(), anyInt(), anyInt(), any()))
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownEditionException.class, () -> 
                 editionService
-                        .findAllEditionsFromTo(userDto, true,5, 1, "science", ""));
+                        .findAllEditionsFromTo(userDto, true,5, 1, 436, ""));
     }
     
 

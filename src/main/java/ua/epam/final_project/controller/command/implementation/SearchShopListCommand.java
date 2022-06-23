@@ -7,7 +7,7 @@ import ua.epam.final_project.controller.command.ICommand;
 import ua.epam.final_project.controller.command.security.AccessLevel;
 import ua.epam.final_project.controller.util.Direction;
 import ua.epam.final_project.controller.util.ExecutionResult;
-import ua.epam.final_project.controller.util.RequestValueExtractor;
+import ua.epam.final_project.util.InputValidator;
 import ua.epam.final_project.controller.util.SessionRequestContent;
 import ua.epam.final_project.entity.Edition;
 import ua.epam.final_project.entity.Genre;
@@ -33,8 +33,8 @@ public class SearchShopListCommand implements ICommand {
         result.setPage(ResourceConfiguration.getInstance().getPage("shop.edition_list"));
 
         int totalEditionsNumber;
-        int recordsPerPage = RequestValueExtractor.extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
-        int currentPage = RequestValueExtractor.extractValueFromRequest(content, CURRENT_PAGE, 1);
+        int recordsPerPage = InputValidator.extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
+        int currentPage = InputValidator.extractValueFromRequest(content, CURRENT_PAGE, 1);
         String searchName = new String(
                 content
                         .getReqParameters()

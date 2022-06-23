@@ -6,13 +6,13 @@
 
   <!-- *WELCOME PAGE* -->
 <!--  <welcome-file-list>-->
-<!--    <welcome-file>/view/main_page/main_page.jsp</welcome-file>-->
+<!--    <welcome-file>/view/main_page/mainEditions.jsp</welcome-file>-->
 <!--  </welcome-file-list>-->
 
   <!-- *ERROR PAGE* -->
   <error-page>
     <error-code>404</error-code>
-    <location>/view/error_page/error_404_page.jsp</location>
+    <location>/view/error_page/error404.jsp</location>
   </error-page>
 
   <filter>

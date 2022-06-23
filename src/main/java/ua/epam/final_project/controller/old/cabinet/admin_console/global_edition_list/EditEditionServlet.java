@@ -7,7 +7,7 @@ import ua.epam.final_project.service.IEditionService;
 import ua.epam.final_project.service.IGenreService;
 import ua.epam.final_project.service.ServiceFactory;
 import ua.epam.final_project.entity.Genre;
-import ua.epam.final_project.util.external_folder.DeleteImageFromExternalDirectory;
+import ua.epam.final_project.util.DeleteImageFromExternalDirectory;
 import ua.epam.final_project.entity.Edition;
 
 import javax.servlet.ServletException;
@@ -90,7 +90,7 @@ public class EditEditionServlet extends HttpServlet {
                         .collect(Collectors.joining("\n"));
             } else if (part.getName().equals("file-name")) {
                 if (part.getSize() != 0) {
-                    DeleteImageFromExternalDirectory.delete(getExternalFolderPath(), edition.getImagePath());
+                    DeleteImageFromExternalDirectory.delete(edition.getImagePath());
                     imageUUID = UUID.randomUUID() + part.getSubmittedFileName();
                     part.write(imageUUID);
                     edition.setImagePath(getAbsoluteImagePath(imageUUID));
@@ -156,24 +156,6 @@ public class EditEditionServlet extends HttpServlet {
 //    private boolean validateEditionTitleUa(String titleUa, List<Edition> editionList) {
 //        return editionList.stream().anyMatch(x -> x.getTitleUa().equals(titleUa));
 //    }
-
-    private String getExternalFolderPath() {
-        String imageFolderName = "image_folder.properties";
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Properties prop = new Properties();
-
-        String folderPath;
-
-        try (InputStream resourceStream = loader.getResourceAsStream(imageFolderName)) {
-            prop.load(resourceStream);
-            folderPath = prop.getProperty("title_image_folder_path");
-            return folderPath;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     private String getAbsoluteImagePath(String imagePath) {
         String newImagePath = "";

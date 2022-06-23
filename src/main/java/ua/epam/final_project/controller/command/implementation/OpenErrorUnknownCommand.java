@@ -9,14 +9,14 @@ import ua.epam.final_project.controller.util.SessionRequestContent;
 
 import java.util.List;
 
-public class UnknownErrorCommand implements ICommand {
+public class OpenErrorUnknownCommand implements ICommand {
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.FORWARD);
 
-        result.setPage(ResourceConfiguration.getInstance().getPage("error.404"));
+        result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
         return result;
     }
 

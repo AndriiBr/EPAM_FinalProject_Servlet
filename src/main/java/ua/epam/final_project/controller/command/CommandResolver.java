@@ -27,7 +27,7 @@ public class CommandResolver {
         commandList.put("auth/logout", new SignOutCommand());
         commandList.put("login/success", new OpenLoginSuccessPageCommand());
         commandList.put("login/fail", new OpenLoginFailPageCommand());
-        commandList.put("error/unknown_error", new UnknownErrorCommand());
+        commandList.put("error/unknown_error", new OpenErrorUnknownCommand());
         commandList.put("auth/registration", new OpenRegistrationPageCommand());
         commandList.put("auth/registration_post", new SignUpCommand());
         commandList.put("registration/success", new OpenRegistrationSuccessPageCommand());
@@ -38,6 +38,13 @@ public class CommandResolver {
         commandList.put("user/subscriptions", new OpenUserSubscriptionsPageCommand());
         commandList.put("list/buy", new OpenEditionBuyPageCommand());
         commandList.put("list/buy_post", new BuyEditionCommand());
+        commandList.put("subscriptions/unsubscribe_post", new UnsubscribeEditionCommand());
+        commandList.put("admin/edition", new OpenAdminEditionConsoleCommand());
+        commandList.put("edition/new-edition", new OpenAddNewEditionPageCommand());
+        commandList.put("edition/new-edition_post", new SaveNewEditionCommand());
+        commandList.put("edition/delete_post", new DeleteEditionCommand());
+        commandList.put("edition/edit", new OpenEditEditionPageCommand());
+        //        commandList.put("edition/edit_post", new EditEditionCommand());
     }
 
     /**
@@ -71,13 +78,15 @@ public class CommandResolver {
             commandHistory = new CommandHistory();
         }
 
+        //Find required command
         ICommand command = commandList.get(reqCommand);
         if (command == null) {
-            return new UnknownErrorCommand();
+            return new OpenErrorNotFoundCommand();
         }
 
+        //Security access check
         if (!SecurityChecker.getInstance().checkSecurity(req, command)) {
-            return new UnknownErrorCommand();
+            return new OpenErrorUnknownCommand();
         }
 
         commandHistory.addNewCommand(reqCommand);

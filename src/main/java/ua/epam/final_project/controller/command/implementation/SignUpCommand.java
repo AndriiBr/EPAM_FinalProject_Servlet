@@ -7,6 +7,7 @@ import ua.epam.final_project.controller.command.ICommand;
 import ua.epam.final_project.controller.command.security.AccessLevel;
 import ua.epam.final_project.controller.util.Direction;
 import ua.epam.final_project.controller.util.ExecutionResult;
+import ua.epam.final_project.util.InputValidator;
 import ua.epam.final_project.controller.util.SessionRequestContent;
 import ua.epam.final_project.entity.User;
 import ua.epam.final_project.entity.dto.UserDto;
@@ -35,7 +36,7 @@ public class SignUpCommand implements ICommand {
         String email = content.getReqParameters().get("email");
         String password = content.getReqParameters().get("password");
         String passwordConfirm = content.getReqParameters().get("password_confirm");
-        boolean validation = validateLoginPassword(login, email, password, passwordConfirm);
+        boolean validation = InputValidator.validateLoginPassword(login, email, password, passwordConfirm);
 
         User user = new User(login, password, email);
 
@@ -65,19 +66,5 @@ public class SignUpCommand implements ICommand {
     @Override
     public List<AccessLevel> getAccessLevelList() {
         return Collections.singletonList(AccessLevel.GUEST);
-    }
-
-    private boolean validateLoginPassword(String login, String email, String password, String passwordConfirm) {
-        String emailRegex = "^[^ ]+@[^ ]+\\.[a-z]{2,4}$";
-
-        if (login == null || email == null || password == null || passwordConfirm == null) {
-            return false;
-        } else if (login.equals("") || email.equals("") || password.equals("") || passwordConfirm.equals("")) {
-            return false;
-        } else if (login.length() < 4 || password.length() < 8) {
-            return false;
-        } else if (!password.equals(passwordConfirm)) {
-            return false;
-        } else return email.matches(emailRegex);
     }
 }
