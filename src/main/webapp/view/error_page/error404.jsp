@@ -32,7 +32,7 @@
         <div class="fadeIn first">
             <div class="blank">1</div>
             <div class="err">4</div>
-            <img src="../../img/error_page/spinning_dog_format_6_to_4p1.gif" width="120" alt="icon" class="icon mt-3"/>
+            <img src="${pageContext.request.contextPath}/img/error_page/spinning_dog_format_6_to_4p1.gif" width="120" alt="icon" class="icon mt-3"/>
             <div class="err2">4</div>
         </div>
 
@@ -55,4 +55,9 @@
 
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
 </body>
+</html>

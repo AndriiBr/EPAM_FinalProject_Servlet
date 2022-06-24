@@ -39,11 +39,6 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li>
-                                    <a class="dropdown-item" href="#">
-                                        <fmt:message key="navbar.user_settings" bundle="${navbar}"/>
-                                    </a>
-                                </li>
-                                <li>
                                     <a class="dropdown-item" href="${pageContext.request.contextPath}/user/subscriptions">
                                         <fmt:message key="navbar.subscriptions" bundle="${navbar}"/>
                                     </a>
@@ -73,7 +68,10 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/user-list">
                                         <fmt:message key="navbar.user_list" bundle="${navbar}"/>
                                     </a>
                                 </li>

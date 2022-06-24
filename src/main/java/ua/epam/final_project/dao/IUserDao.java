@@ -49,6 +49,14 @@ public interface IUserDao {
     User findUserByLogin(String login) throws DataNotFoundException;
 
     /**
+     * Gets a user by login match
+     * @param id user id
+     * @return user entity
+     * @throws DataNotFoundException if nothing was found in Db
+     */
+    User findUserById(int id) throws DataNotFoundException;
+
+    /**
      * Inserts new user into DB
      * @param user user entity
      * @return TRUE - if operation was success. FALSE - if not.

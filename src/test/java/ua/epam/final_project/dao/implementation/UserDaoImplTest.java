@@ -80,6 +80,15 @@ class UserDaoImplTest {
     @Story("UserDao")
     void findUserByLogin() throws DataNotFoundException {
         assertNotNull(userDao.findUserByLogin("admin"));
+        assertNull(userDao.findUserByLogin("userAdminSomeTextWrong"));
+    }
+
+    @Test
+    @DisplayName("Find single user from DB by id")
+    @Story("UserDao")
+    void findUserByID() throws DataNotFoundException {
+        assertNotNull(userDao.findUserById(1));
+        assertNull(userDao.findUserById(9999));
     }
 
     @Test

@@ -2,7 +2,6 @@ package ua.epam.final_project.service;
 
 import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.UnknownUserException;
-import ua.epam.final_project.entity.User;
 
 import java.util.List;
 
@@ -46,6 +45,13 @@ public interface IUserService {
      * @return user entity
      */
     UserDto findUserByLogin(String login) throws UnknownUserException;
+
+    /**
+     * Get a user by login match
+     * @param id user id
+     * @return user entity
+     */
+    UserDto findUserById(int id) throws UnknownUserException;
 
     /**
      * Insert new user into DB

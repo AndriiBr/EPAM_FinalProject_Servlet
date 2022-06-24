@@ -45,6 +45,8 @@ public class CommandResolver {
         commandList.put("edition/delete_post", new DeleteEditionCommand());
         commandList.put("edition/edit", new OpenEditEditionPageCommand());
         commandList.put("edition/edit_post", new EditEditionCommand());
+        commandList.put("admin/user-list", new OpenUserListPage());
+        commandList.put("user-list/block_post", new BlockUnblockUserCommand());
     }
 
     /**

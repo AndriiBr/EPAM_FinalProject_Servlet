@@ -161,6 +161,27 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Find user by id")
+    @Story("User service")
+    void findUserById_return_correct_user() throws UnknownUserException, DataNotFoundException {
+        Mockito.when(userDao.findUserById(anyInt()))
+                .thenReturn(user);
+
+        assertEquals("test_login", userService.findUserById(1).getLogin());
+    }
+
+    @Test
+    @DisplayName("[Null] find user by wrong id")
+    @Story("User service")
+    @Description("Returns null if the user with this login was not found in the DB")
+    void findUserById_return_null() throws UnknownUserException, DataNotFoundException {
+        Mockito.when(userDao.findUserById(anyInt()))
+                .thenReturn(null);
+
+        assertNull(userService.findUserById(-1));
+    }
+
+    @Test
     @DisplayName("[success] Add user to DB")
     @Story("User service")
     void insertUser_Success() {

@@ -2,7 +2,6 @@ package ua.epam.final_project.util.servlet_filter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.util.localization.LocalizationFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +10,6 @@ import java.io.IOException;
 
 public class LocalizationFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(LocalizationFilter.class);
-
-    private static final String LOCALIZATION = "localization";
     private static final String LOCALE = "language";
 
     @Override
@@ -32,22 +29,19 @@ public class LocalizationFilter implements Filter {
         String reqParameterLang = req.getParameter(LOCALE);
 
         if (reqParameterLang != null) {
-            if (reqParameterLang.equals("en")) {
-                req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("en"));
-                session.setAttribute(LOCALE, "en");
-            } else if (reqParameterLang.equals("ua")) {
-                req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("ua"));
+            if (reqParameterLang.equals("ua")) {
                 session.setAttribute(LOCALE, "ua");
+            } else {
+                session.setAttribute(LOCALE, "en");
             }
         } else if (sessionAttributeLang != null) {
-            if (sessionAttributeLang.equals("en")) {
-                req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("en"));
+            if (sessionAttributeLang.equals("ua")) {
+                session.setAttribute(LOCALE, "ua");
             } else {
-                req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("ua"));
+                session.setAttribute(LOCALE, "en");
             }
         } else {
-            session.setAttribute(LOCALE, "ua");
-            req.setAttribute(LOCALIZATION, LocalizationFactory.getLanguageResourceBundle("ua"));
+            session.setAttribute(LOCALE, "en");
         }
 
         filterChain.doFilter(request, response);

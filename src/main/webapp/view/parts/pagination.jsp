@@ -11,14 +11,14 @@
 
 <div class="container my-0 py-0">
 <nav aria-label="Page navigation example">
-    <div class="row">
+    <div class="row mb-2">
         <div class="col">
-            <ul class="pagination justify-content-start mb-5 mt-2">
+            <ul class="pagination justify-content-start mb-5 pb-2">
                 <li class="page-item">
                     <button class="page-link disabled disabled">Elements</button>
                 </li>
 
-                <c:forEach begin="3" end="5" var="r">
+                <c:forEach items="${[3, 5, 7, 10, 15]}" var="r">
                     <c:choose>
                         <c:when test="${requestScope.recordsPerPage eq r}">
                             <li class="page-item active">
@@ -36,7 +36,7 @@
             </ul>
         </div>
         <div class="col">
-            <ul class="pagination justify-content-center mb-2 pb-2">
+            <ul class="pagination justify-content-center mb-5 pb-2">
                 <c:choose>
                     <c:when test="${requestScope.currentPage eq '1'}">
                         <li class="page-item disabled">

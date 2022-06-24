@@ -6,10 +6,11 @@ public final class SQLConstant {
 
     //SQL requests for UserDAO
     public static final String SQL_GET_NUMBER_OF_USERS = "SELECT COUNT(*) AS rowcount FROM usr";
-    public static final String SQL_FIND_ALL_USERS = "SELECT * FROM usr";
-    public static final String SQL_FIND_USERS_FROM_TO = "SELECT * FROM usr LIMIT ? OFFSET ?";
+    public static final String SQL_FIND_ALL_USERS = "SELECT * FROM usr ORDER BY id";
+    public static final String SQL_FIND_USERS_FROM_TO = "SELECT * FROM usr ORDER BY id LIMIT ? OFFSET ?";
     public static final String SQL_FIND_USER_BY_LOGIN_PASSWORD = "SELECT * FROM usr WHERE (username=?) AND (pass=?)";
     public static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM usr WHERE (username=?)";
+    public static final String SQL_FIND_USER_BY_ID = "SELECT * FROM usr WHERE id = ?";
     public static final String SQL_UPDATE_USER =
             "UPDATE usr SET username = ?, pass = ?, email = ?, first_name = ?, user_image = ?, balance = ?, user_role_id = ? WHERE id = ?";
     public static final String SQL_INSERT_USER =
@@ -19,7 +20,7 @@ public final class SQLConstant {
     //SQL requests for EditionDAO
         //Get number of rows with and without genre filter
     public static final String SQL_GET_NUMBER_OF_EDITIONS = "SELECT COUNT(*) AS rowcount FROM edition WHERE genre_id = ?";
-    public static final String SQL_GET_NUMBER_OF_EDITIONS_All_GENRES = "SELECT COUNT(*) AS rowcount FROM edition WHERE genre_id = genre_id";
+    public static final String SQL_GET_NUMBER_OF_EDITIONS_GENRES = "SELECT COUNT(*) AS rowcount FROM edition WHERE genre_id = genre_id";
         //Get number of rows with and without genre filter
     public static final String SQL_GET_NUMBER_OF_EDITIONS_WITHOUT_USER_ALREADY_HAS =
             "SELECT COUNT(*) AS rowcount FROM edition WHERE id NOT IN (SELECT edition_id FROM user_edition WHERE user_id = ?) AND genre_id = ?";

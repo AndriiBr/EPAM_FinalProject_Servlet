@@ -36,11 +36,11 @@ public class OpenUserSubscriptionsPageCommand implements ICommand {
         result.setDirection(Direction.FORWARD);
         result.setPage(ResourceConfiguration.getInstance().getPage("shop.subscriptions"));
 
-        int genreFilter = InputValidator.extractValueFromRequest(content, GENRE_FILTER, 0);
         String orderBy = InputValidator.extractValueFromRequest(content, ORDER_BY, "");
-        int totalEditionsNumber = 0;
-        int recordsPerPage = InputValidator.extractValueFromRequest(content, RECORDS_PER_PAGE, 4);
+        int totalEditionsNumber;
+        int recordsPerPage = InputValidator.extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
         int currentPage = InputValidator.extractValueFromRequest(content, CURRENT_PAGE, 1);
+        int genreFilter = InputValidator.extractValueFromRequest(content, GENRE_FILTER, 0);
 
         IEditionService editionService = ServiceFactory.getEditionService();
         IGenreService genreService = ServiceFactory.getGenreService();

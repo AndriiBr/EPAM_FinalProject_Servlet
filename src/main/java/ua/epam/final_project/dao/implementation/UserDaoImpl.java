@@ -111,6 +111,26 @@ public class UserDaoImpl implements IUserDao {
         return user;
     }
 
+    @Override
+    public User findUserById(int id) throws DataNotFoundException {
+        User user = null;
+
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                user = extractUser(rs);
+            }
+
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DataNotFoundException();
+        }
+
+        return user;
+    }
+
     public boolean insertUser(User user) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER)) {
             if (findUserByLogin(user.getLogin()) != null) {

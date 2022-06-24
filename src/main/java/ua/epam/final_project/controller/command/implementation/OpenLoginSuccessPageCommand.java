@@ -24,6 +24,6 @@ public class OpenLoginSuccessPageCommand implements ICommand {
 
     @Override
     public List<AccessLevel> getAccessLevelList() {
-        return Arrays.asList(AccessLevel.ADMIN, AccessLevel.USER);
+        return Arrays.asList(AccessLevel.ADMIN, AccessLevel.USER, AccessLevel.BLOCKED);
     }
 }

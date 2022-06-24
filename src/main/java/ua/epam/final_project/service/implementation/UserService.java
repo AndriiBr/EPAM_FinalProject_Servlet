@@ -111,6 +111,19 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public UserDto findUserById(int id) throws UnknownUserException {
+        try {
+            daoFactory.getConnection();
+            return UserDtoMapper.convertEntityIntoDto(userDao.findUserById(id));
+        } catch (DataNotFoundException e) {
+            logger.error(e);
+            throw new UnknownUserException();
+        } finally {
+            daoFactory.releaseConnection();
+        }
+    }
+
+    @Override
     public boolean insertUser(UserDto userDto) {
         boolean operationResult;
 

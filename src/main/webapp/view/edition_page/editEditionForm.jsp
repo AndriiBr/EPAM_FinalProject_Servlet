@@ -182,7 +182,7 @@
                 <div class="d-flex justify-content-center pt-1 mb-4 mt-4">
                     <button type="submit" class="btn btn-info btn-lg btn-block"
                             value="${requestScope.localization.getString("edition_list.link.add_edition")}">
-                        <fmt:message key="edition.edit" bundle="${locale}"/>
+                        <fmt:message key="edition.save" bundle="${locale}"/>
                     </button>
                 </div>
             </div>

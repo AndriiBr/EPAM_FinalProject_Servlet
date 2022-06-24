@@ -38,11 +38,11 @@
                                                 ${genre.genreUa}
                                         </option>
                                     </c:when>
-                                    <c:when test="${language == 'en'}">
+                                    <c:otherwise>
                                         <option value="${genreId}" ${requestScope.genreFilter eq genreId ? 'selected' : ''}>
                                                 ${genre.genreEn}
                                         </option>
-                                    </c:when>
+                                    </c:otherwise>
                                 </c:choose>
                             </c:forEach>
                         </select>
@@ -55,7 +55,7 @@
                     </a>
                 </th>
 
-                <c:if test="${sessionScope.user != null}">
+                <c:if test="${sessionScope.user.role eq '3' or sessionScope.user.role eq '2'}">
                     <th class=" col-2 text-center fs-5" scope="col" id="buy">
                         <fmt:message key="edition.buy" bundle="${locale}"/>
                     </th>
@@ -79,9 +79,9 @@
                                 <c:when test="${language == 'ua'}">
                                     <c:out value="${edition.titleUa}"/>
                                 </c:when>
-                                <c:when test="${language == 'en'}">
+                                <c:otherwise>
                                     <c:out value="${edition.titleEn}"/>
-                                </c:when>
+                                </c:otherwise>
                             </c:choose>
                         </p>
                         <p class="text-muted mb-0 pe-5">
@@ -89,9 +89,9 @@
                                 <c:when test="${language == 'ua'}">
                                     <c:out value="${edition.textUa}"/>
                                 </c:when>
-                                <c:when test="${language == 'en'}">
+                                <c:otherwise>
                                     <c:out value="${edition.textEn}"/>
-                                </c:when>
+                                </c:otherwise>
                             </c:choose>
                         </p>
                     </td>
@@ -106,9 +106,9 @@
                                         <c:when test="${language == 'ua'}">
                                             <c:out value="${genre.genreUa}"/>
                                         </c:when>
-                                        <c:when test="${language == 'en'}">
+                                        <c:otherwise>
                                             <c:out value="${genre.genreEn}"/>
-                                        </c:when>
+                                        </c:otherwise>
                                     </c:choose>
                                 </c:when>
                             </c:choose>
@@ -142,9 +142,9 @@
                                                 <c:when test="${language == 'ua'}">
                                                     <c:out value="${edition.titleUa}"/>
                                                 </c:when>
-                                                <c:when test="${language == 'en'}">
+                                                <c:otherwise>
                                                     <c:out value="${edition.titleEn}"/>
-                                                </c:when>
+                                                </c:otherwise>
                                             </c:choose>
                                         </h1>
                                         <img src="${edition.imagePath}" alt="${edition.id}" width="150" height="200"
