@@ -44,7 +44,7 @@ public class CommandResolver {
         commandList.put("edition/new-edition_post", new SaveNewEditionCommand());
         commandList.put("edition/delete_post", new DeleteEditionCommand());
         commandList.put("edition/edit", new OpenEditEditionPageCommand());
-        //        commandList.put("edition/edit_post", new EditEditionCommand());
+        commandList.put("edition/edit_post", new EditEditionCommand());
     }
 
     /**

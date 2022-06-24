@@ -62,7 +62,7 @@ public class MultipartExtractor {
                     }
                 }
             }
-        } catch (ServletException | UnknownGenreException | IOException e) {
+        } catch (ServletException | UnknownGenreException | IOException | NullPointerException e) {
             logger.error(e);
             throw new MultipartFormException();
         }

@@ -49,13 +49,19 @@
               action="${pageContext.request.contextPath}/admin/edition/edit"
               enctype="multipart/form-data">
 
+            <div class="input-area">
+                <input type="text" hidden id="edit_edition_id" name="edit_edition_id"
+                       value="${requestScope.editEdition.id}">
+            </div>
+
             <!-- Title_En Form -->
             <div class="fadeIn second">
                 <div class="d-flex justify-content-center field titleEn">
                     <div class="col-10">
                         <div class="input-area">
                             <input type="text" id="title_en" class="form-control" name="title_en"
-                                   placeholder="${requestScope.editEdition.titleEn}">
+                                   value="${requestScope.editEdition.titleEn}"
+                                   placeholder="<fmt:message key="edition.title_en" bundle="${locale}"/>">
                         </div>
                         <div class="error error-text"></div>
                     </div>
@@ -68,7 +74,8 @@
                     <div class="col-10">
                         <div class="input-area">
                             <input type="text" id="title_ua" class="form-control" name="title_ua"
-                                   placeholder="${requestScope.editEdition.titleUa}">
+                                   value="${requestScope.editEdition.titleUa}"
+                                   placeholder="<fmt:message key="edition.title_ua" bundle="${locale}"/>">
                         </div>
                         <div class="error error-text"></div>
                     </div>
@@ -81,7 +88,8 @@
                     <div class="col-10">
                         <div class="input-area">
                             <input type="text" id="text_en" class="form-control" name="text_en"
-                                   placeholder="${requestScope.editEdition.textEn}">
+                                   value="${requestScope.editEdition.textEn}"
+                                   placeholder="<fmt:message key="edition.text_en" bundle="${locale}"/>">
                         </div>
                         <div class="error error-text"></div>
                     </div>
@@ -94,7 +102,8 @@
                     <div class="col-10">
                         <div class="input-area">
                             <input type="text" id="text_ua" class="form-control" name="text_ua"
-                                   placeholder="${requestScope.editEdition.textUa}">
+                                   value="${requestScope.editEdition.textUa}"
+                                   placeholder="<fmt:message key="edition.text_ua" bundle="${locale}"/>">
                         </div>
                         <div class="error error-text"></div>
                     </div>
@@ -108,7 +117,8 @@
                     <div class="col-10">
                         <div class="input-area">
                             <input type="text" id="price" class="form-control" name="price"
-                                   placeholder="${requestScope.editEdition.price}">
+                                   value="${requestScope.editEdition.price}"
+                                   placeholder="<fmt:message key="edition.price" bundle="${locale}"/>">
                         </div>
                         <div class="error error-text"></div>
                     </div>
@@ -121,21 +131,6 @@
                     <div class="col-10">
                         <div class="input-area">
                             <select id="genre" class="form-select" name="genre">
-<%--                                <option selected--%>
-<%--                                        disabled="disabled">--%>
-<%--                                    ${requestScope.editEdition.genre}--%>
-<%--                                </option>--%>
-<%--                                <c:forEach items="${requestScope.genreList}" var="genre">--%>
-<%--                                    <c:choose>--%>
-<%--                                        <c:when test="${language == 'ua'}">--%>
-<%--                                            <option value="${genre.genreUa}">${genre.genreUa}</option>--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:when test="${language == 'en'}">--%>
-<%--                                            <option value="${genre.genreEn}">${genre.genreEn}</option>--%>
-<%--                                        </c:when>--%>
-<%--                                    </c:choose>--%>
-<%--                                </c:forEach>--%>
-
                                 <c:set var="key" value="${requestScope.editEdition.genreId}"/>
                                 <c:forEach var="genre" items="${requestScope.genreList}">
                                     <c:choose>
@@ -152,7 +147,7 @@
                                     </c:choose>
                                 </c:forEach>
 
-                                <option value="${genreName}" selected="selected" disabled="disabled">
+                                <option value="${genreName}" selected="selected">
                                     ${genreName}
                                 </option>
                                 <c:forEach items="${requestScope.genreList}" var="genre">

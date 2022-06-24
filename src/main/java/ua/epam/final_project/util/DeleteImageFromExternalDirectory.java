@@ -17,6 +17,10 @@ public class DeleteImageFromExternalDirectory {
     }
 
     public static boolean delete(String imagePath) {
+        if (imagePath == null || imagePath.equals("") || imagePath.equals("no image")) {
+            return false;
+        }
+
         String[] titlePath = imagePath.split("/");
         String fileName = titlePath[titlePath.length - 1];
 
