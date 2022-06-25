@@ -25,6 +25,13 @@ public class SearchShopListCommand implements ICommand {
     private static final Logger logger = LogManager.getLogger(SearchShopListCommand.class);
     private static final String CURRENT_PAGE = "currentPage";
     private static final String RECORDS_PER_PAGE = "recordsPerPage";
+    private final IEditionService editionService;
+    private final IGenreService genreService;
+
+    public SearchShopListCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+        this.genreService = ServiceFactory.getGenreService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
@@ -41,9 +48,6 @@ public class SearchShopListCommand implements ICommand {
                         .get("search")
                         .getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String field = extractFieldWhereToSearch(content);
-
-        IEditionService editionService = ServiceFactory.getEditionService();
-        IGenreService genreService = ServiceFactory.getGenreService();
 
         try {
             List<Edition> editionList;

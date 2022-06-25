@@ -25,19 +25,23 @@ public class OpenUserListPage implements ICommand {
     private static final Logger logger = LogManager.getLogger(OpenUserListPage.class);
     private static final String CURRENT_PAGE = "currentPage";
     private static final String RECORDS_PER_PAGE = "recordsPerPage";
+    private final IUserService userService;
+    private final IRoleService roleService;
+
+    public OpenUserListPage() {
+        this.userService = ServiceFactory.getUserService();
+        this.roleService = ServiceFactory.getRoleService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.FORWARD);
-        result.setPage(ResourceConfiguration.getInstance().getPage("admin.user-list"));
+        result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
 
         int recordsPerPage = InputValidator.extractValueFromRequest(content, RECORDS_PER_PAGE, 10);
         int currentPage = InputValidator.extractValueFromRequest(content, CURRENT_PAGE, 1);
         int totalUserNumber;
-
-        IUserService userService = ServiceFactory.getUserService();
-        IRoleService roleService = ServiceFactory.getRoleService();
 
         try {
             List<UserDto> userList = userService.findAllUsersFromTo(recordsPerPage, currentPage);
@@ -54,14 +58,11 @@ public class OpenUserListPage implements ICommand {
                 result.addRequestAttribute("numberOfPages", numberOfPages);
                 result.addRequestAttribute(CURRENT_PAGE, currentPage);
                 result.addRequestAttribute(RECORDS_PER_PAGE, recordsPerPage);
-            } else {
-                result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
-                return result;
+
+                result.setPage(ResourceConfiguration.getInstance().getPage("admin.user-list"));
             }
         } catch (UnknownUserException | UnknownRoleException e) {
             logger.error(e);
-            result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
-            return result;
         }
 
         return result;

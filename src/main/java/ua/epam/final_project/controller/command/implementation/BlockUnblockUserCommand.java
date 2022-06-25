@@ -20,17 +20,19 @@ import java.util.List;
 public class BlockUnblockUserCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(BlockUnblockUserCommand.class);
-    private static final String ERROR_UNKNOWN = "error.unknown";
+    private final IUserService userService;
+
+    public BlockUnblockUserCommand() {
+        this.userService = ServiceFactory.getUserService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
-        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("admin.user-list"));
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
 
         int userId = InputValidator.extractValueFromRequest(content, "user_block", -1);
-
-        IUserService userService = ServiceFactory.getUserService();
 
         try {
             UserDto userDto = userService.findUserById(userId);
@@ -39,18 +41,12 @@ public class BlockUnblockUserCommand implements ICommand {
                 userDto.setRole(userDto.getRole().equals("2") ? "0" : "2");
                 boolean isSuccess = userService.updateUser(userDto);
 
-                if (!isSuccess) {
-                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-                    return result;
+                if (isSuccess) {
+                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("admin.user-list"));
                 }
-            } else {
-                result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-                return result;
             }
         } catch (UnknownUserException e) {
             logger.error(e);
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-            return result;
         }
 
         return result;

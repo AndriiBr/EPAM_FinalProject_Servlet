@@ -23,35 +23,39 @@ import java.util.List;
 public class BuyEditionCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(BuyEditionCommand.class);
+    private final IUserService userService;
+    private final IEditionService editionService;
+    private final IUserEditionService userEditionService;
+
+    public BuyEditionCommand() {
+        this.userService = ServiceFactory.getUserService();
+        this.editionService = ServiceFactory.getEditionService();
+        this.userEditionService = ServiceFactory.getUserEditionService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
-        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("shop.edition_list"));
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
 
         UserDto userDto = (UserDto) content.getSessionAttributes().get("user");
         int editionId = Integer.parseInt(content.getReqParameters().get("buy_edition_id"));
 
-        IUserService userService = ServiceFactory.getUserService();
-        IEditionService editionService = ServiceFactory.getEditionService();
-        IUserEditionService userEditionService = ServiceFactory.getUserEditionService();
-
         try {
             Edition edition = editionService.findEditionById(editionId);
-            boolean res = false;
-            if (edition != null && userDto != null) {
-                 res = userEditionService.insertUserEdition(userDto, edition);
-                 userDto = userService.findUserByLogin(userDto.getLogin());
-                 result.addSessionAttribute("user", userDto);
-            }
 
-            if (!res) {
-                result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
+            if (edition != null && userDto != null) {
+                boolean res = userEditionService.insertUserEdition(userDto, edition);
+                userDto = userService.findUserByLogin(userDto.getLogin());
+                result.addSessionAttribute("user", userDto);
+
+                if (res) {
+                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("shop.edition_list"));
+                }
             }
         } catch (UnknownEditionException | UnknownUserException e) {
             logger.error(e);
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
         }
 
         return result;

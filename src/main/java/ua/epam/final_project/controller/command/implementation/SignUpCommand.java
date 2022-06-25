@@ -22,12 +22,16 @@ import java.util.List;
 public class SignUpCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(SignUpCommand.class);
+    private final IUserService userService;
+
+    public SignUpCommand() {
+        this.userService = ServiceFactory.getUserService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
-        IUserService userService = ServiceFactory.getUserService();
 
         //Set result as failed before all validation will be done
         result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("auth.registration.fail"));
@@ -36,7 +40,7 @@ public class SignUpCommand implements ICommand {
         String email = content.getReqParameters().get("email");
         String password = content.getReqParameters().get("password");
         String passwordConfirm = content.getReqParameters().get("password_confirm");
-        boolean validation = InputValidator.validateLoginPassword(login, email, password, passwordConfirm);
+        boolean validation = InputValidator.validateRegistrationForm(login, email, password, passwordConfirm);
 
         User user = new User(login, password, email);
 
@@ -46,6 +50,7 @@ public class SignUpCommand implements ICommand {
                 newUser.setPassword(user.getPassword());
                 boolean userAdded = userService.insertUser(newUser);
                 UserDto userDto = userService.findUserByLogin(login);
+
                 if (userAdded && userDto != null) {
                     result.addSessionAttribute("user", userDto);
                     result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("auth.registration.success"));

@@ -19,23 +19,26 @@ import ua.epam.final_project.util.InputValidator;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OpenEditEditionPageCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(OpenEditEditionPageCommand.class);
     private static final String ERROR_UNKNOWN = "error.unknown";
+    private final IEditionService editionService;
+    private final IGenreService genreService;
+
+    public OpenEditEditionPageCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+        this.genreService = ServiceFactory.getGenreService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
-        result.setDirection(Direction.FORWARD);
-        result.setPage(ResourceConfiguration.getInstance().getPage("admin.edit-edition"));
+        result.setDirection(Direction.REDIRECT);
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
 
         int editEditionId = InputValidator.extractValueFromRequest(content, "edit_edition_id", -1);
-
-        IEditionService editionService = ServiceFactory.getEditionService();
-        IGenreService genreService = ServiceFactory.getGenreService();
 
         try {
             Edition edition = editionService.findEditionById(editEditionId);
@@ -44,16 +47,12 @@ public class OpenEditEditionPageCommand implements ICommand {
             if (edition != null && !genreList.isEmpty()) {
                 result.addRequestAttribute("editEdition", edition);
                 result.addRequestAttribute("genreList", genreList);
-            } else {
-                result.setDirection(Direction.REDIRECT);
-                result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-                return result;
+
+                result.setDirection(Direction.FORWARD);
+                result.setPage(ResourceConfiguration.getInstance().getPage("admin.edit-edition"));
             }
         } catch (UnknownEditionException | UnknownGenreException e) {
             logger.error(e);
-            result.setDirection(Direction.REDIRECT);
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-            return result;
         }
 
         return result;

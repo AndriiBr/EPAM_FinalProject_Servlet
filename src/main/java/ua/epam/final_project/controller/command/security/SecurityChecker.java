@@ -5,6 +5,7 @@ import ua.epam.final_project.controller.command.ICommand;
 import ua.epam.final_project.entity.dto.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class SecurityChecker {
@@ -27,7 +28,8 @@ public class SecurityChecker {
      * @return True - if access granted / False - if not.
      */
     public boolean checkSecurity(HttpServletRequest req, ICommand command) {
-        UserDto userDto = (UserDto) req.getSession(false).getAttribute("user");
+        HttpSession session = req.getSession(false);
+        UserDto userDto = (UserDto) session.getAttribute("user");
         List<AccessLevel> accessLevelList = command.getAccessLevelList();
 
         int userRole;

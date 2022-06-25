@@ -30,11 +30,19 @@ public class OpenUserSubscriptionsPageCommand implements ICommand {
     private static final String GENRE_FILTER = "genreFilter";
     private static final String ORDER_BY = "orderBy";
 
+    private final IEditionService editionService;
+    private final IGenreService genreService;
+
+    public OpenUserSubscriptionsPageCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+        this.genreService = ServiceFactory.getGenreService();
+    }
+
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.FORWARD);
-        result.setPage(ResourceConfiguration.getInstance().getPage("shop.subscriptions"));
+        result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
 
         String orderBy = InputValidator.extractValueFromRequest(content, ORDER_BY, "");
         int totalEditionsNumber;
@@ -42,8 +50,6 @@ public class OpenUserSubscriptionsPageCommand implements ICommand {
         int currentPage = InputValidator.extractValueFromRequest(content, CURRENT_PAGE, 1);
         int genreFilter = InputValidator.extractValueFromRequest(content, GENRE_FILTER, 0);
 
-        IEditionService editionService = ServiceFactory.getEditionService();
-        IGenreService genreService = ServiceFactory.getGenreService();
 
         UserDto userDto = (UserDto) content.getSessionAttributes().get("user");
 
@@ -55,7 +61,6 @@ public class OpenUserSubscriptionsPageCommand implements ICommand {
                 editionList = getEditionListForUser(editionService, userDto, recordsPerPage, currentPage, genreFilter, orderBy);
                 genreList = genreService.findAllGenres();
             } else {
-                result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
                 return result;
             }
 
@@ -70,6 +75,8 @@ public class OpenUserSubscriptionsPageCommand implements ICommand {
             result.addRequestAttribute(RECORDS_PER_PAGE, recordsPerPage);
             result.addRequestAttribute("editionList", editionList);
             result.addRequestAttribute("genresList", genreList);
+
+            result.setPage(ResourceConfiguration.getInstance().getPage("shop.subscriptions"));
         } catch (UnknownEditionException | UnknownGenreException e) {
             logger.error(e);
         }
@@ -84,7 +91,6 @@ public class OpenUserSubscriptionsPageCommand implements ICommand {
 
     /**
      * Return list of editions from DB with provided parameters
-     *
      * @param editionService - service to work with Dao layer
      * @param userDto        - user to be sorted for
      * @param recordsPerPage - how many records will be rendered at the final page

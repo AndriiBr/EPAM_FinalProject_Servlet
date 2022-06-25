@@ -21,29 +21,31 @@ import java.util.List;
 public class UnsubscribeEditionCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(UnsubscribeEditionCommand.class);
+    private final IEditionService editionService;
+    private final IUserEditionService userEditionService;
+
+    public UnsubscribeEditionCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+        this.userEditionService = ServiceFactory.getUserEditionService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
-        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("shop.subscriptions"));
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
 
         UserDto userDto = (UserDto) content.getSessionAttributes().get("user");
         int editionId = Integer.parseInt(content.getReqParameters().get("edition_id"));
-
-        IUserEditionService userEditionService = ServiceFactory.getUserEditionService();
-        IEditionService editionService = ServiceFactory.getEditionService();
 
         try {
             Edition edition = editionService.findEditionById(editionId);
 
             if (edition != null && userDto != null) {
                 boolean success = userEditionService.deleteUserEdition(userDto, edition);
-                if (!success) {
-                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
+                if (success) {
+                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("shop.subscriptions"));
                 }
-            } else {
-                result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
             }
         } catch (UnknownEditionException e) {
             logger.error(e);

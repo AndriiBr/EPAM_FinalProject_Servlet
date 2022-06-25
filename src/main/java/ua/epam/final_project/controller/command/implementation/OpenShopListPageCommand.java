@@ -29,6 +29,14 @@ public class OpenShopListPageCommand implements ICommand {
     private static final String GENRE_FILTER = "genreFilter";
     private static final String ORDER_BY = "orderBy";
 
+    private final IEditionService editionService;
+    private final IGenreService genreService;
+
+    public OpenShopListPageCommand() {
+        editionService = ServiceFactory.getEditionService();
+        genreService = ServiceFactory.getGenreService();
+    }
+
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
@@ -39,10 +47,6 @@ public class OpenShopListPageCommand implements ICommand {
         int currentPage = InputValidator.extractValueFromRequest(content, CURRENT_PAGE, 1);
         int genreFilter = InputValidator.extractValueFromRequest(content, GENRE_FILTER, 0);
         String orderBy = InputValidator.extractValueFromRequest(content, ORDER_BY, "");
-
-
-        IEditionService editionService = ServiceFactory.getEditionService();
-        IGenreService genreService = ServiceFactory.getGenreService();
 
         UserDto userDto = (UserDto) content.getSessionAttributes().get("user");
 

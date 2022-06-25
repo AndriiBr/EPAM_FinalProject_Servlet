@@ -20,20 +20,24 @@ import java.util.*;
 public class SaveNewEditionCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(SaveNewEditionCommand.class);
-    private static final String ERROR_UNKNOWN = "error.unknown";
+    private final IEditionService editionService;
+
+    public SaveNewEditionCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
-        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("admin.editions"));
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
 
         String titleEn;
         String titleUa;
         String textEn;
         String textUa;
-        int price;
-        int genre;
+        String price;
+        String genre;
         String imgPath;
 
         try {
@@ -42,31 +46,25 @@ public class SaveNewEditionCommand implements ICommand {
             titleUa = fieldMap.get("title_ua");
             textEn = fieldMap.get("text_en");
             textUa = fieldMap.get("text_ua");
-            price = Integer.parseInt(fieldMap.get("price"));
-            genre = Integer.parseInt(fieldMap.get("genre"));
+            price = fieldMap.get("price");
+            genre = fieldMap.get("genre");
             imgPath = MultipartExtractor.getAbsoluteImagePath(fieldMap.get("file-name"));
         } catch (MultipartFormException e) {
             logger.error(e);
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
             return result;
         }
 
         boolean valid = InputValidator.validateNewEdition(titleEn, titleUa, textEn, textUa, price, genre);
 
         if (valid) {
-            IEditionService editionService = ServiceFactory.getEditionService();
-            Edition edition = new Edition(titleEn, titleUa, textEn, textUa, price, genre);
+            Edition edition = new Edition(titleEn, titleUa, textEn, textUa, Integer.parseInt(price), Integer.parseInt(genre));
             edition.setImagePath(imgPath);
 
             boolean res = editionService.insertNewEdition(edition);
 
-            if (!res) {
-                result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-                return result;
+            if (res) {
+                result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("admin.editions"));
             }
-        } else {
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-            return result;
         }
 
         return result;

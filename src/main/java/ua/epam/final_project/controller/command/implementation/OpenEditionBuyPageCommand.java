@@ -20,17 +20,20 @@ import java.util.List;
 public class OpenEditionBuyPageCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(OpenEditionBuyPageCommand.class);
+    private final IEditionService editionService;
+
+    public OpenEditionBuyPageCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.FORWARD);
-        result.setPage(ResourceConfiguration.getInstance().getPage("shop.buy"));
+        result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
 
         int buyEditionId = Integer.parseInt(content.getReqParameters().get("buy_edition_id"));
         UserDto userDto = (UserDto) content.getSessionAttributes().get("user");
-
-        IEditionService editionService = ServiceFactory.getEditionService();
 
         try {
             Edition edition = editionService.findEditionById(buyEditionId);
@@ -38,11 +41,8 @@ public class OpenEditionBuyPageCommand implements ICommand {
             if (edition != null && userDto != null) {
                 result.addRequestAttribute("edition", edition);
                 result.addRequestAttribute("remainingBalance", userDto.getBalance() - edition.getPrice());
-
-            } else {
-                result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
+                result.setPage(ResourceConfiguration.getInstance().getPage("shop.buy"));
             }
-
         } catch (UnknownEditionException e) {
             logger.error(e);
         }

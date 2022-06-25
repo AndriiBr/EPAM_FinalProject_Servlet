@@ -19,15 +19,18 @@ import java.util.List;
 public class OpenWalletPageCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(OpenWalletPageCommand.class);
+    private final IUserService userService;
+
+    public OpenWalletPageCommand() {
+        this.userService = ServiceFactory.getUserService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
 
         result.setDirection(Direction.FORWARD);
-        result.setPage(ResourceConfiguration.getInstance().getPage("user.wallet"));
-
-        IUserService userService = ServiceFactory.getUserService();
+        result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
 
         UserDto userDto = (UserDto) content.getSessionAttributes().get("user");
 
@@ -35,10 +38,10 @@ public class OpenWalletPageCommand implements ICommand {
             if (userDto!= null) {
                 UserDto userFromDb = userService.findUserById(userDto.getId());
                 result.addSessionAttribute("user", userFromDb);
+                result.setPage(ResourceConfiguration.getInstance().getPage("user.wallet"));
             }
         } catch (UnknownUserException e) {
             logger.error(e);
-            result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
         }
 
         return result;

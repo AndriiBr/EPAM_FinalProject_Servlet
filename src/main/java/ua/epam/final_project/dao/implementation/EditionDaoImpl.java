@@ -29,7 +29,7 @@ public class EditionDaoImpl implements IEditionDao {
         String sqlPattern;
 
         if (genreFilter <= 0) {
-            sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_All_GENRES;
+            sqlPattern = SQL_GET_NUMBER_OF_EDITIONS_GENRES;
             try (Statement statement = connection.createStatement()) {
                 ResultSet rs = statement.executeQuery(sqlPattern);
 

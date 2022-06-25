@@ -20,13 +20,17 @@ public class OpenAddNewEditionPageCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(OpenAddNewEditionPageCommand.class);
 
+    private final IGenreService genreService;
+
+    public OpenAddNewEditionPageCommand() {
+        genreService = ServiceFactory.getGenreService();
+    }
+
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.FORWARD);
         result.setPage(ResourceConfiguration.getInstance().getPage("admin.new-edition"));
-
-        IGenreService genreService = ServiceFactory.getGenreService();
 
         try {
             List<Genre> genreList = genreService.findAllGenres();

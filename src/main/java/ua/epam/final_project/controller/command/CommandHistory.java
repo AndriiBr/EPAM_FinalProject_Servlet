@@ -1,13 +1,12 @@
 package ua.epam.final_project.controller.command;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Store all invoked commands for unique session
  */
-public class CommandHistory implements Serializable {
+public class CommandHistory {
 
     private final List<String> commandHistoryList;
 

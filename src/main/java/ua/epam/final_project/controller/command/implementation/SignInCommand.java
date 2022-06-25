@@ -12,6 +12,7 @@ import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.UnknownUserException;
 import ua.epam.final_project.service.IUserService;
 import ua.epam.final_project.service.ServiceFactory;
+import ua.epam.final_project.util.InputValidator;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,18 +21,23 @@ public class SignInCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(SignInCommand.class);
 
+    private final IUserService userService;
+
+    public SignInCommand() {
+        userService = ServiceFactory.getUserService();
+    }
+
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
-        IUserService userService = ServiceFactory.getUserService();
 
         //Set result as failed before all validation will be done
         result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("auth.login.fail"));
 
         String login = content.getReqParameters().get("login");
         String password = content.getReqParameters().get("password");
-        boolean validation = validateLoginPassword(login, password);
+        boolean validation = InputValidator.validateLoginPassword(login, password);
 
         try {
             if (validation) {
@@ -53,7 +59,4 @@ public class SignInCommand implements ICommand {
         return Collections.singletonList(AccessLevel.GUEST);
     }
 
-    private boolean validateLoginPassword(String login, String password) {
-        return login != null && password != null && !login.equals("") && !password.equals("");
-    }
 }

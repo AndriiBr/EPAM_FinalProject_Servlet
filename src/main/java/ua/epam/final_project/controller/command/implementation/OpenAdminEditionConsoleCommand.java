@@ -28,21 +28,25 @@ public class OpenAdminEditionConsoleCommand implements ICommand {
     private static final String CURRENT_PAGE = "currentPage";
     private static final String GENRE_FILTER = "genreFilter";
     private static final String ORDER_BY = "orderBy";
+    private final IEditionService editionService;
+    private final IGenreService genreService;
+
+    public OpenAdminEditionConsoleCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+        this.genreService = ServiceFactory.getGenreService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.FORWARD);
-        result.setPage(ResourceConfiguration.getInstance().getPage("admin.editions"));
+        result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
 
         int genreFilter = InputValidator.extractValueFromRequest(content, GENRE_FILTER, 0);
         String orderBy = InputValidator.extractValueFromRequest(content, ORDER_BY, "");
         int totalEditionsNumber;
         int recordsPerPage = InputValidator.extractValueFromRequest(content, RECORDS_PER_PAGE, 5);
         int currentPage = InputValidator.extractValueFromRequest(content, CURRENT_PAGE, 1);
-
-        IEditionService editionService = ServiceFactory.getEditionService();
-        IGenreService genreService = ServiceFactory.getGenreService();
 
         try {
             List<Edition> editionList = editionService
@@ -62,9 +66,10 @@ public class OpenAdminEditionConsoleCommand implements ICommand {
             result.addRequestAttribute(GENRE_FILTER, genreFilter);
             result.addRequestAttribute(ORDER_BY, orderBy);
 
+            result.setPage(ResourceConfiguration.getInstance().getPage("admin.editions"));
+
         } catch (UnknownEditionException | UnknownGenreException e) {
             logger.error(e);
-            result.setPage(ResourceConfiguration.getInstance().getPage("error.unknown"));
         }
 
         return result;

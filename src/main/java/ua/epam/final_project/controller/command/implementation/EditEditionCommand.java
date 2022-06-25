@@ -24,17 +24,19 @@ import java.util.Map;
 public class EditEditionCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(EditEditionCommand.class);
-    private static final String ERROR_UNKNOWN = "error.unknown";
+    private final IEditionService editionService;
+
+    public EditEditionCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
-        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("admin.editions"));
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
 
         int editEditionId = InputValidator.extractValueFromRequest(content, "edit_edition_id", -1);
-
-        IEditionService editionService = ServiceFactory.getEditionService();
 
         try {
             Edition edition = editionService.findEditionById(editEditionId);
@@ -49,20 +51,16 @@ public class EditEditionCommand implements ICommand {
 
                 boolean isSuccess = editionService.updateEdition(edition);
 
-                if (isSuccess && !oldImgPath.equals(edition.getImagePath())) {
-                    DeleteImageFromExternalDirectory.delete(oldImgPath);
-                } else if (!isSuccess) {
-                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-                    return result;
+                if (isSuccess) {
+                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("admin.editions"));
+
+                    if (!oldImgPath.equals(edition.getImagePath())) {
+                        DeleteImageFromExternalDirectory.delete(oldImgPath);
+                    }
                 }
-            } else {
-                result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-                return result;
             }
         } catch (UnknownEditionException | MultipartFormException | NullPointerException e) {
             logger.error(e);
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-            return result;
         }
 
         return result;
@@ -80,8 +78,8 @@ public class EditEditionCommand implements ICommand {
         String titleEn = fieldMap.get("title_en");
         String textUa = fieldMap.get("text_ua");
         String textEn = fieldMap.get("text_en");
-        int price = Integer.parseInt(fieldMap.get("price"));
-        int genre = Integer.parseInt(fieldMap.get("genre"));
+        String price = fieldMap.get("price");
+        String genre = fieldMap.get("genre");
         String imgPath = MultipartExtractor.getAbsoluteImagePath(fieldMap.get("file-name"));
 
         boolean valid = InputValidator.validateNewEdition(titleEn, titleUa, textEn, textUa, price, genre);
@@ -91,8 +89,8 @@ public class EditEditionCommand implements ICommand {
             edition.setTitleUa(titleUa);
             edition.setTextEn(textEn);
             edition.setTextUa(textUa);
-            edition.setPrice(price);
-            edition.setGenreId(genre);
+            edition.setPrice(Integer.parseInt(price));
+            edition.setGenreId(Integer.parseInt(genre));
 
             if (imgPath != null && !imgPath.equals("")) {
                 edition.setImagePath(imgPath);

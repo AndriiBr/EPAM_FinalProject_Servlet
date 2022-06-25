@@ -21,36 +21,31 @@ import java.util.List;
 public class DeleteEditionCommand implements ICommand {
 
     private static final Logger logger = LogManager.getLogger(DeleteEditionCommand.class);
-    private static final String ERROR_UNKNOWN = "error.unknown";
+    private final IEditionService editionService;
+
+    public DeleteEditionCommand() {
+        this.editionService = ServiceFactory.getEditionService();
+    }
 
     @Override
     public ExecutionResult execute(SessionRequestContent content) {
         ExecutionResult result = new ExecutionResult(content);
         result.setDirection(Direction.REDIRECT);
-        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("admin.editions"));
+        result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("error.unknown"));
 
         int editionId = InputValidator.extractValueFromRequest(content, "edition_id", -1);
-
-        IEditionService editionService = ServiceFactory.getEditionService();
 
         try {
             Edition edition = editionService.findEditionById(editionId);
             if (edition != null) {
                 boolean isSuccess = editionService.deleteEdition(edition);
                 if (isSuccess) {
+                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl("admin.editions"));
                     DeleteImageFromExternalDirectory.delete(edition.getImagePath());
-                } else {
-                    result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-                    return result;
                 }
-            } else {
-                result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-                return result;
             }
         } catch (UnknownEditionException e) {
             logger.error(e);
-            result.setRedirectUrl(ResourceConfiguration.getInstance().getUrl(ERROR_UNKNOWN));
-            return result;
         }
 
         return result;
