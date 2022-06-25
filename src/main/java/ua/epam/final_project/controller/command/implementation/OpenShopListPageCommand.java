@@ -73,7 +73,7 @@ public class OpenShopListPageCommand implements ICommand {
             result.addRequestAttribute(RECORDS_PER_PAGE, recordsPerPage);
             result.addRequestAttribute(GENRE_FILTER, genreFilter);
             result.addRequestAttribute(ORDER_BY, orderBy);
-        } catch (UnknownEditionException | UnknownGenreException e) {
+        } catch (UnknownEditionException | UnknownGenreException | NullPointerException e) {
             logger.error(e);
         }
 

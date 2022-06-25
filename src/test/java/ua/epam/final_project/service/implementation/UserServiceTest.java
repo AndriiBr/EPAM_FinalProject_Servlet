@@ -4,22 +4,18 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import ua.epam.final_project.dao.IUserDao;
-import ua.epam.final_project.dao.IUserEditionDao;
+import org.mockito.*;
+import ua.epam.final_project.dao.PostgresDaoFactory;
 import ua.epam.final_project.entity.User;
 import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.entity.dto.UserDtoMapper;
+import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.exception.UnknownUserException;
-import ua.epam.final_project.service.IUserService;
-import ua.epam.final_project.service.ServiceFactory;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,38 +26,35 @@ import static org.mockito.ArgumentMatchers.anyInt;
 @Feature("Service layer")
 class UserServiceTest {
 
-    @Mock
-    private IUserDao userDao;
-    @Mock
-    private IUserEditionDao userEditionDao;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private PostgresDaoFactory daoFactory;
+    @InjectMocks
+    private UserService userService;
 
-    private final IUserService userService;
     private final User user;
     private final UserDto userDto;
 
 
-    UserServiceTest() throws NoSuchFieldException, IllegalAccessException {
+    UserServiceTest() {
         MockitoAnnotations.openMocks(this);
-        userService = ServiceFactory.getUserService();
 
         user = new User("test_login", "test_pass", "test_email");
         userDto = UserDtoMapper.convertEntityIntoDto(user);
+    }
 
-        Field userDaoField = userService.getClass().getDeclaredField("userDao");
-        userDaoField.setAccessible(true);
-        userDaoField.set(userService, userDao);
-
-        Field userEditionDaoField = userService.getClass().getDeclaredField("userEditionDao");
-        userEditionDaoField.setAccessible(true);
-        userEditionDaoField.set(userService, userEditionDao);
+    @BeforeEach
+    public void setUp() throws DataBaseConnectionException {
+        Mockito.doNothing().when(daoFactory).getConnection();
+        Mockito.doNothing().when(daoFactory).releaseConnection();
+        Mockito.doNothing().when(daoFactory).beginTransaction();
+        Mockito.doNothing().when(daoFactory).commitTransaction();
     }
 
     @Test
     @DisplayName("Get number of users from DB")
     @Story("User service")
-    void getNumberOfUsers() throws UnknownUserException, DataNotFoundException {
-        Mockito.when(userDao.getNumberOfUsers())
-                .thenReturn(3);
+    void getNumberOfUsers() throws DataNotFoundException, UnknownUserException {
+        Mockito.when(daoFactory.getUserDao().getNumberOfUsers()).thenReturn(3);
 
         assertEquals(3, userService.getNumberOfUsers());
     }
@@ -70,7 +63,7 @@ class UserServiceTest {
     @DisplayName("[UnknownUserException] when Get number of users from DB")
     @Story("User service")
     void getNumberOfUsers_Exception() throws DataNotFoundException {
-        Mockito.when(userDao.getNumberOfUsers())
+        Mockito.when(daoFactory.getUserDao().getNumberOfUsers())
                 .thenThrow(DataNotFoundException.class);
 
         Assertions.assertThrows(UnknownUserException.class, userService::getNumberOfUsers);
@@ -80,7 +73,7 @@ class UserServiceTest {
     @DisplayName("Get list of users from DB")
     @Story("User service")
     void findAllUsers() throws DataNotFoundException, UnknownUserException {
-        Mockito.when(userDao.findAllUsers())
+        Mockito.when(daoFactory.getUserDao().findAllUsers())
                 .thenReturn(Arrays.asList(new User(), new User()));
 
         assertEquals(2, userService.findAllUsers().size());
@@ -90,7 +83,7 @@ class UserServiceTest {
     @DisplayName("[UnknownUserException] Get list of users from DB")
     @Story("User service")
     void findAllUsers_Exception() throws DataNotFoundException {
-        Mockito.when(userDao.findAllUsers())
+        Mockito.when(daoFactory.getUserDao().findAllUsers())
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownUserException.class, userService::findAllUsers);
@@ -100,7 +93,7 @@ class UserServiceTest {
     @DisplayName("Get list of users from DB with pagination")
     @Story("User service")
     void findAllUsersFromTo() throws DataNotFoundException, UnknownUserException {
-        Mockito.when(userDao.findAllUsersFromTo(anyInt(), anyInt()))
+        Mockito.when(daoFactory.getUserDao().findAllUsersFromTo(anyInt(), anyInt()))
                 .thenReturn(Arrays.asList(new User(), new User()));
 
         assertEquals(2, userService.findAllUsersFromTo(1, 3).size());
@@ -110,7 +103,7 @@ class UserServiceTest {
     @DisplayName("[UnknownUserException] Get list of users from DB with pagination")
     @Story("User service")
     void findAllUsersFromTo_Exception() throws DataNotFoundException {
-        Mockito.when(userDao.findAllUsersFromTo(anyInt(), anyInt()))
+        Mockito.when(daoFactory.getUserDao().findAllUsersFromTo(anyInt(), anyInt()))
                 .thenThrow(DataNotFoundException.class);
 
         Assertions.assertThrows(UnknownUserException.class, () ->
@@ -121,7 +114,7 @@ class UserServiceTest {
     @DisplayName("Find user by login and password")
     @Story("User service")
     void findUserByLoginPassword() throws UnknownUserException, DataNotFoundException {
-        Mockito.when(userDao.findUserByLoginPassword(any(), any()))
+        Mockito.when(daoFactory.getUserDao().findUserByLoginPassword(any(), any()))
                 .thenReturn(user);
 
         UserDto userFromService = userService.findUserByLoginPassword("test_login", "test_pass");
@@ -133,7 +126,7 @@ class UserServiceTest {
     @DisplayName("[UnknownUserException] Find user by login and password")
     @Story("User service")
     void findUserByLoginPassword_Exception() throws DataNotFoundException {
-        Mockito.when(userDao.findUserByLoginPassword(any(), any()))
+        Mockito.when(daoFactory.getUserDao().findUserByLoginPassword(any(), any()))
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownUserException.class, () -> userService.findUserByLoginPassword("test", "test"));
@@ -143,7 +136,7 @@ class UserServiceTest {
     @DisplayName("Find user by login")
     @Story("User service")
     void findUserByLogin_return_correct_user() throws UnknownUserException, DataNotFoundException {
-        Mockito.when(userDao.findUserByLogin(any()))
+        Mockito.when(daoFactory.getUserDao().findUserByLogin(any()))
                 .thenReturn(user);
 
         assertEquals("test_login", userService.findUserByLogin("test_login").getLogin());
@@ -154,7 +147,7 @@ class UserServiceTest {
     @Story("User service")
     @Description("Returns null if the user with this login was not found in the DB")
     void findUserByLogin_return_null() throws UnknownUserException, DataNotFoundException {
-        Mockito.when(userDao.findUserByLogin("Howard"))
+        Mockito.when(daoFactory.getUserDao().findUserByLogin("Howard"))
                 .thenReturn(null);
 
         assertNull(userService.findUserByLogin("Howard"));
@@ -164,7 +157,7 @@ class UserServiceTest {
     @DisplayName("Find user by id")
     @Story("User service")
     void findUserById_return_correct_user() throws UnknownUserException, DataNotFoundException {
-        Mockito.when(userDao.findUserById(anyInt()))
+        Mockito.when(daoFactory.getUserDao().findUserById(anyInt()))
                 .thenReturn(user);
 
         assertEquals("test_login", userService.findUserById(1).getLogin());
@@ -175,7 +168,7 @@ class UserServiceTest {
     @Story("User service")
     @Description("Returns null if the user with this login was not found in the DB")
     void findUserById_return_null() throws UnknownUserException, DataNotFoundException {
-        Mockito.when(userDao.findUserById(anyInt()))
+        Mockito.when(daoFactory.getUserDao().findUserById(anyInt()))
                 .thenReturn(null);
 
         assertNull(userService.findUserById(-1));
@@ -185,7 +178,7 @@ class UserServiceTest {
     @DisplayName("[success] Add user to DB")
     @Story("User service")
     void insertUser_Success() {
-        Mockito.when(userDao.insertUser(any()))
+        Mockito.when(daoFactory.getUserDao().insertUser(any()))
                 .thenReturn(true);
 
         assertTrue(userService.insertUser(userDto));
@@ -195,7 +188,7 @@ class UserServiceTest {
     @DisplayName("[fail] Add user to DB")
     @Story("User service")
     void insertUser_Fail() {
-        Mockito.when(userDao.insertUser(any()))
+        Mockito.when(daoFactory.getUserDao().insertUser(any()))
                 .thenReturn(false);
 
         Assertions.assertFalse(userService.insertUser(userDto));
@@ -205,7 +198,7 @@ class UserServiceTest {
     @DisplayName("[success] Update user in DB")
     @Story("User service")
     void updateUser_Success() {
-        Mockito.when(userDao.updateUser(any()))
+        Mockito.when(daoFactory.getUserDao().updateUser(any()))
                 .thenReturn(true);
 
         assertTrue(userService.updateUser(userDto));
@@ -215,7 +208,7 @@ class UserServiceTest {
     @DisplayName("[fail] Update user in DB")
     @Story("User service")
     void updateUser_Fail() {
-        Mockito.when(userDao.updateUser(any()))
+        Mockito.when(daoFactory.getUserDao().updateUser(any()))
                 .thenReturn(false);
 
         Assertions.assertFalse(userService.updateUser(userDto));
@@ -225,9 +218,9 @@ class UserServiceTest {
     @DisplayName("[success] Delete user from DB")
     @Story("User service")
     void deleteUser_Success() {
-        Mockito.when(userEditionDao.deleteUserEditionByUser(any()))
+        Mockito.when(daoFactory.getUserEditionDao().deleteUserEditionByUser(any()))
                 .thenReturn(true);
-        Mockito.when(userDao.deleteUser(any()))
+        Mockito.when(daoFactory.getUserDao().deleteUser(any()))
                 .thenReturn(true);
 
         assertTrue(userService.deleteUser(new UserDto(user)));
@@ -237,8 +230,8 @@ class UserServiceTest {
     @DisplayName("[fail] Delete user from DB")
     @Story("User service")
     void deleteUser_Fail() {
-        Mockito.when(userEditionDao.deleteUserEditionByUser(any())).thenReturn(false);
-        Mockito.when(userDao.deleteUser(any()))
+        Mockito.when(daoFactory.getUserEditionDao().deleteUserEditionByUser(any())).thenReturn(false);
+        Mockito.when(daoFactory.getUserDao().deleteUser(any()))
                 .thenReturn(true);
 
         Assertions.assertFalse(userService.deleteUser(new UserDto(user)));

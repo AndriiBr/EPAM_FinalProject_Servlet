@@ -1,7 +1,8 @@
 package ua.epam.final_project.dao.implementation;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.dao.IConnectionPool;
-import ua.epam.final_project.exception.IncorrectPropertyException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,8 @@ import java.util.Properties;
 
 public class SQLConnectionPool implements IConnectionPool {
 
+    private static final Logger logger = LogManager.getLogger(SQLConnectionPool.class);
+
     private static final String SOURCE = "database_url.properties";
 
     private static String url;
@@ -21,30 +24,30 @@ public class SQLConnectionPool implements IConnectionPool {
     private static String password;
     private static IConnectionPool connectionPool;
 
-    private final List<Connection> connectionsAvailable;
-    private final List<Connection> connectionsInUse = new ArrayList<>();
-    private static final int CONNECTION_POOL_SIZE = 10;
+    private final List<Connection> availableConnections;
+    private final List<Connection> usedConnections = new ArrayList<>();
+    private static final int CONNECTION_POOL_SIZE = 5;
 
 
     /**
      * Hidden private constructor
      */
     private SQLConnectionPool(List<Connection> pool) {
-        connectionsAvailable = pool;
+        availableConnections = pool;
     }
 
     /**
-     *
+     * Return instance of connection pool
      * @return connectionPool instance
      */
-    public static synchronized IConnectionPool getInstance() throws IncorrectPropertyException {
+    public static synchronized IConnectionPool getInstance()  {
         if (connectionPool == null) {
             connectionPool = create();
         }
         return connectionPool;
     }
 
-    private static SQLConnectionPool create() throws IncorrectPropertyException {
+    private static SQLConnectionPool create()  {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Properties properties = new Properties();
 
@@ -59,44 +62,29 @@ public class SQLConnectionPool implements IConnectionPool {
             Class.forName(driver);
 
         } catch (IOException | ClassNotFoundException e) {
-            throw new IncorrectPropertyException();
+            logger.error(e);
         }
 
-        List<Connection> pool = new ArrayList<>(CONNECTION_POOL_SIZE);
-        for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
-            pool.add(createConnection(url, user, password));
-        }
+        List<Connection> pool = new ArrayList<>();
+//        for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
+//            pool.add(createConnection(url, user, password));
+//        }
         return new SQLConnectionPool(pool);
     }
 
     @Override
     public synchronized Connection getConnection() {
-        if (connectionsAvailable.isEmpty()) {
-            connectionsAvailable.add(createConnection(url, user, password));
+        if (availableConnections.isEmpty()) {
+            availableConnections.add(createConnection(url, user, password));
         }
 
-        return connectionsAvailable.remove(connectionsAvailable.size() - 1);
+        return availableConnections.remove(availableConnections.size() - 1);
     }
 
     @Override
     public synchronized boolean releaseConnection(Connection connection) {
-        connectionsAvailable.add(connection);
-        return connectionsInUse.remove(connection);
-    }
-
-    @Override
-    public String getUrl() {
-        return url;
-    }
-
-    @Override
-    public String getUser() {
-        return user;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
+        availableConnections.add(connection);
+        return usedConnections.remove(connection);
     }
 
     private static Connection createConnection(String url, String user, String password) {

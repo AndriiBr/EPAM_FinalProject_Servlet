@@ -13,20 +13,14 @@ import ua.epam.final_project.entity.User;
 import java.util.List;
 
 public class EditionService implements IEditionService {
-
     private static final Logger logger = LogManager.getLogger(EditionService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
-    private DaoFactory daoFactory;
-    private IEditionDao editionDao;
-    private IUserEditionDao userEditionDao;
+    private IDaoFactory daoFactory;
 
     public EditionService() {
         try {
-            daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
-            editionDao = daoFactory.getEditionDao();
-            userEditionDao = daoFactory.getUserEditionDao();
-        } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
+            daoFactory = new PostgresDaoFactory();
+        } catch (IncorrectPropertyException e) {
             logger.error(e);
         }
     }
@@ -36,7 +30,7 @@ public class EditionService implements IEditionService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            numberOfRows = editionDao.getNumberOfEditions(genreFilter);
+            numberOfRows = daoFactory.getEditionDao().getNumberOfEditions(genreFilter);
             return numberOfRows;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -52,7 +46,7 @@ public class EditionService implements IEditionService {
         try {
             daoFactory.getConnection();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            numberOfRows = editionDao.getNumberOfEditions(user, has, genreFilter);
+            numberOfRows = daoFactory.getEditionDao().getNumberOfEditions(user, has, genreFilter);
             return numberOfRows;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -67,7 +61,7 @@ public class EditionService implements IEditionService {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
-            editionList = editionDao.findAllEditions();
+            editionList = daoFactory.getEditionDao().findAllEditions();
             return editionList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -82,7 +76,7 @@ public class EditionService implements IEditionService {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
-            editionList = editionDao.findAllEditionsByName(field, name);
+            editionList = daoFactory.getEditionDao().findAllEditionsByName(field, name);
             return editionList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -97,7 +91,7 @@ public class EditionService implements IEditionService {
         List<Edition> editionList;
         try {
             daoFactory.getConnection();
-            editionList = editionDao.findAllEditionsFromTo(recordsPerPage, page, genreFilter, orderBy);
+            editionList = daoFactory.getEditionDao().findAllEditionsFromTo(recordsPerPage, page, genreFilter, orderBy);
             return editionList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -113,7 +107,7 @@ public class EditionService implements IEditionService {
         try {
             daoFactory.getConnection();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            editionList = editionDao.findAllEditionsFromTo(user, has, recordsPerPage, page, genreFilter, orderBy);
+            editionList = daoFactory.getEditionDao().findAllEditionsFromTo(user, has, recordsPerPage, page, genreFilter, orderBy);
             return editionList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -128,7 +122,7 @@ public class EditionService implements IEditionService {
         Edition edition;
         try {
             daoFactory.getConnection();
-            edition = editionDao.findEditionById(id);
+            edition = daoFactory.getEditionDao().findEditionById(id);
             return edition;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -144,7 +138,7 @@ public class EditionService implements IEditionService {
 
         try {
             daoFactory.beginTransaction();
-            operationResult = editionDao.insertNewEdition(edition);
+            operationResult = daoFactory.getEditionDao().insertNewEdition(edition);
             if (operationResult) {
                 daoFactory.commitTransaction();
                 return true;
@@ -164,7 +158,7 @@ public class EditionService implements IEditionService {
 
         try {
             daoFactory.beginTransaction();
-            operationResult = editionDao.updateEdition(edition);
+            operationResult = daoFactory.getEditionDao().updateEdition(edition);
             if (operationResult) {
                 daoFactory.commitTransaction();
                 return true;
@@ -185,8 +179,8 @@ public class EditionService implements IEditionService {
 
         try {
             daoFactory.beginTransaction();
-            firstOperationResult = userEditionDao.deleteUserEditionByEdition(edition);
-            secondOperationResult = editionDao.deleteEdition(edition);
+            firstOperationResult = daoFactory.getUserEditionDao().deleteUserEditionByEdition(edition);
+            secondOperationResult = daoFactory.getEditionDao().deleteEdition(edition);
             if (firstOperationResult && secondOperationResult) {
                 daoFactory.commitTransaction();
                 return true;

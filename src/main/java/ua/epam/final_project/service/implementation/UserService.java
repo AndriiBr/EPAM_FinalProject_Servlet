@@ -2,10 +2,10 @@ package ua.epam.final_project.service.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.IDaoFactory;
 import ua.epam.final_project.dao.IUserDao;
 import ua.epam.final_project.dao.IUserEditionDao;
+import ua.epam.final_project.dao.PostgresDaoFactory;
 import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.entity.dto.UserDtoMapper;
 import ua.epam.final_project.exception.*;
@@ -18,17 +18,12 @@ import java.util.stream.Collectors;
 public class UserService implements IUserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
-    private DaoFactory daoFactory;
-    private IUserDao userDao;
-    private IUserEditionDao userEditionDao;
+    private IDaoFactory daoFactory;
 
     public UserService() {
         try {
-            daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
-            userDao = daoFactory.getUserDao();
-            userEditionDao = daoFactory.getUserEditionDao();
-        } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
+            daoFactory = new PostgresDaoFactory();
+        } catch (IncorrectPropertyException e) {
             logger.error(e);
         }
     }
@@ -38,7 +33,7 @@ public class UserService implements IUserService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            numberOfRows = userDao.getNumberOfUsers();
+            numberOfRows = daoFactory.getUserDao().getNumberOfUsers();
             return numberOfRows;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -53,7 +48,7 @@ public class UserService implements IUserService {
         List<UserDto> userList;
         try {
             daoFactory.getConnection();
-            userList = userDao.findAllUsers()
+            userList = daoFactory.getUserDao().findAllUsers()
                     .stream()
                     .map(UserDtoMapper::convertEntityIntoDto)
                     .collect(Collectors.toList());
@@ -71,7 +66,7 @@ public class UserService implements IUserService {
         List<UserDto> userList;
         try {
             daoFactory.getConnection();
-            userList = userDao.findAllUsersFromTo(recordsPerPage, page)
+            userList = daoFactory.getUserDao().findAllUsersFromTo(recordsPerPage, page)
                     .stream()
                     .map(UserDtoMapper::convertEntityIntoDto)
                     .collect(Collectors.toList());
@@ -88,7 +83,7 @@ public class UserService implements IUserService {
     public UserDto findUserByLoginPassword(String login, String password) throws UnknownUserException {
         try {
             daoFactory.getConnection();
-            return UserDtoMapper.convertEntityIntoDto(userDao.findUserByLoginPassword(login, password));
+            return UserDtoMapper.convertEntityIntoDto(daoFactory.getUserDao().findUserByLoginPassword(login, password));
         } catch (DataNotFoundException e) {
             logger.error(e);
             throw new UnknownUserException();
@@ -101,7 +96,7 @@ public class UserService implements IUserService {
     public UserDto findUserByLogin(String login) throws UnknownUserException {
         try {
             daoFactory.getConnection();
-            return UserDtoMapper.convertEntityIntoDto(userDao.findUserByLogin(login));
+            return UserDtoMapper.convertEntityIntoDto(daoFactory.getUserDao().findUserByLogin(login));
         } catch (DataNotFoundException e) {
             logger.error(e);
             throw new UnknownUserException();
@@ -114,7 +109,7 @@ public class UserService implements IUserService {
     public UserDto findUserById(int id) throws UnknownUserException {
         try {
             daoFactory.getConnection();
-            return UserDtoMapper.convertEntityIntoDto(userDao.findUserById(id));
+            return UserDtoMapper.convertEntityIntoDto(daoFactory.getUserDao().findUserById(id));
         } catch (DataNotFoundException e) {
             logger.error(e);
             throw new UnknownUserException();
@@ -130,7 +125,7 @@ public class UserService implements IUserService {
         try {
             daoFactory.beginTransaction();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            operationResult = userDao.insertUser(user);
+            operationResult = daoFactory.getUserDao().insertUser(user);
             if (operationResult) {
                 daoFactory.commitTransaction();
                 return true;
@@ -151,7 +146,7 @@ public class UserService implements IUserService {
         try {
             daoFactory.beginTransaction();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            operationResult = userDao.updateUser(user);
+            operationResult = daoFactory.getUserDao().updateUser(user);
             if (operationResult) {
                 daoFactory.commitTransaction();
                 return true;
@@ -173,8 +168,8 @@ public class UserService implements IUserService {
         try {
             daoFactory.beginTransaction();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            firstOperationResult = userEditionDao.deleteUserEditionByUser(user);
-            secondOperationResult = userDao.deleteUser(user);
+            firstOperationResult = daoFactory.getUserEditionDao().deleteUserEditionByUser(user);
+            secondOperationResult = daoFactory.getUserDao().deleteUser(user);
             if (firstOperationResult && secondOperationResult) {
                 daoFactory.commitTransaction();
                 return true;

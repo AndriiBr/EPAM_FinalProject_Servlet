@@ -2,10 +2,10 @@ package ua.epam.final_project.service.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.IDaoFactory;
 import ua.epam.final_project.dao.IUserDao;
 import ua.epam.final_project.dao.IUserEditionDao;
+import ua.epam.final_project.dao.PostgresDaoFactory;
 import ua.epam.final_project.entity.dto.UserDtoMapper;
 import ua.epam.final_project.entity.dto.UserDto;
 import ua.epam.final_project.exception.*;
@@ -19,17 +19,12 @@ import java.util.List;
 public class UserEditionService implements IUserEditionService {
     private static final Logger logger = LogManager.getLogger(UserEditionService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
-    private DaoFactory daoFactory;
-    private IUserEditionDao userEditionDao;
-    private IUserDao userDao;
+    private IDaoFactory daoFactory;
 
     public UserEditionService() {
         try {
-            daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
-            userEditionDao = daoFactory.getUserEditionDao();
-            userDao = daoFactory.getUserDao();
-        } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
+            daoFactory = new PostgresDaoFactory();
+        } catch (IncorrectPropertyException e) {
             logger.error(e);
         }
     }
@@ -38,7 +33,7 @@ public class UserEditionService implements IUserEditionService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            numberOfRows = userEditionDao.getNumberOfRows();
+            numberOfRows = daoFactory.getUserEditionDao().getNumberOfRows();
             return numberOfRows;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -53,7 +48,7 @@ public class UserEditionService implements IUserEditionService {
         List<UserEdition> userEditionList;
         try {
             daoFactory.getConnection();
-            userEditionList = userEditionDao.findAllUserEdition();
+            userEditionList = daoFactory.getUserEditionDao().findAllUserEdition();
             return userEditionList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -70,7 +65,7 @@ public class UserEditionService implements IUserEditionService {
         try {
             daoFactory.getConnection();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            userEditionList = userEditionDao.findAllUserEditionByUser(user);
+            userEditionList = daoFactory.getUserEditionDao().findAllUserEditionByUser(user);
             return userEditionList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -87,7 +82,7 @@ public class UserEditionService implements IUserEditionService {
         try {
             daoFactory.getConnection();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            userEditionList = userEditionDao.findAllUserEditionByUserIdEditionId(user, edition);
+            userEditionList = daoFactory.getUserEditionDao().findAllUserEditionByUserIdEditionId(user, edition);
             return userEditionList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -110,8 +105,8 @@ public class UserEditionService implements IUserEditionService {
             if(user.getBalance() < 0) {
                 return false;
             }
-            firstOperationResult = userDao.updateUser(user);
-            secondOperationResult = userEditionDao.insertUserEdition(user, edition);
+            firstOperationResult = daoFactory.getUserDao().updateUser(user);
+            secondOperationResult = daoFactory.getUserEditionDao().insertUserEdition(user, edition);
             if (firstOperationResult && secondOperationResult) {
                 daoFactory.commitTransaction();
                 return true;
@@ -132,7 +127,7 @@ public class UserEditionService implements IUserEditionService {
         try {
             daoFactory.beginTransaction();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            operationResult = userEditionDao.deleteUserEdition(user, edition);
+            operationResult = daoFactory.getUserEditionDao().deleteUserEdition(user, edition);
             if (operationResult) {
                 daoFactory.commitTransaction();
                 return true;
@@ -152,7 +147,7 @@ public class UserEditionService implements IUserEditionService {
 
         try {
             daoFactory.beginTransaction();
-            operationResult = userEditionDao.deleteUserEditionByEdition(edition);
+            operationResult = daoFactory.getUserEditionDao().deleteUserEditionByEdition(edition);
             if (operationResult) {
                 daoFactory.commitTransaction();
                 return true;
@@ -173,7 +168,7 @@ public class UserEditionService implements IUserEditionService {
         try {
             daoFactory.beginTransaction();
             User user = UserDtoMapper.convertDtoIntoEntity(userDto);
-            operationResult = userEditionDao.deleteUserEditionByUser(user);
+            operationResult = daoFactory.getUserEditionDao().deleteUserEditionByUser(user);
             if (operationResult) {
                 daoFactory.commitTransaction();
                 return true;

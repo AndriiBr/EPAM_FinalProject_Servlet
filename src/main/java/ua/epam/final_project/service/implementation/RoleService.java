@@ -2,9 +2,9 @@ package ua.epam.final_project.service.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.epam.final_project.dao.DaoFactory;
-import ua.epam.final_project.dao.DataBaseSelector;
+import ua.epam.final_project.dao.IDaoFactory;
 import ua.epam.final_project.dao.IRoleDao;
+import ua.epam.final_project.dao.PostgresDaoFactory;
 import ua.epam.final_project.exception.DataBaseNotSupportedException;
 import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.exception.IncorrectPropertyException;
@@ -17,15 +17,12 @@ import java.util.List;
 public class RoleService implements IRoleService {
     private static final Logger logger = LogManager.getLogger(RoleService.class);
 
-    private static final DataBaseSelector DB_SOURCE = DataBaseSelector.POSTGRES;
-    private DaoFactory daoFactory;
-    private IRoleDao roleDao;
+    private IDaoFactory daoFactory;
 
     public RoleService() {
         try {
-            daoFactory = DaoFactory.getDaoFactory(DB_SOURCE);
-            roleDao = daoFactory.getRoleDao();
-        } catch (IncorrectPropertyException | DataBaseNotSupportedException e) {
+            daoFactory = new PostgresDaoFactory();
+        } catch (IncorrectPropertyException e) {
             logger.error(e);
         }
     }
@@ -35,7 +32,7 @@ public class RoleService implements IRoleService {
         Integer numberOfRows;
         try {
             daoFactory.getConnection();
-            numberOfRows = roleDao.getNumberOfRoles();
+            numberOfRows = daoFactory.getRoleDao().getNumberOfRoles();
             return numberOfRows;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -50,7 +47,7 @@ public class RoleService implements IRoleService {
         List<Role> userList;
         try {
             daoFactory.getConnection();
-            userList = roleDao.findAllRoles();
+            userList = daoFactory.getRoleDao().findAllRoles();
             return userList;
         } catch (DataNotFoundException e) {
             logger.error(e);
@@ -65,7 +62,7 @@ public class RoleService implements IRoleService {
         Role role;
         try {
             daoFactory.getConnection();
-            role = roleDao.findRoleById(id);
+            role = daoFactory.getRoleDao().findRoleById(id);
             return role;
         } catch (DataNotFoundException e) {
             logger.error(e);

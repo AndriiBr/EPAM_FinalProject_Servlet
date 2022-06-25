@@ -2,10 +2,12 @@ package ua.epam.final_project.service;
 
 import ua.epam.final_project.service.implementation.*;
 
+/**
+ * Factory of service layer objects
+ */
 public class ServiceFactory {
 
-    private ServiceFactory(){
-    }
+    private ServiceFactory() {}
 
     public static IUserService getUserService() {
         return new UserService();

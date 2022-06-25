@@ -3,13 +3,14 @@ package ua.epam.final_project.service.implementation;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import ua.epam.final_project.dao.IRoleDao;
+import ua.epam.final_project.dao.PostgresDaoFactory;
 import ua.epam.final_project.entity.Role;
+import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.DataNotFoundException;
 import ua.epam.final_project.exception.UnknownRoleException;
 import ua.epam.final_project.service.IRoleService;
@@ -27,29 +28,34 @@ import static org.mockito.ArgumentMatchers.anyInt;
 @Feature("Service layer")
 class RoleServiceTest {
 
-    @Mock
-    private IRoleDao roleDao;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private PostgresDaoFactory daoFactory;
+    @InjectMocks
+    private RoleService roleService;
 
-    private final IRoleService roleService;
     private final Role role;
     private final List<Role> roleList;
 
-    public RoleServiceTest() throws NoSuchFieldException, IllegalAccessException {
+    public RoleServiceTest() {
         MockitoAnnotations.openMocks(this);
-        roleService = ServiceFactory.getRoleService();
+
         role = new Role();
         roleList = Arrays.asList(new Role(), new Role());
+    }
 
-        Field roleDaoField = roleService.getClass().getDeclaredField("roleDao");
-        roleDaoField.setAccessible(true);
-        roleDaoField.set(roleService, roleDao);
+    @BeforeEach
+    public void setUp() throws DataBaseConnectionException {
+        Mockito.doNothing().when(daoFactory).getConnection();
+        Mockito.doNothing().when(daoFactory).releaseConnection();
+        Mockito.doNothing().when(daoFactory).beginTransaction();
+        Mockito.doNothing().when(daoFactory).commitTransaction();
     }
 
     @Test
     @DisplayName("Get number of roles from DB")
     @Story("Role service")
     void getNumberOfRoles() throws DataNotFoundException, UnknownRoleException {
-        Mockito.when(roleDao.getNumberOfRoles())
+        Mockito.when(daoFactory.getRoleDao().getNumberOfRoles())
                 .thenReturn(33);
 
         assertEquals(33, roleService.getNumberOfRoles());
@@ -59,7 +65,7 @@ class RoleServiceTest {
     @DisplayName("[UnknownRoleException]Get number of roles in DB")
     @Story("Role service")
     void getNumberOfRoles_Exception() throws DataNotFoundException {
-        Mockito.when(roleDao.getNumberOfRoles())
+        Mockito.when(daoFactory.getRoleDao().getNumberOfRoles())
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownRoleException.class, roleService::getNumberOfRoles);
@@ -69,7 +75,7 @@ class RoleServiceTest {
     @DisplayName("Get all roles from DB")
     @Story("Role service")
     void findAllRoles() throws DataNotFoundException, UnknownRoleException {
-        Mockito.when(roleDao.findAllRoles())
+        Mockito.when(daoFactory.getRoleDao().findAllRoles())
                 .thenReturn(roleList);
 
         assertEquals(2, roleService.findAllRoles().size());
@@ -79,7 +85,7 @@ class RoleServiceTest {
     @DisplayName("[UnknownRoleException] Get all roles from DB")
     @Story("Role service")
     void findAllRoles_Exception() throws DataNotFoundException {
-        Mockito.when(roleDao.findAllRoles())
+        Mockito.when(daoFactory.getRoleDao().findAllRoles())
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownRoleException.class, roleService::findAllRoles);
@@ -89,7 +95,7 @@ class RoleServiceTest {
     @DisplayName("Find role from DB by id")
     @Story("Role service")
     void findRoleById() throws UnknownRoleException, DataNotFoundException {
-        Mockito.when(roleDao.findRoleById(anyInt()))
+        Mockito.when(daoFactory.getRoleDao().findRoleById(anyInt()))
                 .thenReturn(role);
 
         Assertions.assertNotNull(roleService.findRoleById(1));
@@ -99,7 +105,7 @@ class RoleServiceTest {
     @DisplayName("[UnknownRoleException] Find role from DB by id")
     @Story("Role service")
     void findRoleById_Exception() throws DataNotFoundException {
-        Mockito.when(roleDao.findRoleById(anyInt()))
+        Mockito.when(daoFactory.getRoleDao().findRoleById(anyInt()))
                 .thenThrow(DataNotFoundException.class);
 
         assertThrows(UnknownRoleException.class, () -> roleService.findRoleById(1));

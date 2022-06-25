@@ -1,33 +1,32 @@
 package ua.epam.final_project.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.epam.final_project.dao.implementation.*;
 import ua.epam.final_project.exception.DataBaseConnectionException;
 import ua.epam.final_project.exception.IncorrectPropertyException;
 
 import java.sql.*;
 
-public class PostgresDaoFactory extends DaoFactory {
+public class PostgresDaoFactory implements IDaoFactory {
 
+    private static final Logger logger = LogManager.getLogger(PostgresDaoFactory.class);
 
-    private final IConnectionPool connectionPool;
     private Connection connection;
 
-    public PostgresDaoFactory() throws IncorrectPropertyException {
-        connectionPool = SQLConnectionPool.getInstance();
-        connection = connectionPool.getConnection();
-    }
+    public PostgresDaoFactory() throws IncorrectPropertyException {}
 
     @Override
     public void getConnection() {
         if (this.connection == null) {
-            connection = connectionPool.getConnection();
+            connection = SQLConnectionPool.getInstance().getConnection();
         }
     }
 
     @Override
     public void releaseConnection() {
         if (this.connection != null) {
-            connectionPool.releaseConnection(this.connection);
+            SQLConnectionPool.getInstance().releaseConnection(this.connection);
             this.connection = null;
         }
     }
@@ -48,6 +47,7 @@ public class PostgresDaoFactory extends DaoFactory {
             connection.commit();
             releaseConnection();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DataBaseConnectionException();
         }
     }
